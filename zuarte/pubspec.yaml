@@ -1,5 +1,5 @@
 name: zuarte
-description: "A new Flutter project."
+description: "Zuarte é um reprodutor de música moderno, minimalista e com uma identidade única. Criado com Flutter + Dart."
 
 publish_to: 'none' 
 
@@ -15,6 +15,7 @@ dependencies:
 
 
   cupertino_icons: ^1.0.8
+  sizer: ^3.0.5
 
 dev_dependencies:
   flutter_test:
