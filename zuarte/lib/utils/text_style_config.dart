@@ -6,5 +6,5 @@ TextStyle textStyle({
   required Color color,
   FontWeight? fontWight,
 }) {
-  return TextStyle(fontSize: size.sp, color: color);
+  return TextStyle(fontSize: size.sp, color: color, fontWeight: fontWight);
 }
