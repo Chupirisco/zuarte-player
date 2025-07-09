@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zuarte/constants/colors.dart';
 
 Widget bigPlayer(double height) {
-  return Center(child: Text('big'));
+  return Container(color: LightColors.background);
 }

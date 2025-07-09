@@ -77,6 +77,7 @@ class _AppNavBarState extends State<AppNavBar> {
               ],
             ),
             Miniplayer(
+              duration: Duration(milliseconds: 500),
               controller: miniplayerController,
               minHeight: heigh * 0.1,
               maxHeight: heigh * 0.87,
