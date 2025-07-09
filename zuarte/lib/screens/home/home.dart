@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zuarte/utils/size_config.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,9 +11,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Container(color: Colors.amber, height: 100, width: 100),
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: defaultMargin()),
+      itemCount: 1,
+      itemBuilder: (context, index) => ListTile(
+        leading: Text('capa'),
+        title: Text('Nome'),
+        subtitle: Text('Cantor'),
+        trailing: Text('Função'),
+        onTap: () {},
       ),
     );
   }

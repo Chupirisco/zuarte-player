@@ -5,8 +5,8 @@ import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/colors.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/constants/images.dart';
-import 'package:zuarte/screens/app_nav_bar/player/big_player.dart';
-import 'package:zuarte/screens/app_nav_bar/player/mini_player.dart';
+import 'package:zuarte/screens/player/big_player.dart';
+import 'package:zuarte/screens/player/mini_player.dart';
 import 'package:zuarte/screens/home/home.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/text_style_config.dart';
@@ -18,75 +18,90 @@ class AppNavBar extends StatefulWidget {
   State<AppNavBar> createState() => _AppNavBarState();
 }
 
-class _AppNavBarState extends State<AppNavBar> {
+class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final heigh = overallHeight();
     final miniplayerController = MiniplayerController();
-
-    return DefaultTabController(
+    final TabController tabController = TabController(
       length: 3,
+      vsync: this,
       initialIndex: 1,
-      child: Scaffold(
-        appBar: AppBar(
+      animationDuration: Duration(milliseconds: 500),
+    );
+
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(heigh * 0.1),
+        child: AppBar(
           backgroundColor: LightColors.cardElements,
-          toolbarHeight: heigh * 0.06,
-          leadingWidth: 0,
-          titleSpacing: 0,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                'ZUARTE',
-                style: textStyle(
-                  size: 15,
-                  color: LightColors.primaryText,
-                  fontWight: FontWeight.bold,
+          automaticallyImplyLeading: false,
+          flexibleSpace: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      'ZUARTE',
+                      style: textStyle(
+                        size: 15,
+                        color: LightColors.primaryText,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    Image.asset(
+                      AppImages.appLogo,
+                      height: overallHeight() * 0.04,
+                    ),
+                  ],
                 ),
-              ),
-              Image.asset(AppImages.appLogo, height: heigh * 0.04),
+
+                TabBar(
+                  controller: tabController,
+                  splashFactory: NoSplash.splashFactory,
+                  dividerHeight: 0,
+                  indicator: BoxDecoration(
+                    color: LightColors.primaryAction,
+                    shape: BoxShape.circle,
+                  ),
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicatorPadding: EdgeInsets.all(-7.sp),
+                  tabs: [
+                    Tab(icon: Iconify(AppIcons.playlist, size: iconSize(22))),
+                    Tab(icon: Iconify(AppIcons.home, size: iconSize(22))),
+                    Tab(icon: Iconify(AppIcons.setting, size: iconSize(22))),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+
+      body: Stack(
+        children: [
+          TabBarView(
+            controller: tabController,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              Center(child: Text('Olá')),
+              const HomeScreen(),
+              Center(child: Text('tab 3')),
             ],
           ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(heigh * 0.06),
-            child: TabBar(
-              splashFactory: NoSplash.splashFactory,
-              dividerHeight: 0,
-              indicator: BoxDecoration(
-                color: LightColors.primaryAction,
-                shape: BoxShape.circle,
-              ),
-              indicatorSize: TabBarIndicatorSize.label,
-              indicatorPadding: EdgeInsets.all(-(7.sp)),
-              tabs: [
-                Tab(icon: Iconify(AppIcons.playlist, size: iconSize(22))),
-                Tab(icon: Iconify(AppIcons.home, size: iconSize(22))),
-                Tab(icon: Iconify(AppIcons.setting, size: iconSize(22))),
-              ],
-            ),
+          Miniplayer(
+            duration: Duration(milliseconds: 500),
+            controller: miniplayerController,
+            minHeight: heigh * 0.13,
+            maxHeight: heigh * 0.87,
+            backgroundColor: LightColors.background,
+            builder: (height, percentage) =>
+                percentage <= 0.3 ? miniPlayer(height) : bigPlayer(height),
           ),
-        ),
-        body: Stack(
-          children: [
-            TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                Center(child: Text('Olá')),
-                const HomeScreen(),
-                Center(child: Text('tab 3')),
-              ],
-            ),
-            Miniplayer(
-              duration: Duration(milliseconds: 500),
-              controller: miniplayerController,
-              minHeight: heigh * 0.1,
-              maxHeight: heigh * 0.87,
-              backgroundColor: LightColors.background,
-              builder: (height, percentage) =>
-                  percentage <= 0.3 ? miniPlayer(height) : bigPlayer(height),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 TextStyle textStyle({
   required double size,
   required Color color,
-  FontWeight? fontWight,
+  FontWeight? fontWeight,
 }) {
-  return TextStyle(fontSize: size.sp, color: color, fontWeight: fontWight);
+  return TextStyle(fontSize: size.sp, color: color, fontWeight: fontWeight);
 }
