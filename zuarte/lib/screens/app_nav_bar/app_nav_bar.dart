@@ -58,7 +58,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-
+                //
                 TabBar(
                   controller: tabController,
                   splashFactory: NoSplash.splashFactory,
