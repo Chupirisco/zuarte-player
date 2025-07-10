@@ -8,3 +8,7 @@ TextStyle textStyle({
 }) {
   return TextStyle(fontSize: size.sp, color: color, fontWeight: fontWeight);
 }
+
+AlwaysScrollableScrollPhysics scrollEffect() {
+  return AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics());
+}

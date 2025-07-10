@@ -9,7 +9,7 @@ import 'package:zuarte/screens/player/big_player.dart';
 import 'package:zuarte/screens/player/mini_player.dart';
 import 'package:zuarte/screens/home/home.dart';
 import 'package:zuarte/utils/size_config.dart';
-import 'package:zuarte/utils/text_style_config.dart';
+import 'package:zuarte/utils/style_configs.dart';
 
 class AppNavBar extends StatefulWidget {
   const AppNavBar({super.key});
@@ -33,49 +33,54 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(heigh * 0.1),
-        child: AppBar(
-          backgroundColor: LightColors.cardElements,
-          automaticallyImplyLeading: false,
-          flexibleSpace: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      'ZUARTE',
-                      style: textStyle(
-                        size: 15,
-                        color: LightColors.primaryText,
-                        fontWeight: FontWeight.bold,
+        child: ClipRRect(
+          borderRadius: BorderRadiusGeometry.vertical(
+            bottom: Radius.circular(defaultBorderRadius(20)),
+          ),
+          child: AppBar(
+            backgroundColor: LightColors.cardElements,
+            automaticallyImplyLeading: false,
+            flexibleSpace: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'ZUARTE',
+                        style: textStyle(
+                          size: 15,
+                          color: LightColors.primaryText,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
 
-                    Image.asset(
-                      AppImages.appLogo,
-                      height: overallHeight() * 0.04,
-                    ),
-                  ],
-                ),
-                //
-                TabBar(
-                  controller: tabController,
-                  splashFactory: NoSplash.splashFactory,
-                  dividerHeight: 0,
-                  indicator: BoxDecoration(
-                    color: LightColors.primaryAction,
-                    shape: BoxShape.circle,
+                      Image.asset(
+                        AppImages.appLogo,
+                        height: overallHeight() * 0.04,
+                      ),
+                    ],
                   ),
-                  indicatorSize: TabBarIndicatorSize.label,
-                  indicatorPadding: EdgeInsets.all(-7.sp),
-                  tabs: [
-                    Tab(icon: Iconify(AppIcons.playlist, size: iconSize(22))),
-                    Tab(icon: Iconify(AppIcons.home, size: iconSize(22))),
-                    Tab(icon: Iconify(AppIcons.setting, size: iconSize(22))),
-                  ],
-                ),
-              ],
+
+                  TabBar(
+                    controller: tabController,
+                    splashFactory: NoSplash.splashFactory,
+                    dividerHeight: 0,
+                    indicator: BoxDecoration(
+                      color: LightColors.primaryAction,
+                      shape: BoxShape.circle,
+                    ),
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorPadding: EdgeInsets.all(-7.sp),
+                    tabs: [
+                      Tab(icon: Iconify(AppIcons.playlist, size: iconSize(22))),
+                      Tab(icon: Iconify(AppIcons.home, size: iconSize(22))),
+                      Tab(icon: Iconify(AppIcons.setting, size: iconSize(22))),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
