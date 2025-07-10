@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           constraints.maxWidth,
         );
         return MaterialApp(
-          title: "zuarte-player",
+          title: "Zuarte-Player",
           debugShowCheckedModeBanner: false,
           showPerformanceOverlay: false,
           routes: AppRoutes.routes(),

@@ -23,8 +23,13 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(milliseconds: 5000), () {
       Navigator.of(
         context,
-      ).pushNamedAndRemoveUntil('/home_screen', (route) => false);
+      ).pushNamedAndRemoveUntil('/app_nav_bar', (route) => false);
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -42,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
               style: textStyle(
                 size: 30,
                 color: LightColors.primaryText,
-                fontWight: FontWeight.bold,
+                fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: height * 0.08),
