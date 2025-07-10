@@ -4,7 +4,7 @@ import 'package:zuarte/constants/colors.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/screens/player/progress_bar.dart';
 import 'package:zuarte/utils/size_config.dart';
-import 'package:zuarte/utils/text_style_config.dart';
+import 'package:zuarte/utils/style_configs.dart';
 
 Widget miniPlayer(double height) {
   return Container(

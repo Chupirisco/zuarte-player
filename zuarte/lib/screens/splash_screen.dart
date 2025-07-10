@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:zuarte/constants/colors.dart';
 import 'package:zuarte/utils/size_config.dart';
-import 'package:zuarte/utils/text_style_config.dart';
+import 'package:zuarte/utils/style_configs.dart';
 
 import '../constants/images.dart';
 
