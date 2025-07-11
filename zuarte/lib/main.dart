@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/routes/app_routes.dart';
 import 'package:zuarte/themes/app_themes.dart';
 
 void main() {
+  //visually check what is being reconstructed
+  debugRepaintRainbowEnabled = false;
   runApp(const MyApp());
 }
 
@@ -28,7 +31,9 @@ class MyApp extends StatelessWidget {
         );
         return MaterialApp(
           title: "Zuarte-Player",
+          //disable banner
           debugShowCheckedModeBanner: false,
+          //show performace graph
           showPerformanceOverlay: false,
           routes: AppRoutes.routes(),
           initialRoute: "/splash_screen",
