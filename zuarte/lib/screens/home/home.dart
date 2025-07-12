@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     addRepaintBoundaries: true,
                     minCacheExtent: 50,
                     padding: EdgeInsets.zero,
-                    itemCount: 100,
+                    itemCount: 2,
                     itemBuilder: (context, index) => Container(
                       margin: EdgeInsets.only(bottom: height * 0.01),
                       decoration: BoxDecoration(

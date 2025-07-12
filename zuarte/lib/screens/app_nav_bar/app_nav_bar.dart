@@ -8,6 +8,7 @@ import 'package:zuarte/constants/images.dart';
 import 'package:zuarte/screens/player/big_player.dart';
 import 'package:zuarte/screens/player/mini_player.dart';
 import 'package:zuarte/screens/home/home.dart';
+import 'package:zuarte/screens/settings/settings.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 
@@ -94,7 +95,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
             children: [
               Center(child: Text('Olá')),
               const HomeScreen(),
-              Center(child: Text('tab 3')),
+              const SettingsScreen(),
             ],
           ),
           Miniplayer(
