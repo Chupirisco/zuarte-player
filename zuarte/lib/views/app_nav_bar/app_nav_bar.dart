@@ -21,17 +21,31 @@ class AppNavBar extends StatefulWidget {
 }
 
 class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
+  final heigh = overallHeight();
+  late MiniplayerController miniplayerController;
+  late TabController tabController;
+
   @override
-  Widget build(BuildContext context) {
-    final heigh = overallHeight();
-    final miniplayerController = MiniplayerController();
-    final TabController tabController = TabController(
+  void initState() {
+    super.initState();
+    tabController = TabController(
       length: 3,
       vsync: this,
       initialIndex: 1,
       animationDuration: Duration(milliseconds: 500),
     );
+    miniplayerController = MiniplayerController();
+  }
 
+  @override
+  void dispose() {
+    super.dispose();
+    tabController.dispose();
+    miniplayerController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(heigh * 0.1),
