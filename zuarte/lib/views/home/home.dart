@@ -12,10 +12,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final height = overallHeight();
   @override
   Widget build(BuildContext context) {
     bool verificacaoFutura = true;
-    final double height = overallHeight();
+
     teste() {
       setState(() {
         verificacaoFutura = !verificacaoFutura;
@@ -26,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: EdgeInsets.symmetric(horizontal: defaultMargin()),
       child: Column(
         children: [
-          SizedBox(height: height * 0.01),
+          SizedBox(height: height * 0.02),
           Text(
             'Minhas músicas',
             style: textStyle(
@@ -35,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: height * 0.01),
+          SizedBox(height: height * 0.02),
           verificacaoFutura
               ? Expanded(
                   child: ScrollablePositionedList.builder(

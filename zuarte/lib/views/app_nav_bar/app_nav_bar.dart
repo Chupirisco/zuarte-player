@@ -5,10 +5,11 @@ import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/colors.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/constants/images.dart';
-import 'package:zuarte/screens/player/big_player.dart';
-import 'package:zuarte/screens/player/mini_player.dart';
-import 'package:zuarte/screens/home/home.dart';
-import 'package:zuarte/screens/settings/settings.dart';
+import 'package:zuarte/views/player/big_player.dart';
+import 'package:zuarte/views/player/mini_player.dart';
+import 'package:zuarte/views/home/home.dart';
+import 'package:zuarte/views/playlist/playlist.dart';
+import 'package:zuarte/views/settings/settings.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 
@@ -20,17 +21,31 @@ class AppNavBar extends StatefulWidget {
 }
 
 class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
+  final heigh = overallHeight();
+  late MiniplayerController miniplayerController;
+  late TabController tabController;
+
   @override
-  Widget build(BuildContext context) {
-    final heigh = overallHeight();
-    final miniplayerController = MiniplayerController();
-    final TabController tabController = TabController(
+  void initState() {
+    super.initState();
+    tabController = TabController(
       length: 3,
       vsync: this,
       initialIndex: 1,
       animationDuration: Duration(milliseconds: 500),
     );
+    miniplayerController = MiniplayerController();
+  }
 
+  @override
+  void dispose() {
+    super.dispose();
+    tabController.dispose();
+    miniplayerController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(heigh * 0.1),
@@ -93,7 +108,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
             controller: tabController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              Center(child: Text('Olá')),
+              const PlaylistScreen(),
               const HomeScreen(),
               const SettingsScreen(),
             ],

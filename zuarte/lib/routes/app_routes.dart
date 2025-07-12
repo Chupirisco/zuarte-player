@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zuarte/screens/app_nav_bar/app_nav_bar.dart';
-import 'package:zuarte/screens/home/home.dart';
-import 'package:zuarte/screens/splash_screen.dart';
+import 'package:zuarte/views/app_nav_bar/app_nav_bar.dart';
+import 'package:zuarte/views/home/home.dart';
+import 'package:zuarte/views/splash_screen.dart';
 
 class AppRoutes {
   static Map<String, WidgetBuilder> routes() {
