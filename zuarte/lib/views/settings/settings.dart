@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:zuarte/constants/colors.dart';
 import 'package:zuarte/constants/icons.dart';
-import 'package:zuarte/screens/settings/settings_styles.dart';
+import 'package:zuarte/views/settings/settings_styles.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/widgets/cards.dart';
-import 'package:zuarte/screens/settings/radio_custom.dart';
+import 'package:zuarte/views/settings/radio_custom.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -34,6 +34,7 @@ class SettingsScreen extends StatelessWidget {
           SizedBox(height: height * 0.02),
           //other component
           componentCard(
+            padding: EdgeInsets.symmetric(horizontal: width * 0.04),
             height: height * 0.11,
             child: Row(
               children: [
@@ -49,7 +50,7 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 const Spacer(),
                 ElevatedButton(
-                  style: buttonStyle(),
+                  style: settingsButtonStyle(),
                   onPressed: () {},
                   child: Text(
                     'Acessar',

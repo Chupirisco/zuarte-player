@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:zuarte/constants/colors.dart';
 import 'package:zuarte/constants/icons.dart';
-import 'package:zuarte/screens/player/progress_bar.dart';
+import 'package:zuarte/views/player/progress_bar.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 

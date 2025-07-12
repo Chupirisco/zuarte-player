@@ -5,11 +5,11 @@ import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/colors.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/constants/images.dart';
-import 'package:zuarte/screens/player/big_player.dart';
-import 'package:zuarte/screens/player/mini_player.dart';
-import 'package:zuarte/screens/home/home.dart';
-import 'package:zuarte/screens/playlist/playlist.dart';
-import 'package:zuarte/screens/settings/settings.dart';
+import 'package:zuarte/views/player/big_player.dart';
+import 'package:zuarte/views/player/mini_player.dart';
+import 'package:zuarte/views/home/home.dart';
+import 'package:zuarte/views/playlist/playlist.dart';
+import 'package:zuarte/views/settings/settings.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 

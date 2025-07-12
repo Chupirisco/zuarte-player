@@ -17,7 +17,7 @@ Widget radioDecoration(dynamic themeSelected, dynamic valueTheme) {
   );
 }
 
-ButtonStyle buttonStyle() {
+ButtonStyle settingsButtonStyle() {
   return ButtonStyle(
     backgroundColor: WidgetStatePropertyAll(LightColors.cardElements),
     shadowColor: WidgetStatePropertyAll(Colors.transparent),

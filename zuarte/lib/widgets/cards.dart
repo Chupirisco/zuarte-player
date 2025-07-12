@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import '../constants/colors.dart';
 import '../utils/size_config.dart';
 
-Widget componentCard({required double height, required Widget child}) {
-  final width = overallWidth();
+Widget componentCard({
+  required double height,
+  required EdgeInsets padding,
+  required Widget child,
+}) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+    padding: padding,
     height: height,
     decoration: cardStyle(),
     child: child,

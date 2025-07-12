@@ -25,6 +25,7 @@ class _RadioCustomState extends State<RadioCustom> {
   @override
   Widget build(BuildContext context) {
     return componentCard(
+      padding: EdgeInsets.symmetric(horizontal: width * 0.04),
       height: height * 0.11,
       child: Row(
         children: [
