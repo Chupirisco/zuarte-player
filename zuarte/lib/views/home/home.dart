@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:zuarte/constants/colors.dart';
-import 'package:zuarte/utils/size_config.dart';
-import 'package:zuarte/utils/style_configs.dart';
+import 'package:sizer/sizer.dart';
+
+import '../../constants/colors.dart';
+import '../../utils/size_config.dart';
+import '../../utils/style_configs.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final height = overallHeight();
+  final height = 100.h;
   @override
   Widget build(BuildContext context) {
     bool verificacaoFutura = true;
@@ -41,20 +43,18 @@ class _HomeScreenState extends State<HomeScreen> {
               ? Expanded(
                   child: ScrollablePositionedList.builder(
                     physics: scrollEffect(),
-                    addAutomaticKeepAlives: false,
+                    addAutomaticKeepAlives: true,
                     addRepaintBoundaries: true,
                     minCacheExtent: 50,
                     padding: EdgeInsets.zero,
                     itemCount: 2,
-                    itemBuilder: (context, index) => Container(
-                      margin: EdgeInsets.only(bottom: height * 0.01),
-                      decoration: BoxDecoration(
-                        color: LightColors.cardElements,
-                        borderRadius: BorderRadius.circular(
-                          defaultBorderRadius(20),
-                        ),
-                      ),
+                    itemBuilder: (context, index) => Padding(
+                      padding: EdgeInsets.only(bottom: height * 0.01),
                       child: ListTile(
+                        tileColor: LightColors.cardElements,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(20),
+                        ),
                         leading: Text('capa'),
                         title: Text('Nome'),
                         subtitle: Text('Cantor'),
