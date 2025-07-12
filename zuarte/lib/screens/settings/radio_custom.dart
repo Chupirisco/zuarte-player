@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 
-import '../constants/colors.dart';
-import '../constants/icons.dart';
-import '../screens/settings/settings_styles.dart';
-import '../utils/size_config.dart';
-import '../utils/style_configs.dart';
+import '../../constants/colors.dart';
+import '../../constants/icons.dart';
+import '../../widgets/cards.dart';
+import 'settings_styles.dart';
+import '../../utils/size_config.dart';
+import '../../utils/style_configs.dart';
 
 class RadioCustom extends StatefulWidget {
   const RadioCustom({super.key});
@@ -18,15 +19,13 @@ enum Theme { system, light, dark }
 
 class _RadioCustomState extends State<RadioCustom> {
   Theme themeSelected = Theme.light;
+  final width = overallWidth();
+  final height = overallHeight();
+
   @override
   Widget build(BuildContext context) {
-    final width = overallWidth();
-    final height = overallHeight();
-
-    return Container(
+    return componentCard(
       height: height * 0.11,
-      padding: EdgeInsets.symmetric(horizontal: width * 0.04),
-      decoration: cardsSettingsScreen(),
       child: Row(
         children: [
           Iconify(AppIcons.alterTheme, size: iconSize(23)),

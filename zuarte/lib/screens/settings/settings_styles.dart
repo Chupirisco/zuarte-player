@@ -4,11 +4,6 @@ import 'package:sizer/sizer.dart';
 import '../../constants/colors.dart';
 import '../../utils/size_config.dart';
 
-BoxDecoration cardsSettingsScreen() => BoxDecoration(
-  color: LightColors.cardElements,
-  borderRadius: BorderRadius.circular(defaultBorderRadius(18)),
-);
-
 Widget radioDecoration(dynamic themeSelected, dynamic valueTheme) {
   final sizeRadio = 15.sp;
   return Container(

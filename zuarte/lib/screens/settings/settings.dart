@@ -5,7 +5,8 @@ import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/screens/settings/settings_styles.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
-import 'package:zuarte/widgets/radio_custom.dart';
+import 'package:zuarte/widgets/cards.dart';
+import 'package:zuarte/screens/settings/radio_custom.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -28,12 +29,12 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: height * 0.02),
+          //Radio component
           const RadioCustom(),
           SizedBox(height: height * 0.02),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+          //other component
+          componentCard(
             height: height * 0.11,
-            decoration: cardsSettingsScreen(),
             child: Row(
               children: [
                 Iconify(AppIcons.github, size: iconSize(23)),
