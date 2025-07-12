@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:zuarte/constants/colors.dart';
-import 'package:zuarte/constants/icons.dart';
-import 'package:zuarte/views/settings/settings_styles.dart';
-import 'package:zuarte/utils/size_config.dart';
-import 'package:zuarte/utils/style_configs.dart';
-import 'package:zuarte/widgets/cards.dart';
-import 'package:zuarte/views/settings/radio_custom.dart';
+import 'package:sizer/sizer.dart';
+
+import '../../constants/colors.dart';
+import '../../constants/icons.dart';
+import '../../utils/size_config.dart';
+import '../../utils/style_configs.dart';
+import '../../widgets/cards.dart';
+import 'radio_custom.dart';
+import 'settings_styles.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final height = overallHeight();
-    final width = overallWidth();
+    final height = 100.h;
+    final width = 100.w;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultMargin()),
       child: Column(

@@ -3,8 +3,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/colors.dart';
-import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 
 import '../constants/images.dart';
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = overallHeight();
+    final height = 100.h;
     return Scaffold(
       body: Center(
         child: Column(

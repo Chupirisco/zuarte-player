@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/colors.dart';
-import 'package:zuarte/utils/size_config.dart';
 
 class ProgressBar extends StatefulWidget {
   const ProgressBar({super.key});
@@ -16,7 +16,7 @@ class _ProgressBarState extends State<ProgressBar> {
     return Row(
       children: [
         SizedBox(
-          width: overallWidth() * 0.8,
+          width: 100.w * 0.8,
           child: Slider(
             padding: EdgeInsets.zero,
             min: 0,

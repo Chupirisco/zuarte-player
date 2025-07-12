@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/icons.dart';
@@ -19,8 +20,8 @@ enum Theme { system, light, dark }
 
 class _RadioCustomState extends State<RadioCustom> {
   Theme themeSelected = Theme.light;
-  final width = overallWidth();
-  final height = overallHeight();
+  final width = 100.w;
+  final height = 100.h;
 
   @override
   Widget build(BuildContext context) {

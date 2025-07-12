@@ -18,6 +18,7 @@ Widget playlistAvatarComponent(double height, double width, String avatar) {
 
 ButtonStyle playlistButtonStyle(double height, double width) {
   return ButtonStyle(
+    alignment: Alignment.centerLeft,
     overlayColor: WidgetStatePropertyAll(LightColors.primaryAction),
     minimumSize: WidgetStatePropertyAll(Size(width, height)),
     padding: WidgetStatePropertyAll(EdgeInsets.all(12.sp)),

@@ -34,27 +34,27 @@ Widget miniPlayer(double height) {
             const Spacer(),
             IconButton(
               onPressed: () {},
-              icon: Iconify(AppIcons.back, size: iconSize(23)),
+              icon: Iconify(AppIcons.back, size: iconSize(22)),
               splashColor: LightColors.primaryAction, // remove o splash
               highlightColor: LightColors.primaryAction, // remove o highlight
               hoverColor: LightColors.primaryAction, // remove hover
-              padding: EdgeInsets.symmetric(vertical: 0),
+              padding: EdgeInsets.zero,
             ),
             IconButton(
               onPressed: () {},
-              icon: Iconify(AppIcons.play, size: iconSize(24)),
+              icon: Iconify(AppIcons.play, size: iconSize(23)),
               splashColor: LightColors.primaryAction,
               highlightColor: LightColors.primaryAction,
               hoverColor: LightColors.primaryAction,
-              padding: EdgeInsets.all(0),
+              padding: EdgeInsets.zero,
             ),
             IconButton(
               onPressed: () {},
-              icon: Iconify(AppIcons.advance, size: iconSize(23)),
+              icon: Iconify(AppIcons.advance, size: iconSize(22)),
               splashColor: LightColors.primaryAction,
               highlightColor: LightColors.primaryAction,
               hoverColor: LightColors.primaryAction,
-              padding: EdgeInsets.all(0),
+              padding: EdgeInsets.zero,
             ),
           ],
         ),

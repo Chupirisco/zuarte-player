@@ -21,9 +21,10 @@ class AppNavBar extends StatefulWidget {
 }
 
 class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
-  final heigh = overallHeight();
   late MiniplayerController miniplayerController;
   late TabController tabController;
+  final height = 100.h;
+  final width = 100.w;
 
   @override
   void initState() {
@@ -32,7 +33,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
       length: 3,
       vsync: this,
       initialIndex: 1,
-      animationDuration: Duration(milliseconds: 500),
+      animationDuration: Duration(milliseconds: 700),
     );
     miniplayerController = MiniplayerController();
   }
@@ -46,83 +47,89 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    bool checkSize = height >= width;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(heigh * 0.1),
-        child: ClipRRect(
-          borderRadius: BorderRadiusGeometry.vertical(
-            bottom: Radius.circular(defaultBorderRadius(20)),
-          ),
-          child: AppBar(
-            backgroundColor: LightColors.cardElements,
-            automaticallyImplyLeading: false,
-            flexibleSpace: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        'ZUARTE',
-                        style: textStyle(
-                          size: 15,
-                          color: LightColors.primaryText,
-                          fontWeight: FontWeight.bold,
+        preferredSize: Size.fromHeight(checkSize ? height * 0.11 : width * 0.1),
+        child: RepaintBoundary(
+          child: ClipRRect(
+            borderRadius: BorderRadiusGeometry.vertical(
+              bottom: Radius.circular(defaultBorderRadius(20)),
+            ),
+            child: AppBar(
+              backgroundColor: LightColors.cardElements,
+              automaticallyImplyLeading: false,
+              flexibleSpace: SafeArea(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          'ZUARTE',
+                          style: textStyle(
+                            size: 15,
+                            color: LightColors.primaryText,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-
-                      Image.asset(
-                        AppImages.appLogo,
-                        height: overallHeight() * 0.04,
-                      ),
-                    ],
-                  ),
-
-                  TabBar(
-                    controller: tabController,
-                    splashFactory: NoSplash.splashFactory,
-                    dividerHeight: 0,
-                    indicator: BoxDecoration(
-                      color: LightColors.primaryAction,
-                      shape: BoxShape.circle,
+                        Image.asset(AppImages.appLogo, height: 23.sp),
+                      ],
                     ),
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicatorPadding: EdgeInsets.all(-7.sp),
-                    tabs: [
-                      Tab(icon: Iconify(AppIcons.playlist, size: iconSize(22))),
-                      Tab(icon: Iconify(AppIcons.home, size: iconSize(22))),
-                      Tab(icon: Iconify(AppIcons.setting, size: iconSize(22))),
-                    ],
-                  ),
-                ],
+
+                    TabBar(
+                      indicatorAnimation: TabIndicatorAnimation.linear,
+                      controller: tabController,
+                      splashFactory: NoSplash.splashFactory,
+                      dividerHeight: 0,
+                      indicator: BoxDecoration(
+                        color: LightColors.primaryAction,
+                        shape: BoxShape.circle,
+                      ),
+                      indicatorSize: TabBarIndicatorSize.label,
+                      indicatorPadding: EdgeInsets.all(-8.sp),
+                      tabs: [
+                        Tab(
+                          icon: Iconify(AppIcons.playlist, size: iconSize(22)),
+                        ),
+                        Tab(icon: Iconify(AppIcons.home, size: iconSize(22))),
+                        Tab(
+                          icon: Iconify(AppIcons.setting, size: iconSize(22)),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
 
-      body: Stack(
-        children: [
-          TabBarView(
-            controller: tabController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              const PlaylistScreen(),
-              const HomeScreen(),
-              const SettingsScreen(),
-            ],
-          ),
-          Miniplayer(
-            duration: Duration(milliseconds: 500),
-            controller: miniplayerController,
-            minHeight: heigh * 0.13,
-            maxHeight: heigh * 0.87,
-            backgroundColor: LightColors.background,
-            builder: (height, percentage) =>
-                percentage <= 0.3 ? miniPlayer(height) : bigPlayer(height),
-          ),
-        ],
+      body: RepaintBoundary(
+        child: Stack(
+          children: [
+            TabBarView(
+              controller: tabController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                const PlaylistScreen(),
+                const HomeScreen(),
+                const SettingsScreen(),
+              ],
+            ),
+            Miniplayer(
+              duration: Duration(milliseconds: 500),
+              controller: miniplayerController,
+              minHeight: checkSize ? height * 0.13 : width * 0.12,
+              maxHeight: checkSize ? height * 0.87 : width * 0.88,
+              backgroundColor: LightColors.background,
+              builder: (height, percentage) =>
+                  percentage <= 0.3 ? miniPlayer(height) : bigPlayer(height),
+            ),
+          ],
+        ),
       ),
     );
   }
