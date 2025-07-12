@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:sizer/sizer.dart';
 
 import '../constants/colors.dart';
 import '../constants/icons.dart';
+import '../screens/settings/settings_styles.dart';
 import '../utils/size_config.dart';
 import '../utils/style_configs.dart';
 
@@ -20,19 +20,17 @@ class _RadioCustomState extends State<RadioCustom> {
   Theme themeSelected = Theme.light;
   @override
   Widget build(BuildContext context) {
+    final width = overallWidth();
     final height = overallHeight();
-    final sizeRadio = 15.sp;
+
     return Container(
       height: height * 0.11,
-      padding: EdgeInsets.symmetric(horizontal: overallWidth() * 0.04),
-      decoration: BoxDecoration(
-        color: LightColors.cardElements,
-        borderRadius: BorderRadius.circular(defaultBorderRadius(18)),
-      ),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+      decoration: cardsSettingsScreen(),
       child: Row(
         children: [
           Iconify(AppIcons.alterTheme, size: iconSize(23)),
-          SizedBox(width: 10),
+          SizedBox(width: width * 0.02),
           Text(
             'Tema',
             style: textStyle(
@@ -43,7 +41,7 @@ class _RadioCustomState extends State<RadioCustom> {
           ),
           const Spacer(),
           Wrap(
-            spacing: overallWidth() * 0.08,
+            spacing: width * 0.08,
             children: Theme.values.map((valueTheme) {
               return RepaintBoundary(
                 child: GestureDetector(
@@ -55,20 +53,7 @@ class _RadioCustomState extends State<RadioCustom> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(
-                        height: sizeRadio,
-                        width: sizeRadio,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: LightColors.borders,
-                            width: 1,
-                          ),
-                          color: themeSelected == valueTheme
-                              ? Colors.green
-                              : Colors.white,
-                        ),
-                      ),
+                      radioDecoration(themeSelected, valueTheme),
                       SizedBox(height: height * 0.01),
                       Text(
                         valueTheme.name[0].toUpperCase() +
