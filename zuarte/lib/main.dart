@@ -6,45 +6,61 @@ import 'package:sizer/sizer.dart';
 import 'package:zuarte/routes/app_routes.dart';
 import 'package:zuarte/theme/app_themes.dart';
 import 'package:zuarte/viewmodels/create_playlist.dart';
+import 'package:zuarte/viewmodels/theme_provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   //visually check what is being reconstructed
   debugRepaintRainbowEnabled = false;
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => CreatePlaylist())],
-      child: const MyApp(),
+      providers: [
+        ChangeNotifierProvider(create: (_) => CreatePlaylist()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
+      child: MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  MyApp({super.key});
+  final ThemeData _lightTheme = AppThemes.lightTheme();
+  final ThemeData _darkTheme = AppThemes.darkTheme();
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    final themeMode = context.watch<ThemeProvider>().themeMode;
+
     return LayoutBuilder(
       builder: (context, constraints) {
+        final orientation = constraints.maxWidth > constraints.maxHeight
+            ? Orientation.landscape
+            : Orientation.portrait;
+
         Device.setScreenSize(
           context,
           constraints,
-          MediaQuery.of(context).orientation,
+          orientation,
           constraints.maxWidth,
-          constraints.maxWidth,
+          constraints.maxHeight,
         );
+
         return MaterialApp(
           title: "Zuarte-Player",
           //disable banner
           debugShowCheckedModeBanner: false,
           //show performace graph
-          showPerformanceOverlay: false,
+          showPerformanceOverlay: true,
           routes: AppRoutes.routes(),
           initialRoute: "/splash_screen",
-          theme: AppThemes.lightTheme,
+          //themes
+          theme: _lightTheme,
+          darkTheme: _darkTheme,
+          themeMode: themeMode,
         );
       },
     );

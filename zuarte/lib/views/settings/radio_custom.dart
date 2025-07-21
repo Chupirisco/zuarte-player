@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:zuarte/viewmodels/theme_provider.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/icons.dart';
@@ -16,15 +18,27 @@ class RadioCustom extends StatefulWidget {
   State<RadioCustom> createState() => _RadioCustomState();
 }
 
-enum Theme { system, light, dark }
+enum AppTheme { system, light, dark }
 
 class _RadioCustomState extends State<RadioCustom> {
-  Theme themeSelected = Theme.light;
   final width = 100.w;
   final height = 100.h;
+  late AppTheme themeSelected;
+  @override
+  void initState() {
+    super.initState();
+    final themeProvider = context.read<ThemeProvider>();
+    themeSelected = themeProvider.themeMode == ThemeMode.system
+        ? AppTheme.system
+        : themeProvider.themeMode == ThemeMode.dark
+        ? AppTheme.dark
+        : AppTheme.light;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final providerTheme = Provider.of<ThemeProvider>(context);
+
     return componentCard(
       padding: EdgeInsets.symmetric(horizontal: width * 0.04),
       height: height * 0.11,
@@ -43,12 +57,18 @@ class _RadioCustomState extends State<RadioCustom> {
           const Spacer(),
           Wrap(
             spacing: width * 0.08,
-            children: Theme.values.map((valueTheme) {
+            children: AppTheme.values.map((valueTheme) {
               return RepaintBoundary(
-                child: GestureDetector(
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(defaultBorderRadius(15)),
                   onTap: () {
                     setState(() {
                       themeSelected = valueTheme;
+                      providerTheme.toggleTheme(
+                        valueTheme == AppTheme.system
+                            ? null
+                            : valueTheme == AppTheme.dark,
+                      );
                     });
                   },
                   child: Column(
