@@ -10,14 +10,12 @@ import 'package:zuarte/viewmodels/theme_provider.dart';
 
 import 'services/store_theme_preferences.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  final themeStorage = StoreThemePreferences();
-  await themeStorage.loadTheme();
 
   //visually check what is being reconstructed
   debugRepaintRainbowEnabled = false;
@@ -25,19 +23,37 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CreatePlaylist()),
-        ChangeNotifierProvider(
-          create: (_) => ThemeProvider(themeMode: themeStorage.savedTheme),
-        ),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final ThemeData _lightTheme = AppThemes.lightTheme();
+
   final ThemeData _darkTheme = AppThemes.darkTheme();
+
+  @override
+  void initState() {
+    super.initState();
+    loadTheme();
+  }
+
+  void loadTheme() async {
+    final themeStorage = StoreThemePreferences();
+    await themeStorage.loadTheme();
+    // ignore: use_build_context_synchronously
+    context.read<ThemeProvider>().loadTheme(themeStorage.savedTheme);
+  }
 
   @override
   Widget build(BuildContext context) {

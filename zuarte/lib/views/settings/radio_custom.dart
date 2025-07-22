@@ -29,11 +29,24 @@ class _RadioCustomState extends State<RadioCustom> {
   void initState() {
     super.initState();
     final themeProvider = context.read<ThemeProvider>();
-    themeSelected = themeProvider.themeMode == ThemeMode.system
-        ? AppTheme.system
-        : themeProvider.themeMode == ThemeMode.dark
-        ? AppTheme.dark
-        : AppTheme.light;
+
+    switch (themeProvider.themeMode!) {
+      case ThemeMode.system:
+        {
+          themeSelected = AppTheme.system;
+          break;
+        }
+      case ThemeMode.dark:
+        {
+          themeSelected = AppTheme.dark;
+          break;
+        }
+      case ThemeMode.light:
+        {
+          themeSelected = AppTheme.light;
+          break;
+        }
+    }
   }
 
   @override
@@ -49,16 +62,19 @@ class _RadioCustomState extends State<RadioCustom> {
           {
             providerTheme.toggleTheme(null);
             await themeStorage.saveTheme('system');
+            break;
           }
         case AppTheme.dark:
           {
             providerTheme.toggleTheme(true);
             await themeStorage.saveTheme('dark');
+            break;
           }
         case AppTheme.light:
           {
             providerTheme.toggleTheme(false);
             await themeStorage.saveTheme('light');
+            break;
           }
       }
     }

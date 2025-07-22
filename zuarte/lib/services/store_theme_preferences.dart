@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StoreThemePreferences {
-  late final ThemeMode _savedTheme;
+  ThemeMode? _savedTheme;
 
-  ThemeMode get savedTheme => _savedTheme;
+  ThemeMode get savedTheme => _savedTheme!;
 
   Future<void> loadTheme() async {
     final storage = await SharedPreferences.getInstance();
@@ -24,14 +24,14 @@ class StoreThemePreferences {
         break;
 
       case null:
-        startStorage();
-        break;
+        return await startStorage();
     }
   }
 
   Future<void> saveTheme(String selectedTheme) async {
     final storage = await SharedPreferences.getInstance();
     await storage.setString('storedTheme', selectedTheme);
+
     switch (selectedTheme) {
       case 'dark':
         _savedTheme = ThemeMode.dark;
@@ -50,8 +50,7 @@ class StoreThemePreferences {
   Future<void> startStorage() async {
     final storage = await SharedPreferences.getInstance();
     await storage.setString('storedTheme', 'system');
-    print(_savedTheme);
-    print('-*-*-*-*-*-***-');
-    loadTheme();
+
+    return await loadTheme();
   }
 }
