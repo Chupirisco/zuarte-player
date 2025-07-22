@@ -8,19 +8,26 @@ import 'package:zuarte/theme/app_themes.dart';
 import 'package:zuarte/viewmodels/create_playlist.dart';
 import 'package:zuarte/viewmodels/theme_provider.dart';
 
-void main() {
+import 'services/store_theme_preferences.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  final themeStorage = StoreThemePreferences();
+  await themeStorage.loadTheme();
+
   //visually check what is being reconstructed
   debugRepaintRainbowEnabled = false;
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CreatePlaylist()),
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(
+          create: (_) => ThemeProvider(themeMode: themeStorage.savedTheme),
+        ),
       ],
       child: MyApp(),
     ),
@@ -31,9 +38,10 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
   final ThemeData _lightTheme = AppThemes.lightTheme();
   final ThemeData _darkTheme = AppThemes.darkTheme();
+
   @override
   Widget build(BuildContext context) {
-    final themeMode = context.watch<ThemeProvider>().themeMode;
+    final theme = context.watch<ThemeProvider>();
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -54,13 +62,13 @@ class MyApp extends StatelessWidget {
           //disable banner
           debugShowCheckedModeBanner: false,
           //show performace graph
-          showPerformanceOverlay: true,
+          showPerformanceOverlay: false,
           routes: AppRoutes.routes(),
           initialRoute: "/splash_screen",
           //themes
           theme: _lightTheme,
           darkTheme: _darkTheme,
-          themeMode: themeMode,
+          themeMode: theme.themeMode,
         );
       },
     );

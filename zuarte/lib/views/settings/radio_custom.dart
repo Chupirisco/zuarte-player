@@ -6,6 +6,7 @@ import 'package:zuarte/viewmodels/theme_provider.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/icons.dart';
+import '../../services/store_theme_preferences.dart';
 import '../../widgets/cards.dart';
 import 'settings_styles.dart';
 import '../../utils/size_config.dart';
@@ -38,6 +39,29 @@ class _RadioCustomState extends State<RadioCustom> {
   @override
   Widget build(BuildContext context) {
     final providerTheme = Provider.of<ThemeProvider>(context);
+    verification(valueTheme) async {
+      final themeStorage = StoreThemePreferences();
+
+      themeSelected = valueTheme;
+
+      switch (valueTheme) {
+        case AppTheme.system:
+          {
+            providerTheme.toggleTheme(null);
+            await themeStorage.saveTheme('system');
+          }
+        case AppTheme.dark:
+          {
+            providerTheme.toggleTheme(true);
+            await themeStorage.saveTheme('dark');
+          }
+        case AppTheme.light:
+          {
+            providerTheme.toggleTheme(false);
+            await themeStorage.saveTheme('light');
+          }
+      }
+    }
 
     return componentCard(
       padding: EdgeInsets.symmetric(horizontal: width * 0.04),
@@ -63,12 +87,7 @@ class _RadioCustomState extends State<RadioCustom> {
                   borderRadius: BorderRadius.circular(defaultBorderRadius(15)),
                   onTap: () {
                     setState(() {
-                      themeSelected = valueTheme;
-                      providerTheme.toggleTheme(
-                        valueTheme == AppTheme.system
-                            ? null
-                            : valueTheme == AppTheme.dark,
-                      );
+                      verification(valueTheme);
                     });
                   },
                   child: Column(

@@ -8,6 +8,7 @@ import 'package:zuarte/constants/colors.dart';
 import 'package:zuarte/utils/style_configs.dart';
 
 import '../constants/images.dart';
+import '../services/store_theme_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
