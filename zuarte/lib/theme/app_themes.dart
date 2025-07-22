@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:zuarte/constants/colors.dart';
 
-class AppThemes {
-  static ThemeData lightTheme() {
-    return ThemeData(
-      brightness: Brightness.light,
-      fontFamily: 'Montserrat',
-      scaffoldBackgroundColor: LightColors.background,
-      useMaterial3: true,
-    );
-  }
+ThemeData lightTheme = ThemeData(
+  fontFamily: 'Montserrat',
+  useMaterial3: true,
+  colorScheme: ColorScheme.light(
+    brightness: Brightness.light,
+    surface: LightColors.background,
+    primary: LightColors.primaryText,
+    secondary: LightColors.secondaryText,
+    primaryContainer: LightColors.cardElements,
+    secondaryContainer: LightColors.details,
+    onPrimaryContainer: LightColors.primaryAction,
+    onPrimary: LightColors.borders,
+  ),
+);
 
-  static ThemeData darkTheme() {
-    return ThemeData(
-      brightness: Brightness.dark,
-      fontFamily: 'Montserrat',
-      scaffoldBackgroundColor: DarkColors.background,
-      //  textTheme: TextTheme(),
-      useMaterial3: true,
-      //  listTileTheme: ListTileThemeData(),
-    );
-  }
-}
+ThemeData darkTheme = ThemeData(
+  fontFamily: 'Montserrat',
+  useMaterial3: true,
+  colorScheme: ColorScheme.dark(
+    brightness: Brightness.light,
+    surface: DarkColors.background,
+    primary: DarkColors.primaryText,
+    secondary: DarkColors.secondaryText,
+    primaryContainer: DarkColors.cardElements,
+    secondaryContainer: DarkColors.details,
+    onPrimaryContainer: DarkColors.primaryAction,
+    onPrimary: DarkColors.borders,
+  ),
+);

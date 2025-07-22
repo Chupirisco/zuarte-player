@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../constants/colors.dart';
 import '../../utils/size_config.dart';
 import '../../utils/style_configs.dart';
 
@@ -18,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     bool verificacaoFutura = true;
-
+    final ColorScheme theme = Theme.of(context).colorScheme;
     teste() {
       setState(() {
         verificacaoFutura = !verificacaoFutura;
@@ -34,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
             'Minhas músicas',
             style: textStyle(
               size: 18,
-              color: LightColors.primaryText,
+              color: theme.primary,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -51,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (context, index) => Padding(
                       padding: EdgeInsets.only(bottom: height * 0.01),
                       child: ListTile(
-                        tileColor: LightColors.cardElements,
+                        tileColor: theme.primaryContainer,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadiusGeometry.circular(20),
                         ),
@@ -72,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Nenhuma música por aqui',
                     style: textStyle(
                       size: 15,
-                      color: LightColors.secondaryText,
+                      color: theme.secondary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

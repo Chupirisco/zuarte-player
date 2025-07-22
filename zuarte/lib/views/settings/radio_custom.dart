@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/viewmodels/theme_provider.dart';
 
-import '../../constants/colors.dart';
 import '../../constants/icons.dart';
 import '../../services/store_theme_preferences.dart';
 import '../../widgets/cards.dart';
@@ -51,6 +50,7 @@ class _RadioCustomState extends State<RadioCustom> {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme theme = Theme.of(context).colorScheme;
     final providerTheme = Provider.of<ThemeProvider>(context);
     verification(valueTheme) async {
       final themeStorage = StoreThemePreferences();
@@ -80,17 +80,22 @@ class _RadioCustomState extends State<RadioCustom> {
     }
 
     return componentCard(
+      ctx: context,
       padding: EdgeInsets.symmetric(horizontal: width * 0.04),
       height: height * 0.11,
       child: Row(
         children: [
-          Iconify(AppIcons.alterTheme, size: iconSize(23)),
+          Iconify(
+            AppIcons.alterTheme,
+            size: iconSize(23),
+            color: iconColor(theme),
+          ),
           SizedBox(width: width * 0.02),
           Text(
             'Tema',
             style: textStyle(
               size: 16,
-              color: LightColors.primaryText,
+              color: theme.primary,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -109,14 +114,14 @@ class _RadioCustomState extends State<RadioCustom> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      radioDecoration(themeSelected, valueTheme),
+                      radioDecoration(themeSelected, valueTheme, context),
                       SizedBox(height: height * 0.01),
                       Text(
                         valueTheme.name[0].toUpperCase() +
                             valueTheme.name.substring(1),
                         style: textStyle(
                           size: 15,
-                          color: LightColors.secondaryText,
+                          color: theme.secondary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

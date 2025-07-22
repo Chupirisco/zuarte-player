@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:sizer/sizer.dart';
-import 'package:zuarte/constants/colors.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/constants/images.dart';
 import 'package:zuarte/views/player/big_player.dart';
@@ -47,6 +46,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme theme = Theme.of(context).colorScheme;
     bool checkSize = height >= width;
     return Scaffold(
       appBar: PreferredSize(
@@ -57,7 +57,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
               bottom: Radius.circular(defaultBorderRadius(20)),
             ),
             child: AppBar(
-              backgroundColor: LightColors.cardElements,
+              backgroundColor: theme.primaryContainer,
               automaticallyImplyLeading: false,
               flexibleSpace: SafeArea(
                 child: Column(
@@ -70,7 +70,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
                           'ZUARTE',
                           style: textStyle(
                             size: 15,
-                            color: LightColors.primaryText,
+                            color: theme.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -79,23 +79,38 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
                     ),
 
                     TabBar(
+                      overlayColor: WidgetStateProperty.all(Colors.transparent),
                       indicatorAnimation: TabIndicatorAnimation.linear,
                       controller: tabController,
                       splashFactory: NoSplash.splashFactory,
                       dividerHeight: 0,
                       indicator: BoxDecoration(
-                        color: LightColors.primaryAction,
+                        color: theme.onPrimaryContainer,
                         shape: BoxShape.circle,
                       ),
                       indicatorSize: TabBarIndicatorSize.label,
                       indicatorPadding: EdgeInsets.all(-8.sp),
                       tabs: [
                         Tab(
-                          icon: Iconify(AppIcons.playlist, size: iconSize(22)),
+                          icon: Iconify(
+                            AppIcons.playlist,
+                            size: iconSize(22),
+                            color: iconColor(theme),
+                          ),
                         ),
-                        Tab(icon: Iconify(AppIcons.home, size: iconSize(22))),
                         Tab(
-                          icon: Iconify(AppIcons.setting, size: iconSize(22)),
+                          icon: Iconify(
+                            AppIcons.home,
+                            size: iconSize(22),
+                            color: iconColor(theme),
+                          ),
+                        ),
+                        Tab(
+                          icon: Iconify(
+                            AppIcons.setting,
+                            size: iconSize(22),
+                            color: iconColor(theme),
+                          ),
                         ),
                       ],
                     ),
@@ -124,9 +139,10 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
               controller: miniplayerController,
               minHeight: checkSize ? height * 0.13 : width * 0.12,
               maxHeight: checkSize ? height * 0.87 : width * 0.88,
-              backgroundColor: LightColors.background,
-              builder: (height, percentage) =>
-                  percentage <= 0.3 ? miniPlayer(height) : bigPlayer(height),
+              backgroundColor: theme.surface,
+              builder: (height, percentage) => percentage <= 0.3
+                  ? miniPlayer(height, context)
+                  : bigPlayer(height),
             ),
           ],
         ),
