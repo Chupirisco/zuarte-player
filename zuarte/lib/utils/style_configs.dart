@@ -12,3 +12,7 @@ TextStyle textStyle({
 AlwaysScrollableScrollPhysics scrollEffect() {
   return AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics());
 }
+
+Color iconColor(ColorScheme theme) {
+  return theme.primary;
+}

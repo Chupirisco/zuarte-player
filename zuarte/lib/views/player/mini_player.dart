@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:zuarte/constants/colors.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/views/player/progress_bar.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 
-Widget miniPlayer(double height) {
+Widget miniPlayer(double height, BuildContext context) {
+  final ColorScheme theme = Theme.of(context).colorScheme;
   return Container(
     decoration: BoxDecoration(
-      color: LightColors.cardElements,
+      color: theme.primaryContainer,
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(defaultBorderRadius(20)),
       ),
@@ -27,33 +27,45 @@ Widget miniPlayer(double height) {
               'Nenhuma música selecionada',
               style: textStyle(
                 size: 15,
-                color: LightColors.primaryText,
+                color: theme.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const Spacer(),
             IconButton(
               onPressed: () {},
-              icon: Iconify(AppIcons.back, size: iconSize(22)),
-              splashColor: LightColors.primaryAction, // remove o splash
-              highlightColor: LightColors.primaryAction, // remove o highlight
-              hoverColor: LightColors.primaryAction, // remove hover
+              icon: Iconify(
+                AppIcons.back,
+                size: iconSize(22),
+                color: iconColor(theme),
+              ),
+              splashColor: theme.onPrimaryContainer, // remove o splash
+              highlightColor: theme.onPrimaryContainer, // remove o highlight
+              hoverColor: theme.onPrimaryContainer, // remove hover
               padding: EdgeInsets.zero,
             ),
             IconButton(
               onPressed: () {},
-              icon: Iconify(AppIcons.play, size: iconSize(23)),
-              splashColor: LightColors.primaryAction,
-              highlightColor: LightColors.primaryAction,
-              hoverColor: LightColors.primaryAction,
+              icon: Iconify(
+                AppIcons.play,
+                size: iconSize(23),
+                color: iconColor(theme),
+              ),
+              splashColor: theme.onPrimaryContainer,
+              highlightColor: theme.onPrimaryContainer,
+              hoverColor: theme.onPrimaryContainer,
               padding: EdgeInsets.zero,
             ),
             IconButton(
               onPressed: () {},
-              icon: Iconify(AppIcons.advance, size: iconSize(22)),
-              splashColor: LightColors.primaryAction,
-              highlightColor: LightColors.primaryAction,
-              hoverColor: LightColors.primaryAction,
+              icon: Iconify(
+                AppIcons.advance,
+                size: iconSize(22),
+                color: iconColor(theme),
+              ),
+              splashColor: theme.onPrimaryContainer,
+              highlightColor: theme.onPrimaryContainer,
+              hoverColor: theme.onPrimaryContainer,
               padding: EdgeInsets.zero,
             ),
           ],

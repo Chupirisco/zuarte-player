@@ -3,7 +3,6 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/widgets/cards.dart';
 
-import '../../constants/colors.dart';
 import '../../constants/icons.dart';
 import '../../utils/size_config.dart';
 import '../../utils/style_configs.dart';
@@ -25,6 +24,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    final ColorScheme theme = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultMargin()),
       child: Column(
@@ -36,7 +36,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
             textAlign: TextAlign.center,
             style: textStyle(
               size: 18,
-              color: LightColors.primaryText,
+              color: theme.primary,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -55,6 +55,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                   return GestureDetector(
                     onTap: () {},
                     child: componentCard(
+                      ctx: context,
                       height: height * 0.11,
                       padding: EdgeInsets.all(10.sp),
                       child: Row(
@@ -64,13 +65,14 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                             height * 0.08,
                             height * 0.08,
                             AppIcons.add,
+                            context,
                           ),
                           SizedBox(width: width * 0.04),
                           Text(
                             'Criar playlist',
                             style: textStyle(
                               size: 16,
-                              color: LightColors.primaryText,
+                              color: theme.primary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -86,6 +88,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                   child: GestureDetector(
                     onTap: () {},
                     child: componentCard(
+                      ctx: context,
                       height: height * 0.11,
                       padding: EdgeInsets.all(10.sp),
                       child: Row(
@@ -95,6 +98,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                             height * 0.08,
                             height * 0.08,
                             AppIcons.person,
+                            context,
                           ),
                           SizedBox(width: width * 0.04),
                           Column(
@@ -105,7 +109,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                 playlist['name'].toString(),
                                 style: textStyle(
                                   size: 16,
-                                  color: LightColors.primaryText,
+                                  color: theme.primary,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -113,7 +117,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                 '${playlist['count'].toString()} músicas',
                                 style: textStyle(
                                   size: 14,
-                                  color: LightColors.secondaryText,
+                                  color: theme.secondary,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
@@ -122,7 +126,11 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                           const Spacer(),
                           IconButton(
                             onPressed: () {},
-                            icon: Iconify(AppIcons.more, size: iconSize(18)),
+                            icon: Iconify(
+                              AppIcons.more,
+                              size: iconSize(18),
+                              color: iconColor(theme),
+                            ),
                           ),
                         ],
                       ),

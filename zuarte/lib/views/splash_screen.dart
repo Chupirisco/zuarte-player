@@ -4,7 +4,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:zuarte/constants/colors.dart';
 import 'package:zuarte/utils/style_configs.dart';
 
 import '../constants/images.dart';
@@ -34,6 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme theme = Theme.of(context).colorScheme;
     final height = 100.h;
     return Scaffold(
       body: Center(
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
               'ZUARTE',
               style: textStyle(
                 size: 30,
-                color: LightColors.primaryText,
+                color: theme.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -54,12 +54,12 @@ class _SplashScreenState extends State<SplashScreen> {
             Text(
               'Seu player, sua vibe\n seu flow.',
               textAlign: TextAlign.center,
-              style: textStyle(size: 18, color: LightColors.primaryText),
+              style: textStyle(size: 18, color: theme.primary),
             ),
             const Spacer(),
             Text(
               'by BRY STUDIO',
-              style: textStyle(size: 13, color: LightColors.secondaryText),
+              style: textStyle(size: 13, color: theme.secondary),
             ),
             SizedBox(height: height * 0.02),
           ],
