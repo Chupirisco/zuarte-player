@@ -142,7 +142,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
               backgroundColor: theme.surface,
               builder: (height, percentage) => percentage <= 0.3
                   ? miniPlayer(height, context)
-                  : bigPlayer(height),
+                  : bigPlayer(height, context),
             ),
           ],
         ),

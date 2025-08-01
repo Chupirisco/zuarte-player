@@ -71,7 +71,20 @@ Widget miniPlayer(double height, BuildContext context) {
           ],
         ),
         SizedBox(height: height * 0.1),
-        ProgressBar(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ProgressBar(),
+            Text(
+              '00:00',
+              style: textStyle(
+                size: 14,
+                color: theme.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ],
     ),
   );
