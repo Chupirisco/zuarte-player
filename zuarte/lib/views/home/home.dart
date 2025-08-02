@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ListTile(
                         tileColor: theme.primaryContainer,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadiusGeometry.circular(20),
+                          borderRadius: BorderRadiusGeometry.circular(25),
                         ),
                         leading: Text('capa'),
                         title: Text('Nome'),

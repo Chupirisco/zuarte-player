@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/views/player/progress_bar.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
@@ -38,20 +36,7 @@ Widget miniPlayer(double height, BuildContext context) {
           ],
         ),
         SizedBox(height: height * 0.1),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ProgressBar(),
-            Text(
-              '00:00',
-              style: textStyle(
-                size: 14,
-                color: theme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
+        const ProgressBar(),
       ],
     ),
   );

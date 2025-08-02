@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> {
           //disable banner
           debugShowCheckedModeBanner: false,
           //show performace graph
-          showPerformanceOverlay: true,
+          showPerformanceOverlay: false,
           routes: AppRoutes.routes(),
           initialRoute: "/splash_screen",
           //themes

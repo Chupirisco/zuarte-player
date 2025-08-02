@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../utils/style_configs.dart';
+
 class ProgressBar extends StatefulWidget {
   const ProgressBar({super.key});
 
@@ -14,16 +16,31 @@ class _ProgressBarState extends State<ProgressBar> {
     final ColorScheme theme = Theme.of(context).colorScheme;
     final double valor = 0;
     return SizedBox(
-      width: 100.w * 0.8,
-      child: Slider(
-        padding: EdgeInsets.zero,
-        min: 0,
-        max: 100,
-        value: valor,
-        secondaryTrackValue: 100,
-        secondaryActiveColor: theme.onPrimaryContainer,
-        activeColor: theme.secondaryContainer,
-        onChanged: (value) {},
+      width: 85.w,
+      child: Row(
+        children: [
+          Expanded(
+            child: Slider(
+              padding: EdgeInsets.zero,
+              min: 0,
+              max: 100,
+              value: valor,
+              secondaryTrackValue: 100,
+              secondaryActiveColor: theme.onPrimaryContainer,
+              activeColor: theme.secondaryContainer,
+              onChanged: (value) {},
+            ),
+          ),
+          SizedBox(width: 10),
+          Text(
+            '00:00',
+            style: textStyle(
+              size: 13,
+              color: theme.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }

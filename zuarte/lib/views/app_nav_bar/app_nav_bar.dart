@@ -40,7 +40,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
     miniplayerController = MiniplayerController();
     checkSize = height >= width;
     minPlayerHeight = checkSize ? height * 0.13 : width * 0.12;
-    maxPlayerHeight = checkSize ? height * 0.89 : width * 0.9;
+    maxPlayerHeight = checkSize ? height * 0.88 : width * 0.9;
   }
 
   @override
@@ -55,7 +55,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
     final ColorScheme theme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(checkSize ? height * 0.11 : width * 0.1),
+        preferredSize: Size.fromHeight(checkSize ? height * 0.12 : width * 0.1),
         child: RepaintBoundary(
           child: ClipRRect(
             borderRadius: BorderRadiusGeometry.vertical(
