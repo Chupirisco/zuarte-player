@@ -4,6 +4,7 @@ import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/views/player/progress_bar.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
+import 'package:zuarte/widgets/player_controls.dart';
 
 Widget miniPlayer(double height, BuildContext context) {
   final ColorScheme theme = Theme.of(context).colorScheme;
@@ -32,42 +33,8 @@ Widget miniPlayer(double height, BuildContext context) {
               ),
             ),
             const Spacer(),
-            IconButton(
-              onPressed: () {},
-              icon: Iconify(
-                AppIcons.back,
-                size: iconSize(22),
-                color: iconColor(theme),
-              ),
-              splashColor: theme.onPrimaryContainer, // remove o splash
-              highlightColor: theme.onPrimaryContainer, // remove o highlight
-              hoverColor: theme.onPrimaryContainer, // remove hover
-              padding: EdgeInsets.zero,
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Iconify(
-                AppIcons.play,
-                size: iconSize(23),
-                color: iconColor(theme),
-              ),
-              splashColor: theme.onPrimaryContainer,
-              highlightColor: theme.onPrimaryContainer,
-              hoverColor: theme.onPrimaryContainer,
-              padding: EdgeInsets.zero,
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Iconify(
-                AppIcons.advance,
-                size: iconSize(22),
-                color: iconColor(theme),
-              ),
-              splashColor: theme.onPrimaryContainer,
-              highlightColor: theme.onPrimaryContainer,
-              hoverColor: theme.onPrimaryContainer,
-              padding: EdgeInsets.zero,
-            ),
+            //control icons
+            PlayerControls(buttonHeight: 22),
           ],
         ),
         SizedBox(height: height * 0.1),
