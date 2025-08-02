@@ -22,9 +22,12 @@ class AppNavBar extends StatefulWidget {
 class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
   late MiniplayerController miniplayerController;
   late TabController tabController;
-  final height = 100.h;
-  final width = 100.w;
+  late final bool checkSize;
+  late final double minPlayerHeight;
+  late final double maxPlayerHeight;
 
+  final double height = 100.h;
+  final double width = 100.w;
   @override
   void initState() {
     super.initState();
@@ -35,6 +38,9 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
       animationDuration: Duration(milliseconds: 700),
     );
     miniplayerController = MiniplayerController();
+    checkSize = height >= width;
+    minPlayerHeight = checkSize ? height * 0.13 : width * 0.12;
+    maxPlayerHeight = checkSize ? height * 0.88 : width * 0.9;
   }
 
   @override
@@ -47,10 +53,9 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
-    bool checkSize = height >= width;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(checkSize ? height * 0.11 : width * 0.1),
+        preferredSize: Size.fromHeight(45.sp),
         child: RepaintBoundary(
           child: ClipRRect(
             borderRadius: BorderRadiusGeometry.vertical(
@@ -135,14 +140,14 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
               ],
             ),
             Miniplayer(
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               controller: miniplayerController,
-              minHeight: checkSize ? height * 0.13 : width * 0.12,
-              maxHeight: checkSize ? height * 0.87 : width * 0.88,
+              minHeight: minPlayerHeight,
+              maxHeight: maxPlayerHeight,
               backgroundColor: theme.surface,
               builder: (height, percentage) => percentage <= 0.3
                   ? miniPlayer(height, context)
-                  : bigPlayer(height),
+                  : bigPlayer(height, context),
             ),
           ],
         ),

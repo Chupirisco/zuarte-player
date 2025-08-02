@@ -20,7 +20,7 @@ ThemeData darkTheme = ThemeData(
   fontFamily: 'Montserrat',
   useMaterial3: true,
   colorScheme: ColorScheme.dark(
-    brightness: Brightness.light,
+    brightness: Brightness.dark,
     surface: DarkColors.background,
     primary: DarkColors.primaryText,
     secondary: DarkColors.secondaryText,
