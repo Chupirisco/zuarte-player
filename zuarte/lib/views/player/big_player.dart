@@ -55,7 +55,6 @@ Widget bigPlayer(double height, BuildContext context) {
             ),
           ],
         ),
-
         SizedBox(
           width: 60.w,
           child: Row(
@@ -76,7 +75,7 @@ Widget bigPlayer(double height, BuildContext context) {
               IconButton(
                 onPressed: () {},
                 icon: Iconify(
-                  AppIcons.play,
+                  AppIcons.pause,
                   size: iconSize(26),
                   color: iconColor(theme),
                 ),
