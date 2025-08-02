@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:zuarte/widgets/cards.dart';
 
 import '../../utils/style_configs.dart';
 
@@ -54,21 +55,8 @@ Widget nextMusic(BuildContext context, ColorScheme theme) {
         ),
       ),
       const SizedBox(height: 5),
-      Material(
-        color: Colors.transparent,
-        child: ListTile(
-          minTileHeight: 5.h,
-          tileColor: theme.primaryContainer,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadiusGeometry.circular(25),
-          ),
-          leading: Text('capa'),
-          title: Text('Nome'),
-          subtitle: Text('Cantor'),
-          trailing: Text('Função'),
-          onTap: () {},
-        ),
-      ),
+
+      musicCard(context, theme, false),
     ],
   );
 }

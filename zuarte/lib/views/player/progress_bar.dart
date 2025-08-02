@@ -20,15 +20,21 @@ class _ProgressBarState extends State<ProgressBar> {
       child: Row(
         children: [
           Expanded(
-            child: Slider(
-              padding: EdgeInsets.zero,
-              min: 0,
-              max: 100,
-              value: valor,
-              secondaryTrackValue: 100,
-              secondaryActiveColor: theme.onPrimaryContainer,
-              activeColor: theme.secondaryContainer,
-              onChanged: (value) {},
+            child: SliderTheme(
+              data: SliderTheme.of(context).copyWith(
+                thumbShape: RoundSliderThumbShape(enabledThumbRadius: 1.h),
+                overlayShape: RoundSliderOverlayShape(overlayRadius: 2.h),
+              ),
+              child: Slider(
+                padding: EdgeInsets.zero,
+                min: 0,
+                max: 100,
+                value: valor,
+                secondaryTrackValue: 100,
+                secondaryActiveColor: theme.onPrimaryContainer,
+                activeColor: theme.secondaryContainer,
+                onChanged: (value) {},
+              ),
             ),
           ),
           SizedBox(width: 10),

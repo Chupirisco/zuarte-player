@@ -23,46 +23,61 @@ class PlayerControls extends StatelessWidget {
 }
 
 Widget _backButton(ColorScheme theme, double buttonHeight) {
-  return IconButton(
-    onPressed: () {},
-    icon: Iconify(
-      AppIcons.back,
-      size: iconSize(buttonHeight),
-      color: iconColor(theme),
+  return Material(
+    color: Colors.transparent,
+    child: InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.circular(50),
+      splashColor: theme.onPrimaryContainer,
+      highlightColor: theme.onPrimaryContainer,
+      child: Padding(
+        padding: EdgeInsets.all(buttonHeight * 0.3),
+        child: Iconify(
+          AppIcons.back,
+          size: iconSize(buttonHeight),
+          color: iconColor(theme),
+        ),
+      ),
     ),
-    splashColor: theme.onPrimaryContainer,
-    highlightColor: theme.onPrimaryContainer,
-    hoverColor: theme.onPrimaryContainer,
-    padding: EdgeInsets.zero,
   );
 }
 
 Widget _pauseButton(ColorScheme theme, double buttonHeight) {
-  return IconButton(
-    onPressed: () {},
-    icon: Iconify(
-      AppIcons.pause,
-      size: iconSize(buttonHeight),
-      color: iconColor(theme),
+  return Material(
+    color: Colors.transparent,
+    child: InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.circular(50),
+      splashColor: theme.onPrimaryContainer,
+      highlightColor: theme.onPrimaryContainer,
+      child: Padding(
+        padding: EdgeInsets.all(buttonHeight * 0.3),
+        child: Iconify(
+          AppIcons.pause,
+          size: iconSize(buttonHeight),
+          color: iconColor(theme),
+        ),
+      ),
     ),
-    splashColor: theme.onPrimaryContainer,
-    highlightColor: theme.onPrimaryContainer,
-    hoverColor: theme.onPrimaryContainer,
-    padding: EdgeInsets.zero,
   );
 }
 
 Widget _advanceButton(ColorScheme theme, double buttonHeight) {
-  return IconButton(
-    onPressed: () {},
-    icon: Iconify(
-      AppIcons.advance,
-      size: iconSize(buttonHeight),
-      color: iconColor(theme),
+  return Material(
+    color: Colors.transparent,
+    child: InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.circular(50),
+      splashColor: theme.onPrimaryContainer,
+      highlightColor: theme.onPrimaryContainer,
+      child: Padding(
+        padding: EdgeInsets.all(buttonHeight * 0.3),
+        child: Iconify(
+          AppIcons.advance,
+          size: iconSize(buttonHeight),
+          color: iconColor(theme),
+        ),
+      ),
     ),
-    splashColor: theme.onPrimaryContainer,
-    highlightColor: theme.onPrimaryContainer,
-    hoverColor: theme.onPrimaryContainer,
-    padding: EdgeInsets.zero,
   );
 }

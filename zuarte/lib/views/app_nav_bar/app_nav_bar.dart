@@ -55,7 +55,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
     final ColorScheme theme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(checkSize ? height * 0.12 : width * 0.1),
+        preferredSize: Size.fromHeight(45.sp),
         child: RepaintBoundary(
           child: ClipRRect(
             borderRadius: BorderRadiusGeometry.vertical(

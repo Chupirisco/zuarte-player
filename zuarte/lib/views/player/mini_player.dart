@@ -4,6 +4,8 @@ import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/widgets/player_controls.dart';
 
+import '../../widgets/custom_divider.dart';
+
 Widget miniPlayer(double height, BuildContext context) {
   final ColorScheme theme = Theme.of(context).colorScheme;
   return Container(
@@ -17,8 +19,10 @@ Widget miniPlayer(double height, BuildContext context) {
 
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
+
       children: [
+        Align(alignment: Alignment.topCenter, child: customDivider(theme)),
+        const Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -32,11 +36,12 @@ Widget miniPlayer(double height, BuildContext context) {
             ),
             const Spacer(),
             //control icons
-            PlayerControls(buttonHeight: 22),
+            PlayerControls(buttonHeight: 20),
           ],
         ),
-        SizedBox(height: height * 0.1),
+
         const ProgressBar(),
+        const Spacer(),
       ],
     ),
   );

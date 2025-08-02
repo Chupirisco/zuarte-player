@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
+import 'package:zuarte/widgets/cards.dart';
 
 import '../../utils/size_config.dart';
 import '../../utils/style_configs.dart';
@@ -18,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     bool verificacaoFutura = true;
     final ColorScheme theme = Theme.of(context).colorScheme;
+    // ignore: unused_element
     teste() {
       setState(() {
         verificacaoFutura = !verificacaoFutura;
@@ -47,22 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     minCacheExtent: 50,
                     padding: EdgeInsets.zero,
                     itemCount: 2,
-                    itemBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.only(bottom: height * 0.01),
-                      child: ListTile(
-                        tileColor: theme.primaryContainer,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadiusGeometry.circular(25),
-                        ),
-                        leading: Text('capa'),
-                        title: Text('Nome'),
-                        subtitle: Text('Cantor'),
-                        trailing: Text('Função'),
-                        onTap: () {
-                          teste();
-                        },
-                      ),
-                    ),
+                    itemBuilder: (context, index) =>
+                        musicCard(context, theme, true),
                   ),
                 )
               : Align(
