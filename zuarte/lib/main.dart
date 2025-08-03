@@ -1,12 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/routes/app_routes.dart';
 import 'package:zuarte/theme/app_themes.dart';
 import 'package:zuarte/viewmodels/create_playlist.dart';
+import 'package:zuarte/viewmodels/list_songs_provider.dart';
 import 'package:zuarte/viewmodels/theme_provider.dart';
 
 import 'services/store_theme_preferences.dart';
@@ -25,6 +27,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => CreatePlaylist()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => ListSongsProvider()),
       ],
       child: MyApp(),
     ),
@@ -41,29 +44,19 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final ThemeData _lightTheme = lightTheme;
   final ThemeData _darkTheme = darkTheme;
-  final OnAudioQuery _audioQuery = OnAudioQuery();
 
   @override
   void initState() {
     super.initState();
-    loadTheme();
-    pedirPermissao();
+    loadProviders();
   }
 
-  void loadTheme() async {
+  void loadProviders() async {
     final themeStorage = StoreThemePreferences();
     await themeStorage.loadTheme();
-    // ignore: use_build_context_synchronously
-    context.read<ThemeProvider>().loadTheme(themeStorage.savedTheme);
-  }
 
-  Future<void> pedirPermissao() async {
-    // Verifica se já tem permissão
-    bool permitido = await _audioQuery.permissionsStatus();
-    if (!permitido) {
-      // Solicita a permissão
-      await _audioQuery.permissionsRequest();
-    }
+    context.read<ThemeProvider>().loadTheme(themeStorage.savedTheme);
+    context.read<ListSongsProvider>().initListSongs();
   }
 
   @override
@@ -92,6 +85,7 @@ class _MyAppState extends State<MyApp> {
           showPerformanceOverlay: false,
           routes: AppRoutes.routes(),
           initialRoute: "/splash_screen",
+
           //themes
           theme: _lightTheme,
           darkTheme: _darkTheme,
