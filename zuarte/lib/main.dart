@@ -48,15 +48,14 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    loadProviders();
+    loadTheme();
   }
 
-  void loadProviders() async {
+  void loadTheme() async {
     final themeStorage = StoreThemePreferences();
     await themeStorage.loadTheme();
 
     context.read<ThemeProvider>().loadTheme(themeStorage.savedTheme);
-    context.read<ListSongsProvider>().initListSongs();
   }
 
   @override
@@ -85,7 +84,6 @@ class _MyAppState extends State<MyApp> {
           showPerformanceOverlay: false,
           routes: AppRoutes.routes(),
           initialRoute: "/splash_screen",
-
           //themes
           theme: _lightTheme,
           darkTheme: _darkTheme,

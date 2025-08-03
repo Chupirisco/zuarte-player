@@ -3,8 +3,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/utils/style_configs.dart';
+import 'package:zuarte/viewmodels/list_songs_provider.dart';
 
 import '../constants/images.dart';
 
@@ -19,7 +21,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 5000), () {
+
+    loadProviders();
+
+    Future.delayed(const Duration(milliseconds: 3000), () {
       Navigator.of(
         context,
       ).pushNamedAndRemoveUntil('/app_nav_bar', (route) => false);
@@ -29,6 +34,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  //method responsible for loading the providers
+  Future<void> loadProviders() async {
+    await context.read<ListSongsProvider>().initListSongs();
   }
 
   @override

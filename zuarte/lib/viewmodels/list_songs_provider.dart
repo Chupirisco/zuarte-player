@@ -6,12 +6,15 @@ import 'package:zuarte/services/search_music.dart';
 class ListSongsProvider with ChangeNotifier {
   final List<MusicModel> _listSongs = [];
 
-  void initListSongs() async {
+  Future<void> initListSongs() async {
     List<SongModel> songs = await searchMusic();
 
-    _listSongs.addAll(
-      songs.map((song) => MusicModel.fromSongModel(song)).toList(),
+    List<MusicModel> musicModels = await Future.wait(
+      songs.map((song) => MusicModel.fromSongModel(song)),
     );
+
+    _listSongs.addAll(musicModels);
+
     notifyListeners();
   }
 }
