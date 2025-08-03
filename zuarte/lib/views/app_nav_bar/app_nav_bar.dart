@@ -105,7 +105,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
                         ),
                         Tab(
                           icon: Iconify(
-                            AppIcons.home,
+                            AppIcons.musics,
                             size: iconSize(22),
                             color: iconColor(theme),
                           ),
