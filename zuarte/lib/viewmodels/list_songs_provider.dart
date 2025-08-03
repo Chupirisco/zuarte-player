@@ -12,11 +12,6 @@ class ListSongsProvider with ChangeNotifier {
     _listSongs.addAll(
       songs.map((song) => MusicModel.fromSongModel(song)).toList(),
     );
-    for (var element in _listSongs) {
-      print(element.title);
-      print(element.id);
-      print('-----------------------------------------');
-    }
     notifyListeners();
   }
 }

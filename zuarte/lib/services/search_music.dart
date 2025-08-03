@@ -11,6 +11,7 @@ Future<List<SongModel>> searchMusic() async {
   if (!allowed) return [];
 
   List<SongModel> songs = await _audioQuery.querySongs();
+  songs = songs.where((song) => !song.data.contains("com.whatsapp")).toList();
 
   return songs;
 }
