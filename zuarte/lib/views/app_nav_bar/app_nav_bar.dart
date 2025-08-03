@@ -6,7 +6,7 @@ import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/constants/images.dart';
 import 'package:zuarte/views/player/big_player.dart';
 import 'package:zuarte/views/player/mini_player.dart';
-import 'package:zuarte/views/home/home.dart';
+import 'package:zuarte/views/list_of_songs/list_of_songs.dart';
 import 'package:zuarte/views/playlist/playlist.dart';
 import 'package:zuarte/views/settings/settings.dart';
 import 'package:zuarte/utils/size_config.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +8,7 @@ import 'package:sizer/sizer.dart';
 import 'package:zuarte/routes/app_routes.dart';
 import 'package:zuarte/theme/app_themes.dart';
 import 'package:zuarte/viewmodels/create_playlist.dart';
+import 'package:zuarte/viewmodels/list_songs_provider.dart';
 import 'package:zuarte/viewmodels/theme_provider.dart';
 
 import 'services/store_theme_preferences.dart';
@@ -24,6 +27,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => CreatePlaylist()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => ListSongsProvider()),
       ],
       child: MyApp(),
     ),
@@ -50,7 +54,7 @@ class _MyAppState extends State<MyApp> {
   void loadTheme() async {
     final themeStorage = StoreThemePreferences();
     await themeStorage.loadTheme();
-    // ignore: use_build_context_synchronously
+
     context.read<ThemeProvider>().loadTheme(themeStorage.savedTheme);
   }
 

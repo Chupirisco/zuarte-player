@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/utils/size_config.dart';
-import 'package:zuarte/views/player/big_player_components.dart';
+import 'package:zuarte/views/player/player_components.dart';
 import 'package:zuarte/views/player/progress_bar.dart';
 import 'package:zuarte/widgets/player_controls.dart';
 
