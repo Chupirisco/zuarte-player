@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 allprojects {
     repositories {
         google()
@@ -11,9 +13,16 @@ rootProject.layout.buildDirectory.value(newBuildDir)
 subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
+
+       tasks.withType<KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = "11"
+        }
+    }
 }
 subprojects {
     project.evaluationDependsOn(":app")
+    
 }
 
 tasks.register<Delete>("clean") {
