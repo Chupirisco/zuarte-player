@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/routes/app_routes.dart';
 import 'package:zuarte/theme/app_themes.dart';
-import 'package:zuarte/viewmodels/create_playlist.dart';
 import 'package:zuarte/viewmodels/list_songs_provider.dart';
 import 'package:zuarte/viewmodels/theme_provider.dart';
 
@@ -25,7 +24,6 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => CreatePlaylist()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => ListSongsProvider()),
       ],

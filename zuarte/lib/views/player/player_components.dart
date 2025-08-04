@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:zuarte/model/music_model.dart';
 import 'package:zuarte/widgets/cards.dart';
 
 import '../../utils/style_configs.dart';
@@ -56,7 +57,18 @@ Widget nextMusic(BuildContext context, ColorScheme theme) {
       ),
       const SizedBox(height: 5),
 
-      musicCard(context, theme, false),
+      musicCard(
+        context: context,
+        theme: theme,
+        onOptions: false,
+        music: MusicModel(
+          id: 1,
+          title: "so pra começo de conversa",
+          author: 'author',
+          //     cover: null,
+          uri: 'uri',
+        ),
+      ),
     ],
   );
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:sizer/sizer.dart';
-import 'package:zuarte/widgets/cards.dart';
 
 import '../../constants/icons.dart';
 import '../../utils/size_config.dart';
 import '../../utils/style_configs.dart';
-import 'playlist_styles.dart';
+import '../../widgets/cards.dart';
 
 class PlaylistScreen extends StatefulWidget {
   const PlaylistScreen({super.key});
@@ -61,7 +60,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          playlistAvatarComponent(
+                          avatarComponent(
                             height * 0.08,
                             height * 0.08,
                             AppIcons.add,
@@ -94,7 +93,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          playlistAvatarComponent(
+                          avatarComponent(
                             height * 0.08,
                             height * 0.08,
                             AppIcons.person,

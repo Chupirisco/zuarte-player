@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
+import 'package:zuarte/viewmodels/list_songs_provider.dart';
 import 'package:zuarte/widgets/cards.dart';
 
 import '../../utils/size_config.dart';
@@ -17,15 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final height = 100.h;
   @override
   Widget build(BuildContext context) {
-    bool verificacaoFutura = true;
+    final provider = Provider.of<ListSongsProvider>(context);
     final ColorScheme theme = Theme.of(context).colorScheme;
-    // ignore: unused_element
-    teste() {
-      setState(() {
-        verificacaoFutura = !verificacaoFutura;
-      });
-    }
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultMargin()),
       child: Column(
@@ -40,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SizedBox(height: height * 0.02),
-          verificacaoFutura
+          provider.listSongs.isNotEmpty
               ? Expanded(
                   child: ScrollablePositionedList.builder(
                     physics: scrollEffect(),
@@ -48,9 +43,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     addRepaintBoundaries: true,
                     minCacheExtent: 50,
                     padding: EdgeInsets.zero,
-                    itemCount: 2,
-                    itemBuilder: (context, index) =>
-                        musicCard(context, theme, true),
+                    itemCount: provider.listSongs.length,
+                    itemBuilder: (context, index) => musicCard(
+                      context: context,
+                      theme: theme,
+                      onOptions: true,
+                      music: provider.listSongs[index],
+                    ),
                   ),
                 )
               : Align(
@@ -64,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
+          SizedBox(height: 13.h),
         ],
       ),
     );
