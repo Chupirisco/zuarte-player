@@ -3,12 +3,11 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:sizer/sizer.dart';
 import 'package:text_scroll/text_scroll.dart';
-import 'package:zuarte/constants/icons.dart';
-import 'package:zuarte/utils/style_configs.dart';
-import 'package:zuarte/views/playlist/playlist_styles.dart';
 
+import '../constants/icons.dart';
 import '../model/music_model.dart';
 import '../utils/size_config.dart';
+import '../utils/style_configs.dart';
 
 final Duration _durarion = Duration(seconds: 2);
 
@@ -61,7 +60,7 @@ Widget musicCard({
                 artworkHeight: 5.h,
                 artworkWidth: 5.h,
                 artworkClipBehavior: Clip.none,
-                nullArtworkWidget: playlistAvatarComponent(
+                nullArtworkWidget: avatarComponent(
                   5.h,
                   5.h,
                   AppIcons.person,
@@ -111,25 +110,44 @@ Widget musicCard({
                       selectable: false,
                     ),
                   ),
-
-                  if (onOptions)
-                    SizedBox(
-                      width: constraints.maxWidth * 0.1,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Iconify(
-                          AppIcons.more,
-                          color: theme.primary,
-                          size: iconSize(20),
-                        ),
-                      ),
-                    ),
                 ],
               ),
             ),
+            if (onOptions)
+              SizedBox(
+                width: constraints.maxWidth * 0.1,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Iconify(
+                    AppIcons.more,
+                    color: theme.primary,
+                    size: iconSize(20),
+                  ),
+                ),
+              ),
           ],
         ),
       );
     },
+  );
+}
+
+Widget avatarComponent(
+  double height,
+  double width,
+  String avatar,
+  BuildContext context,
+) {
+  final ColorScheme theme = Theme.of(context).colorScheme;
+  return Container(
+    height: height,
+    width: width,
+    decoration: BoxDecoration(
+      color: theme.surface,
+      borderRadius: BorderRadius.circular(defaultBorderRadius(18)),
+    ),
+    child: Center(
+      child: Iconify(avatar, size: iconSize(20), color: iconColor(theme)),
+    ),
   );
 }

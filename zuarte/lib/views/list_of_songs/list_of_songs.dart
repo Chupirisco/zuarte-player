@@ -20,15 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ListSongsProvider>(context);
-    bool verificacaoFutura = true;
     final ColorScheme theme = Theme.of(context).colorScheme;
-    // ignore: unused_element
-    teste() {
-      setState(() {
-        verificacaoFutura = !verificacaoFutura;
-      });
-    }
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultMargin()),
       child: Column(
@@ -71,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
+          SizedBox(height: 13.h),
         ],
       ),
     );
