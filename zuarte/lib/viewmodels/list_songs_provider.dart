@@ -6,6 +6,8 @@ import 'package:zuarte/services/search_music.dart';
 class ListSongsProvider with ChangeNotifier {
   final List<MusicModel> _listSongs = [];
 
+  List<MusicModel> get listSongs => _listSongs;
+
   Future<void> initListSongs() async {
     List<SongModel> songs = await searchMusic();
 
