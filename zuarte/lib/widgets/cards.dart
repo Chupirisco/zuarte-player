@@ -3,6 +3,7 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:sizer/sizer.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:zuarte/constants/colors.dart';
 
 import '../constants/icons.dart';
 import '../model/music_model.dart';
@@ -34,6 +35,7 @@ BoxDecoration cardStyle(BuildContext context) {
 }
 
 Widget musicCard({
+  required bool isSelected,
   required BuildContext context,
   required ColorScheme theme,
   required bool onOptions,
@@ -47,7 +49,12 @@ Widget musicCard({
         height: 6.h,
         width: constraints.maxWidth,
         decoration: BoxDecoration(
-          color: theme.primaryContainer,
+          gradient: LinearGradient(
+            colors: isSelected
+                ? [theme.secondaryContainer, theme.onPrimaryContainer]
+                : [theme.primaryContainer, theme.primaryContainer],
+          ),
+
           borderRadius: BorderRadius.circular(defaultBorderRadius(15)),
         ),
         child: Row(
@@ -81,7 +88,9 @@ Widget musicCard({
                       music.title,
                       style: textStyle(
                         size: 15,
-                        color: theme.primary,
+                        color: isSelected
+                            ? DarkColors.primaryText
+                            : theme.primary,
                         fontWeight: FontWeight.bold,
                       ),
                       velocity: const Velocity(pixelsPerSecond: Offset(10, 0)),
