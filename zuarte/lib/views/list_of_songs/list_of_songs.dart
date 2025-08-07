@@ -30,7 +30,7 @@ class _ListOfSongsState extends State<ListOfSongs> {
       padding: EdgeInsets.symmetric(horizontal: defaultMargin()),
       child: Column(
         children: [
-          SizedBox(height: height * 0.02),
+          SizedBox(height: height * 0.01),
           Text(
             'Minhas músicas',
             style: textStyle(
@@ -39,7 +39,7 @@ class _ListOfSongsState extends State<ListOfSongs> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: height * 0.02),
+          SizedBox(height: height * 0.01),
           listSongsProvider.listSongs.isNotEmpty
               ? Expanded(
                   child: ScrollablePositionedList.builder(
@@ -65,7 +65,7 @@ class _ListOfSongsState extends State<ListOfSongs> {
                       );
                     },
                   ),
-                )
+                ) //
               : Align(
                   alignment: Alignment.topLeft,
                   child: Text(

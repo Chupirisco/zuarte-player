@@ -3,6 +3,7 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:sizer/sizer.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:zuarte/constants/colors.dart';
 
 import '../constants/icons.dart';
 import '../model/music_model.dart';
@@ -87,7 +88,9 @@ Widget musicCard({
                       music.title,
                       style: textStyle(
                         size: 15,
-                        color: theme.primary,
+                        color: isSelected
+                            ? DarkColors.primaryText
+                            : theme.primary,
                         fontWeight: FontWeight.bold,
                       ),
                       velocity: const Velocity(pixelsPerSecond: Offset(10, 0)),
