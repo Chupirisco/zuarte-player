@@ -34,6 +34,7 @@ BoxDecoration cardStyle(BuildContext context) {
 }
 
 Widget musicCard({
+  required bool isSelected,
   required BuildContext context,
   required ColorScheme theme,
   required bool onOptions,
@@ -47,7 +48,12 @@ Widget musicCard({
         height: 6.h,
         width: constraints.maxWidth,
         decoration: BoxDecoration(
-          color: theme.primaryContainer,
+          gradient: LinearGradient(
+            colors: isSelected
+                ? [theme.secondaryContainer, theme.onPrimaryContainer]
+                : [theme.primaryContainer, theme.primaryContainer],
+          ),
+
           borderRadius: BorderRadius.circular(defaultBorderRadius(15)),
         ),
         child: Row(

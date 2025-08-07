@@ -135,7 +135,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 const PlaylistScreen(),
-                const HomeScreen(),
+                const ListOfSongs(),
                 const SettingsScreen(),
               ],
             ),
