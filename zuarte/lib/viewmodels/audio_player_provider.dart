@@ -9,12 +9,12 @@ class AudioPlayerProvider with ChangeNotifier {
 
   playSelectedMusic(MusicModel music) async {
     try {
-      await _player.setAudioSource(AudioSource.uri(music.uri));
       _selectedMusic = music;
+      notifyListeners();
+      await _player.setAudioSource(AudioSource.uri(music.uri));
       await _player.play();
     } catch (e) {
       //future error message
     }
-    notifyListeners();
   }
 }

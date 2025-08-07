@@ -52,8 +52,9 @@ class _ListOfSongsState extends State<ListOfSongs> {
                     itemBuilder: (context, index) {
                       final music = listSongsProvider.listSongs[index];
                       return GestureDetector(
-                        onTap: () =>
-                            audioPlayerProvider.playSelectedMusic(music),
+                        onTap: () => context
+                            .read<AudioPlayerProvider>()
+                            .playSelectedMusic(music),
                         child: musicCard(
                           isSelected: checkSelectedMusic(music.id),
                           context: context,
