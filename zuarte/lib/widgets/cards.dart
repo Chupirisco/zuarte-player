@@ -105,7 +105,7 @@ Widget musicCard({
                   SizedBox(
                     height: 2.h,
                     child: TextScroll(
-                      music.author,
+                      music.author!,
                       style: textStyle(
                         size: 12,
                         color: theme.secondary,

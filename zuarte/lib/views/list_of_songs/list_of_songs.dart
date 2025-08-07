@@ -4,6 +4,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
 import 'package:zuarte/viewmodels/list_songs_provider.dart';
+import 'package:zuarte/viewmodels/miniplayer_controller_provider.dart';
 import 'package:zuarte/widgets/cards.dart';
 
 import '../../utils/size_config.dart';
@@ -51,10 +52,16 @@ class _ListOfSongsState extends State<ListOfSongs> {
                     itemCount: listSongsProvider.listSongs.length,
                     itemBuilder: (context, index) {
                       final music = listSongsProvider.listSongs[index];
+
                       return GestureDetector(
-                        onTap: () => context
-                            .read<AudioPlayerProvider>()
-                            .playSelectedMusic(music),
+                        onTap: () {
+                          context.read<AudioPlayerProvider>().playSelectedMusic(
+                            music,
+                          );
+                          context
+                              .read<MiniplayerControllerProvider>()
+                              .expandedMiniPlayer(music);
+                        },
                         child: musicCard(
                           isSelected: checkSelectedMusic(music.id),
                           context: context,
