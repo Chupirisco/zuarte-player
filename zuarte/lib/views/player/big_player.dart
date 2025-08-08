@@ -23,19 +23,20 @@ Widget bigPlayer(
     child: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         customDivider(theme),
         SizedBox(height: 30.sp),
-        musicInformation(context, theme),
+        musicInformation(context, theme, provider.selectedMusic),
         SizedBox(height: 3.h),
-        SizedBox(width: 34.h, child: PlayerControls(buttonHeight: 25)),
+        SizedBox(width: 36.h, child: PlayerControls(buttonHeight: 25)),
         SizedBox(height: 2.h),
         Consumer<AudioPlayerProvider>(
           builder: (context, value, child) =>
               ProgressBar(audioPlayer: value.player),
         ),
         SizedBox(height: 30.sp),
-        nextMusic(context, theme),
+        nextMusic(context, provider.selectedMusic, theme),
       ],
     ),
   );

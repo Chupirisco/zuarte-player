@@ -72,6 +72,7 @@ Widget musicCard({
                   5.h,
                   AppIcons.person,
                   context,
+                  null,
                 ),
               ),
             ),
@@ -146,6 +147,7 @@ Widget avatarComponent(
   double width,
   String avatar,
   BuildContext context,
+  double? iconSi,
 ) {
   final ColorScheme theme = Theme.of(context).colorScheme;
   return Container(
@@ -156,7 +158,11 @@ Widget avatarComponent(
       borderRadius: BorderRadius.circular(defaultBorderRadius(18)),
     ),
     child: Center(
-      child: Iconify(avatar, size: iconSize(20), color: iconColor(theme)),
+      child: Iconify(
+        avatar,
+        size: iconSize(iconSi ?? 20),
+        color: iconColor(theme),
+      ),
     ),
   );
 }
