@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:sizer/sizer.dart';
-import 'package:text_scroll/text_scroll.dart';
-import 'package:zuarte/constants/colors.dart';
 
 import '../constants/icons.dart';
 import '../model/music_model.dart';
 import '../utils/size_config.dart';
 import '../utils/style_configs.dart';
-
-final Duration _durarion = Duration(seconds: 2);
 
 Widget componentCard({
   required BuildContext ctx,
@@ -85,40 +81,12 @@ Widget musicCard({
                 children: [
                   SizedBox(
                     height: 2.2.h,
-                    child: TextScroll(
-                      music.title,
-                      style: textStyle(
-                        size: 15,
-                        color: isSelected
-                            ? DarkColors.primaryText
-                            : theme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      velocity: const Velocity(pixelsPerSecond: Offset(10, 0)),
-                      mode: TextScrollMode.bouncing,
-                      delayBefore: _durarion,
-                      pauseBetween: _durarion,
-                      pauseOnBounce: _durarion,
-                      selectable: false,
-                    ),
+                    child: textScrollConfig(music.title, theme.primary, 15),
                   ),
 
                   SizedBox(
                     height: 2.h,
-                    child: TextScroll(
-                      music.author!,
-                      style: textStyle(
-                        size: 12,
-                        color: theme.secondary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      velocity: const Velocity(pixelsPerSecond: Offset(10, 0)),
-                      mode: TextScrollMode.bouncing,
-                      delayBefore: _durarion,
-                      pauseBetween: _durarion,
-                      pauseOnBounce: _durarion,
-                      selectable: false,
-                    ),
+                    child: textScrollConfig(music.author, theme.secondary, 12),
                   ),
                 ],
               ),
