@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:miniplayer/miniplayer.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/constants/images.dart';
+import 'package:zuarte/viewmodels/miniplayer_controller_provider.dart';
 import 'package:zuarte/views/player/big_player.dart';
 import 'package:zuarte/views/player/mini_player.dart';
 import 'package:zuarte/views/list_of_songs/list_of_songs.dart';
@@ -20,7 +22,6 @@ class AppNavBar extends StatefulWidget {
 }
 
 class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
-  late MiniplayerController miniplayerController;
   late TabController tabController;
   late final bool checkSize;
   late final double minPlayerHeight;
@@ -37,7 +38,7 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
       initialIndex: 1,
       animationDuration: Duration(milliseconds: 700),
     );
-    miniplayerController = MiniplayerController();
+
     checkSize = height >= width;
     minPlayerHeight = checkSize ? height * 0.13 : width * 0.12;
     maxPlayerHeight = checkSize ? height * 0.88 : width * 0.9;
@@ -47,12 +48,12 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
   void dispose() {
     super.dispose();
     tabController.dispose();
-    miniplayerController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
+    final provider = Provider.of<MiniplayerControllerProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(45.sp),
@@ -141,13 +142,17 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
             ),
             Miniplayer(
               duration: const Duration(milliseconds: 500),
-              controller: miniplayerController,
+              controller: provider.controller,
               minHeight: minPlayerHeight,
               maxHeight: maxPlayerHeight,
               backgroundColor: theme.surface,
               builder: (height, percentage) => percentage <= 0.3
-                  ? miniPlayer(height, context)
-                  : bigPlayer(height, context),
+                  ? RepaintBoundary(
+                      child: miniPlayer(height, provider, context),
+                    )
+                  : RepaintBoundary(
+                      child: bigPlayer(height, provider, context),
+                    ),
             ),
           ],
         ),

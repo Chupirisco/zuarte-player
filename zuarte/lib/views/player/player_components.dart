@@ -1,43 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:zuarte/model/music_model.dart';
+import 'package:zuarte/widgets/load_music_image.dart';
 import '../../utils/style_configs.dart';
+import '../../widgets/cards.dart';
 
-Widget musicInformation(BuildContext context, ColorScheme theme) {
+final Duration durarion = Duration(seconds: 2);
+Widget musicInformation(
+  BuildContext context,
+  ColorScheme theme,
+  MusicModel music,
+) {
   return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      Text(
-        'Toxicity',
-        style: textStyle(
-          size: 18,
-          color: theme.primary,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      Text(
-        'System of Down',
-        style: textStyle(
-          size: 14,
-          color: theme.secondary,
-          fontWeight: FontWeight.bold,
-        ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 34.h,
+            child: textScrollConfig(music.title, theme.primary, 17),
+          ),
+          SizedBox(
+            width: 34.w,
+            child: textScrollConfig(music.author, theme.secondary, 14),
+          ),
+        ],
       ),
       SizedBox(height: 1.h),
 
-      ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Image.asset(
-          'assets/images/capaTeste.jpg',
-          height: 35.h,
-          width: 34.h,
-          fit: BoxFit.fill,
-        ),
-      ),
+      LoadMusicImage(id: music.id, size: 35.h),
     ],
   );
 }
 
-Widget nextMusic(BuildContext context, ColorScheme theme) {
+Widget nextMusic(BuildContext context, MusicModel music, ColorScheme theme) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -54,19 +51,13 @@ Widget nextMusic(BuildContext context, ColorScheme theme) {
       ),
       const SizedBox(height: 5),
 
-      // musicCard(
-      //   isSelected: false,
-      //   context: context,
-      //   theme: theme,
-      //   onOptions: false,
-      //   music: MusicModel(
-      //     id: 1,
-      //     title: "so pra começo de conversa",
-      //     author: 'author',
-      //     //     cover: null,
-      //     uri: ,
-      //   ),
-      // ),
+      musicCard(
+        isSelected: false,
+        context: context,
+        theme: theme,
+        onOptions: false,
+        music: music,
+      ),
     ],
   );
 }

@@ -65,6 +65,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                             height * 0.08,
                             AppIcons.add,
                             context,
+                            null,
                           ),
                           SizedBox(width: width * 0.04),
                           Text(
@@ -98,6 +99,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                             height * 0.08,
                             AppIcons.person,
                             context,
+                            null,
                           ),
                           SizedBox(width: width * 0.04),
                           Column(
