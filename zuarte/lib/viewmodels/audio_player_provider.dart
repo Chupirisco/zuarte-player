@@ -12,40 +12,25 @@ class AudioPlayerProvider with ChangeNotifier {
   // variables
   List<MusicModel> _listSongs = [];
   int _currentIndex = -1;
+  bool _isPlaying = false;
 
   // getters
   int get idCurrentMusic =>
       _currentIndex == -1 ? _currentIndex : listSongs[_currentIndex].id;
   AudioPlayer get player => _player;
-  bool get isPlaying => _player.playing;
+  bool get isPlaying => _isPlaying;
   List<MusicModel> get listSongs => _listSongs;
 
   // init variable listSongs
   Future<void> initListSongs() async {
     List<SongModel> songs = await searchMusic();
 
-    _listSongs = await Future.wait(
-      songs.asMap().entries.map((entry) {
-        final id = entry.key;
-        final song = entry.value;
-        return MusicModel.fromSongModel(song, id);
-      }),
-    );
+    _listSongs = songs
+        .asMap()
+        .entries
+        .map((entry) => MusicModel.fromSongModel(entry.value, entry.key))
+        .toList();
     notifyListeners();
-  }
-
-  // updadte changes
-  AudioPlayerProvider() {
-    // Atualiza quando começa/para de tocar
-    _player.playingStream.listen((_) => notifyListeners());
-
-    // Atualiza a música atual quando o índice muda
-    _player.currentIndexStream.listen((index) {
-      if (index != null && index >= 0 && index < _listSongs.length) {
-        _currentIndex = index;
-        notifyListeners();
-      }
-    });
   }
 
   Future<void> setPlaylist(int startIndex) async {
@@ -57,31 +42,38 @@ class AudioPlayerProvider with ChangeNotifier {
 
     await _player.setAudioSources(sources, initialIndex: startIndex);
     await _player.play();
+
+    _isPlaying = true;
+    notifyListeners();
   }
 
-  /// Alterna entre play e pause
+  // Alterna entre play e pause
   Future<void> togglePlayPause() async {
     if (_player.playing) {
       await _player.pause();
     } else {
       await _player.play();
     }
+    _isPlaying = _player.playing;
+    notifyListeners();
   }
 
-  /// Próxima música
+  // Próxima música
   Future<void> next() async {
     await _player.seekToNext();
+    notifyListeners();
   }
 
-  /// Música anterior
+  // Música anterior
   Future<void> previous() async {
     await _player.seekToPrevious();
+    notifyListeners();
   }
 
-  /// Liberar recursos
+  // Liberar recursos
   @override
-  Future<void> dispose() async {
-    await _player.dispose();
+  void dispose() {
+    _player.dispose();
     super.dispose();
   }
 }

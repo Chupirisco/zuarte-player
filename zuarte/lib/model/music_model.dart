@@ -17,7 +17,7 @@ class MusicModel {
     required this.duration,
   });
 
-  static Future<MusicModel> fromSongModel(SongModel song, int id) async {
+  static MusicModel fromSongModel(SongModel song, int id) {
     return MusicModel(
       id: id,
       idImage: song.id,
