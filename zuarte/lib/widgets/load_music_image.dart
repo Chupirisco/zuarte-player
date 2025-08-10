@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:sizer/sizer.dart';
 import 'package:zuarte/widgets/cards.dart';
 
 import '../constants/icons.dart';
@@ -26,7 +25,7 @@ class LoadMusicImage extends StatelessWidget {
           size,
           AppIcons.person,
           context,
-          20.sp,
+          size * 0.5,
         ),
       ),
     );

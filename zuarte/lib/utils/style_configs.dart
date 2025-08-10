@@ -24,7 +24,7 @@ TextScroll textScrollConfig(String? text, Color color, double textSize) {
   return TextScroll(
     text ?? '',
     style: textStyle(size: textSize, color: color, fontWeight: FontWeight.bold),
-    velocity: const Velocity(pixelsPerSecond: Offset(10, 0)),
+    velocity: const Velocity(pixelsPerSecond: Offset(5, 0)),
     mode: TextScrollMode.bouncing,
     delayBefore: durarion,
     pauseBetween: durarion,

@@ -10,6 +10,7 @@ class MiniplayerControllerProvider with ChangeNotifier {
       _selectedMusic ??
       MusicModel(
         id: -1,
+        idImage: 0,
         title: 'Nenhuma música selecionada',
         author: null,
         uri: null,

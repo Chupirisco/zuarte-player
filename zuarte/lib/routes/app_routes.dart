@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zuarte/views/app_nav_bar/app_nav_bar.dart';
-import 'package:zuarte/views/list_of_songs/list_of_songs.dart';
+import 'package:zuarte/views/list_of_songs/list_of_songs_screen.dart';
 import 'package:zuarte/views/splash_screen.dart';
 
 class AppRoutes {

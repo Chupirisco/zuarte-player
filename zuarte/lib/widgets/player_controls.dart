@@ -13,14 +13,16 @@ class PlayerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
-    final musicControlls = Provider.of<AudioPlayerProvider>(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _backButton(theme, buttonHeight, musicControlls),
-        _pauseButton(theme, buttonHeight, musicControlls),
-        _advanceButton(theme, buttonHeight, musicControlls),
-      ],
+
+    return Consumer<AudioPlayerProvider>(
+      builder: (context, musicControlls, child) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _backButton(theme, buttonHeight, musicControlls),
+          _stopOrPlayButton(theme, buttonHeight, musicControlls),
+          _advanceButton(theme, buttonHeight, musicControlls),
+        ],
+      ),
     );
   }
 }
@@ -49,7 +51,7 @@ Widget _backButton(
   );
 }
 
-Widget _pauseButton(
+Widget _stopOrPlayButton(
   ColorScheme theme,
   double buttonHeight,
   AudioPlayerProvider musicControll,
@@ -57,7 +59,7 @@ Widget _pauseButton(
   return Material(
     color: Colors.transparent,
     child: InkWell(
-      onTap: () => musicControll.pauseOrStart(),
+      onTap: musicControll.togglePlayPause,
       borderRadius: BorderRadius.circular(50),
       splashColor: theme.onPrimaryContainer,
       highlightColor: theme.onPrimaryContainer,

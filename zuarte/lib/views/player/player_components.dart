@@ -29,7 +29,7 @@ Widget musicInformation(
       ),
       SizedBox(height: 1.h),
 
-      LoadMusicImage(id: music.id, size: 35.h),
+      LoadMusicImage(id: music.idImage, size: 35.h),
     ],
   );
 }
