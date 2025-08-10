@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:zuarte/viewmodels/audio_player_provider.dart';
 
 import '../constants/icons.dart';
 import '../utils/size_config.dart';
@@ -11,22 +13,27 @@ class PlayerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
+    final musicControlls = Provider.of<AudioPlayerProvider>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _backButton(theme, buttonHeight),
-        _pauseButton(theme, buttonHeight),
-        _advanceButton(theme, buttonHeight),
+        _backButton(theme, buttonHeight, musicControlls),
+        _pauseButton(theme, buttonHeight, musicControlls),
+        _advanceButton(theme, buttonHeight, musicControlls),
       ],
     );
   }
 }
 
-Widget _backButton(ColorScheme theme, double buttonHeight) {
+Widget _backButton(
+  ColorScheme theme,
+  double buttonHeight,
+  AudioPlayerProvider musicControll,
+) {
   return Material(
     color: Colors.transparent,
     child: InkWell(
-      onTap: () {},
+      onTap: () => musicControll.previous(),
       borderRadius: BorderRadius.circular(50),
       splashColor: theme.onPrimaryContainer,
       highlightColor: theme.onPrimaryContainer,
@@ -42,18 +49,22 @@ Widget _backButton(ColorScheme theme, double buttonHeight) {
   );
 }
 
-Widget _pauseButton(ColorScheme theme, double buttonHeight) {
+Widget _pauseButton(
+  ColorScheme theme,
+  double buttonHeight,
+  AudioPlayerProvider musicControll,
+) {
   return Material(
     color: Colors.transparent,
     child: InkWell(
-      onTap: () {},
+      onTap: () => musicControll.pauseOrStart(),
       borderRadius: BorderRadius.circular(50),
       splashColor: theme.onPrimaryContainer,
       highlightColor: theme.onPrimaryContainer,
       child: Padding(
         padding: EdgeInsets.all(buttonHeight * 0.3),
         child: Iconify(
-          AppIcons.pause,
+          musicControll.isPlaying ? AppIcons.pause : AppIcons.play,
           size: iconSize(buttonHeight),
           color: iconColor(theme),
         ),
@@ -62,11 +73,15 @@ Widget _pauseButton(ColorScheme theme, double buttonHeight) {
   );
 }
 
-Widget _advanceButton(ColorScheme theme, double buttonHeight) {
+Widget _advanceButton(
+  ColorScheme theme,
+  double buttonHeight,
+  AudioPlayerProvider musicControll,
+) {
   return Material(
     color: Colors.transparent,
     child: InkWell(
-      onTap: () {},
+      onTap: () => musicControll.next(),
       borderRadius: BorderRadius.circular(50),
       splashColor: theme.onPrimaryContainer,
       highlightColor: theme.onPrimaryContainer,
