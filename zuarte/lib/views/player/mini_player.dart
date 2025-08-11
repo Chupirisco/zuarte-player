@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:text_scroll/text_scroll.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
 import 'package:zuarte/widgets/progress_bar.dart';
 import 'package:zuarte/utils/size_config.dart';
@@ -16,7 +15,6 @@ Widget miniPlayer(
   BuildContext context,
 ) {
   final ColorScheme theme = Theme.of(context).colorScheme;
-  final Duration durarion = Duration(seconds: 2);
   return Container(
     decoration: BoxDecoration(
       color: theme.primaryContainer,
@@ -40,37 +38,25 @@ Widget miniPlayer(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextScroll(
+                  Text(
                     provider.selectedMusic.title,
+                    overflow: TextOverflow.ellipsis,
                     style: textStyle(
                       size: 16,
                       color: theme.primary,
                       fontWeight: FontWeight.bold,
                     ),
-                    velocity: const Velocity(pixelsPerSecond: Offset(10, 0)),
-                    mode: TextScrollMode.bouncing,
-                    delayBefore: durarion,
-                    pauseBetween: durarion,
-                    pauseOnBounce: durarion,
-                    selectable: false,
                   ),
                   ?provider.selectedMusic.author == null
                       ? null
-                      : TextScroll(
+                      : Text(
                           provider.selectedMusic.author!,
+                          overflow: TextOverflow.ellipsis,
                           style: textStyle(
                             size: 14,
                             color: theme.secondary,
                             fontWeight: FontWeight.bold,
                           ),
-                          velocity: const Velocity(
-                            pixelsPerSecond: Offset(10, 0),
-                          ),
-                          mode: TextScrollMode.bouncing,
-                          delayBefore: durarion,
-                          pauseBetween: durarion,
-                          pauseOnBounce: durarion,
-                          selectable: false,
                         ),
                 ],
               ),

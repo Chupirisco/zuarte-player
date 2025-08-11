@@ -12,20 +12,22 @@ class LoadMusicImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(defaultBorderRadius(15)),
-      child: QueryArtworkWidget(
-        id: id,
-        type: ArtworkType.AUDIO,
-        artworkHeight: size,
-        artworkWidth: size,
-        artworkClipBehavior: Clip.none,
-        nullArtworkWidget: avatarComponent(
-          size,
-          size,
-          AppIcons.person,
-          context,
-          size * 0.5,
+    return RepaintBoundary(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(defaultBorderRadius(15)),
+        child: QueryArtworkWidget(
+          id: id,
+          type: ArtworkType.AUDIO,
+          artworkHeight: size,
+          artworkWidth: size,
+          artworkClipBehavior: Clip.none,
+          nullArtworkWidget: avatarComponent(
+            size,
+            size,
+            AppIcons.person,
+            context,
+            size * 0.5,
+          ),
         ),
       ),
     );

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
-import '../constants/images.dart';
+import '../../constants/images.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

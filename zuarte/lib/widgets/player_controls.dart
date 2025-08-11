@@ -14,14 +14,16 @@ class PlayerControls extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
 
-    return Consumer<AudioPlayerProvider>(
-      builder: (context, musicControlls, child) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _backButton(theme, buttonHeight, musicControlls),
-          _stopOrPlayButton(theme, buttonHeight, musicControlls),
-          _advanceButton(theme, buttonHeight, musicControlls),
-        ],
+    return RepaintBoundary(
+      child: Consumer<AudioPlayerProvider>(
+        builder: (context, musicControlls, child) => Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _backButton(theme, buttonHeight, musicControlls),
+            _stopOrPlayButton(theme, buttonHeight, musicControlls),
+            _advanceButton(theme, buttonHeight, musicControlls),
+          ],
+        ),
       ),
     );
   }

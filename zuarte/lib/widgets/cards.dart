@@ -68,12 +68,30 @@ Widget musicCard({
                 children: [
                   SizedBox(
                     height: 2.2.h,
-                    child: textScrollConfig(music.title, theme.primary, 15),
+                    child: isSelected
+                        ? textScrollConfig(music.title, theme.primary, 15)
+                        : Text(
+                            music.title,
+                            overflow: TextOverflow.ellipsis,
+                            style: textStyle(
+                              size: 15,
+                              color: theme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ),
 
                   SizedBox(
                     height: 2.h,
-                    child: textScrollConfig(music.author, theme.secondary, 12),
+                    child: Text(
+                      music.author ?? 'Desconhecido',
+                      overflow: TextOverflow.ellipsis,
+                      style: textStyle(
+                        size: 12,
+                        color: theme.secondary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),

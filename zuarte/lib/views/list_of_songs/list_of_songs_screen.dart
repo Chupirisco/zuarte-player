@@ -44,7 +44,7 @@ class _ListOfSongsState extends State<ListOfSongs> {
                     physics: scrollEffect(),
                     addAutomaticKeepAlives: true,
                     addRepaintBoundaries: true,
-                    minCacheExtent: 10,
+                    minCacheExtent: 50,
                     padding: EdgeInsets.zero,
                     itemCount: audioPlayerProvider.listSongs.length,
                     itemBuilder: (context, index) {
@@ -59,12 +59,14 @@ class _ListOfSongsState extends State<ListOfSongs> {
                               .read<MiniplayerControllerProvider>()
                               .expandedMiniPlayer(music);
                         },
-                        child: musicCard(
-                          isSelected: checkSelectedMusic(music.id),
-                          context: context,
-                          theme: theme,
-                          onOptions: true,
-                          music: music,
+                        child: RepaintBoundary(
+                          child: musicCard(
+                            isSelected: checkSelectedMusic(music.id),
+                            context: context,
+                            theme: theme,
+                            onOptions: true,
+                            music: music,
+                          ),
                         ),
                       );
                     },
