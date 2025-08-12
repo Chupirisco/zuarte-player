@@ -21,7 +21,7 @@ void main() {
   ]);
 
   //visually check what is being reconstructed
-  debugRepaintRainbowEnabled = true;
+  debugRepaintRainbowEnabled = false;
   runApp(
     MultiProvider(
       providers: [
