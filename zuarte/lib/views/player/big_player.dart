@@ -32,11 +32,7 @@ Widget bigPlayer(double height, BuildContext context) {
                 ProgressBar(audioPlayer: value.player),
           ),
           SizedBox(height: 30.sp),
-          nextMusic(
-            context,
-            provider.listSongs[provider.idCurrentMusic + 1],
-            theme,
-          ),
+          nextMusic(context, provider.nextMusic, theme),
         ],
       ),
     ),

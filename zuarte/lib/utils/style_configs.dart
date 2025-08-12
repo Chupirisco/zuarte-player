@@ -22,7 +22,7 @@ TextScroll textScrollConfig(String? text, Color color, double textSize) {
   final Duration durarion = Duration(seconds: 2);
 
   return TextScroll(
-    text ?? '',
+    text ?? 'Desconhecido',
     style: textStyle(size: textSize, color: color, fontWeight: FontWeight.bold),
     velocity: const Velocity(pixelsPerSecond: Offset(5, 0)),
     mode: TextScrollMode.bouncing,

@@ -80,7 +80,6 @@ Widget musicCard({
                             ),
                           ),
                   ),
-
                   SizedBox(
                     height: 2.h,
                     child: isSelected

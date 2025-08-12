@@ -11,6 +11,14 @@ class AudioPlayerProvider with ChangeNotifier {
   List<MusicModel> _listSongs = [];
   int _currentIndex = -1;
   bool _isPlaying = false;
+  final MusicModel _noSongSelected = MusicModel(
+    id: -1,
+    idImage: -1,
+    title: 'Nenhuma música selecionada',
+    author: null,
+    uri: null,
+    duration: '',
+  );
 
   int get idCurrentMusic =>
       _currentIndex == -1 ? _currentIndex : listSongs[_currentIndex].id;
@@ -18,15 +26,12 @@ class AudioPlayerProvider with ChangeNotifier {
   bool get isPlaying => _isPlaying;
   List<MusicModel> get listSongs => _listSongs;
   MusicModel get currentMusic => _player.currentIndex == null
-      ? MusicModel(
-          id: -1,
-          idImage: -1,
-          title: 'Nenhuma música selecionada',
-          author: null,
-          uri: null,
-          duration: '',
-        )
+      ? _noSongSelected
       : listSongs[_player.currentIndex!];
+
+  MusicModel get nextMusic => _player.currentIndex == null
+      ? _noSongSelected
+      : listSongs[idCurrentMusic + 1];
 
   AudioPlayerProvider() {
     _player.playingStream.listen((playing) {
