@@ -8,7 +8,6 @@ import 'package:sizer/sizer.dart';
 import 'package:zuarte/routes/app_routes.dart';
 import 'package:zuarte/theme/app_themes.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
-import 'package:zuarte/viewmodels/list_songs_provider.dart';
 import 'package:zuarte/viewmodels/miniplayer_controller_provider.dart';
 import 'package:zuarte/viewmodels/theme_provider.dart';
 
@@ -22,12 +21,11 @@ void main() {
   ]);
 
   //visually check what is being reconstructed
-  debugRepaintRainbowEnabled = false;
+  debugRepaintRainbowEnabled = true;
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => ListSongsProvider()),
         ChangeNotifierProvider(create: (_) => AudioPlayerProvider()),
         ChangeNotifierProvider(create: (_) => MiniplayerControllerProvider()),
       ],

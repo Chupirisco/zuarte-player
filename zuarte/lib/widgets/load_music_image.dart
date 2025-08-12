@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:sizer/sizer.dart';
 import 'package:zuarte/widgets/cards.dart';
 
 import '../constants/icons.dart';
@@ -13,20 +12,22 @@ class LoadMusicImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(defaultBorderRadius(15)),
-      child: QueryArtworkWidget(
-        id: id,
-        type: ArtworkType.AUDIO,
-        artworkHeight: size,
-        artworkWidth: size,
-        artworkClipBehavior: Clip.none,
-        nullArtworkWidget: avatarComponent(
-          size,
-          size,
-          AppIcons.person,
-          context,
-          20.sp,
+    return RepaintBoundary(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(defaultBorderRadius(15)),
+        child: QueryArtworkWidget(
+          id: id,
+          type: ArtworkType.AUDIO,
+          artworkHeight: size,
+          artworkWidth: size,
+          artworkClipBehavior: Clip.none,
+          nullArtworkWidget: avatarComponent(
+            size,
+            size,
+            AppIcons.person,
+            context,
+            size * 0.5,
+          ),
         ),
       ),
     );

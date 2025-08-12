@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
+import 'package:zuarte/model/music_model.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
-import 'package:zuarte/viewmodels/list_songs_provider.dart';
-import 'package:zuarte/viewmodels/miniplayer_controller_provider.dart';
 import 'package:zuarte/widgets/cards.dart';
 
 import '../../utils/size_config.dart';
@@ -22,11 +21,15 @@ class _ListOfSongsState extends State<ListOfSongs> {
 
   @override
   Widget build(BuildContext context) {
-    final listSongsProvider = Provider.of<ListSongsProvider>(context);
-    final audioPlayerProvider = Provider.of<AudioPlayerProvider>(context);
+    final listSongs = context.select<AudioPlayerProvider, List<MusicModel>>(
+      (p) => p.listSongs,
+    );
+    final idCurrentMusic = context.select<AudioPlayerProvider, int>(
+      (provider) => provider.idCurrentMusic,
+    );
+
     final ColorScheme theme = Theme.of(context).colorScheme;
-    bool checkSelectedMusic(int id) =>
-        id == audioPlayerProvider.idSelectedMusic;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultMargin()),
       child: Column(
@@ -41,29 +44,28 @@ class _ListOfSongsState extends State<ListOfSongs> {
             ),
           ),
           SizedBox(height: height * 0.01),
-          listSongsProvider.listSongs.isNotEmpty
+          listSongs.isNotEmpty
               ? Expanded(
                   child: ScrollablePositionedList.builder(
                     physics: scrollEffect(),
                     addAutomaticKeepAlives: true,
                     addRepaintBoundaries: true,
-                    minCacheExtent: 10,
+                    minCacheExtent: 50,
                     padding: EdgeInsets.zero,
-                    itemCount: listSongsProvider.listSongs.length,
+                    itemCount: listSongs.length,
                     itemBuilder: (context, index) {
-                      final music = listSongsProvider.listSongs[index];
+                      final music = listSongs[index]; // Sem watch aqui!
+
+                      bool isSelected = music.id == idCurrentMusic;
 
                       return GestureDetector(
                         onTap: () {
-                          context.read<AudioPlayerProvider>().playSelectedMusic(
-                            music,
+                          context.read<AudioPlayerProvider>().setPlaylist(
+                            music.id,
                           );
-                          context
-                              .read<MiniplayerControllerProvider>()
-                              .expandedMiniPlayer(music);
                         },
                         child: musicCard(
-                          isSelected: checkSelectedMusic(music.id),
+                          isSelected: isSelected,
                           context: context,
                           theme: theme,
                           onOptions: true,
@@ -72,7 +74,7 @@ class _ListOfSongsState extends State<ListOfSongs> {
                       );
                     },
                   ),
-                ) //
+                )
               : Align(
                   alignment: Alignment.topLeft,
                   child: Text(

@@ -23,67 +23,73 @@ class _ProgressBarState extends State<ProgressBar> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
 
-    return StreamBuilder<Duration>(
-      stream: widget.audioPlayer.positionStream,
-      builder: (_, snapshot) {
-        final position = snapshot.data ?? Duration.zero;
-        final duration = widget.audioPlayer.duration ?? Duration.zero;
+    return RepaintBoundary(
+      child: StreamBuilder<Duration>(
+        stream: widget.audioPlayer.positionStream,
+        builder: (_, snapshot) {
+          final position = snapshot.data ?? Duration.zero;
+          final duration = widget.audioPlayer.duration ?? Duration.zero;
 
-        // If there is no music loaded, it freezes at the beginning and shows no progress
-        if (duration == Duration.zero) {
-          _sliderValue = 0;
+          // If there is no music loaded, it freezes at the beginning and shows no progress
+          if (duration == Duration.zero) {
+            _sliderValue = 0;
+            return SizedBox(
+              width: 85.w,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        thumbShape: RoundSliderThumbShape(
+                          enabledThumbRadius: 1.h,
+                        ),
+                        overlayShape: RoundSliderOverlayShape(
+                          overlayRadius: 2.h,
+                        ),
+                      ),
+                      child: Slider(
+                        min: 0,
+                        max: 1,
+                        value: 0,
+                        activeColor: theme.secondaryContainer,
+                        inactiveColor: theme.onPrimaryContainer,
+                        onChanged: (_) {},
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  _buildDurationText(theme, Duration.zero),
+                ],
+              ),
+            );
+          }
+
+          // Maximum slider value, based on the total song duration (in milliseconds)
+          final double maxValue = duration.inMilliseconds.toDouble().clamp(
+            1,
+            double.infinity,
+          );
+
+          // Updates the slider only if the user is not dragging manually
+          if (!_isDragging) {
+            _sliderValue = position.inMilliseconds
+                .clamp(0, maxValue)
+                .toDouble();
+          }
+
+          // Default layout when music is playing
           return SizedBox(
             width: 85.w,
             child: Row(
               children: [
-                Expanded(
-                  child: SliderTheme(
-                    data: SliderTheme.of(context).copyWith(
-                      thumbShape: RoundSliderThumbShape(
-                        enabledThumbRadius: 1.h,
-                      ),
-                      overlayShape: RoundSliderOverlayShape(overlayRadius: 2.h),
-                    ),
-                    child: Slider(
-                      min: 0,
-                      max: 1,
-                      value: 0,
-                      activeColor: theme.secondaryContainer,
-                      inactiveColor: theme.onPrimaryContainer,
-                      onChanged: (_) {},
-                    ),
-                  ),
-                ),
+                Expanded(child: _buildSlider(theme, maxValue)),
                 const SizedBox(width: 10),
-                _buildDurationText(theme, Duration.zero),
+                _buildDurationText(theme, duration),
               ],
             ),
           );
-        }
-
-        // Maximum slider value, based on the total song duration (in milliseconds)
-        final double maxValue = duration.inMilliseconds.toDouble().clamp(
-          1,
-          double.infinity,
-        );
-
-        // Updates the slider only if the user is not dragging manually
-        if (!_isDragging) {
-          _sliderValue = position.inMilliseconds.clamp(0, maxValue).toDouble();
-        }
-
-        // Default layout when music is playing
-        return SizedBox(
-          width: 85.w,
-          child: Row(
-            children: [
-              Expanded(child: _buildSlider(theme, maxValue)),
-              const SizedBox(width: 10),
-              _buildDurationText(theme, duration),
-            ],
-          ),
-        );
-      },
+        },
+      ),
     );
   }
 

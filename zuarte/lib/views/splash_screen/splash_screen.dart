@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/utils/style_configs.dart';
-import 'package:zuarte/viewmodels/list_songs_provider.dart';
-
-import '../constants/images.dart';
+import 'package:zuarte/viewmodels/audio_player_provider.dart';
+import '../../constants/images.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -38,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   //method responsible for loading the providers
   Future<void> loadProviders() async {
-    await context.read<ListSongsProvider>().initListSongs();
+    await context.read<AudioPlayerProvider>().initListSongs();
   }
 
   @override

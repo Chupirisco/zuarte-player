@@ -2,6 +2,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 
 class MusicModel {
   final int id;
+  final int idImage;
   final String title;
   final String? author;
   final Uri? uri;
@@ -9,15 +10,17 @@ class MusicModel {
 
   MusicModel({
     required this.id,
+    required this.idImage,
     required this.title,
     required this.author,
     required this.uri,
     required this.duration,
   });
 
-  static Future<MusicModel> fromSongModel(SongModel song) async {
+  static MusicModel fromSongModel(SongModel song, int id) {
     return MusicModel(
-      id: song.id,
+      id: id,
+      idImage: song.id,
       title: song.title,
       author: song.artist ?? 'Desconhecido',
       uri: Uri.file(song.data),

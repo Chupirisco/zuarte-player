@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 import 'package:sizer/sizer.dart';
+import 'package:zuarte/widgets/load_music_image.dart';
 
 import '../constants/icons.dart';
 import '../model/music_model.dart';
@@ -57,20 +57,7 @@ Widget musicCard({
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(defaultBorderRadius(15)),
-              child: QueryArtworkWidget(
-                id: music.id,
-                type: ArtworkType.AUDIO,
-                artworkHeight: 5.h,
-                artworkWidth: 5.h,
-                artworkClipBehavior: Clip.none,
-                nullArtworkWidget: avatarComponent(
-                  5.h,
-                  5.h,
-                  AppIcons.person,
-                  context,
-                  null,
-                ),
-              ),
+              child: LoadMusicImage(id: music.idImage, size: 5.h),
             ),
 
             const SizedBox(width: 12),
@@ -81,12 +68,31 @@ Widget musicCard({
                 children: [
                   SizedBox(
                     height: 2.2.h,
-                    child: textScrollConfig(music.title, theme.primary, 15),
+                    child: isSelected
+                        ? textScrollConfig(music.title, theme.primary, 15)
+                        : Text(
+                            music.title,
+                            overflow: TextOverflow.ellipsis,
+                            style: textStyle(
+                              size: 15,
+                              color: theme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ),
-
                   SizedBox(
                     height: 2.h,
-                    child: textScrollConfig(music.author, theme.secondary, 12),
+                    child: isSelected
+                        ? textScrollConfig(music.author, theme.secondary, 12)
+                        : Text(
+                            music.author ?? "Desconhecido",
+                            overflow: TextOverflow.ellipsis,
+                            style: textStyle(
+                              size: 12,
+                              color: theme.secondary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ),
                 ],
               ),
