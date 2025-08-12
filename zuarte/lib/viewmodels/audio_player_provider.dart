@@ -31,7 +31,9 @@ class AudioPlayerProvider with ChangeNotifier {
 
   MusicModel get nextMusic => _player.currentIndex == null
       ? _noSongSelected
-      : listSongs[idCurrentMusic + 1];
+      : listSongs[idCurrentMusic == listSongs.length - 1
+            ? 0
+            : idCurrentMusic + 1];
 
   AudioPlayerProvider() {
     _player.playingStream.listen((playing) {
@@ -45,6 +47,17 @@ class AudioPlayerProvider with ChangeNotifier {
       if (index != null && index != _currentIndex) {
         _currentIndex = index;
         notifyListeners();
+      }
+    });
+    _player.playerStateStream.listen((state) async {
+      if (state.processingState == ProcessingState.completed) {
+        if (_player.currentIndex == listSongs.length - 1) {
+          await _player.seek(Duration.zero, index: 0);
+          await _player.play();
+        } else {
+          await _player.seekToNext();
+          await _player.play();
+        }
       }
     });
   }
@@ -86,11 +99,20 @@ class AudioPlayerProvider with ChangeNotifier {
   }
 
   Future<void> next() async {
-    await _player.seekToNext();
+    if (_player.currentIndex == listSongs.length - 1) {
+      await _player.seek(Duration.zero, index: 0);
+    } else {
+      await _player.seekToNext();
+    }
   }
 
   Future<void> previous() async {
-    await _player.seekToPrevious();
+    if (_player.currentIndex == 0) {
+      final lastIndex = _listSongs.length - 1;
+      await _player.seek(Duration.zero, index: lastIndex);
+    } else {
+      await _player.seekToPrevious();
+    }
   }
 
   @override
