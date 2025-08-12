@@ -23,4 +23,9 @@ class MiniplayerControllerProvider with ChangeNotifier {
     _selectedMusic = music;
     notifyListeners();
   }
+
+  void updateMiniPlayer(MusicModel music) {
+    _selectedMusic = music;
+    notifyListeners();
+  }
 }

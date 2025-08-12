@@ -53,7 +53,6 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
-    final provider = Provider.of<MiniplayerControllerProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(45.sp),
@@ -140,19 +139,21 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
                 const SettingsScreen(),
               ],
             ),
-            Miniplayer(
-              duration: const Duration(milliseconds: 500),
-              controller: provider.controller,
-              minHeight: minPlayerHeight,
-              maxHeight: maxPlayerHeight,
-              backgroundColor: theme.surface,
-              builder: (height, percentage) => percentage <= 0.3
-                  ? RepaintBoundary(
-                      child: miniPlayer(height, provider, context),
-                    )
-                  : RepaintBoundary(
-                      child: bigPlayer(height, provider, context),
-                    ),
+            Consumer<MiniplayerControllerProvider>(
+              builder: (context, provider, child) => Miniplayer(
+                duration: const Duration(milliseconds: 500),
+                controller: provider.controller,
+                minHeight: minPlayerHeight,
+                maxHeight: maxPlayerHeight,
+                backgroundColor: theme.surface,
+                builder: (height, percentage) => percentage <= 0.3
+                    ? RepaintBoundary(
+                        child: miniPlayer(height, provider, context),
+                      )
+                    : RepaintBoundary(
+                        child: bigPlayer(height, provider, context),
+                      ),
+              ),
             ),
           ],
         ),
