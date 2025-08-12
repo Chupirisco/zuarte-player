@@ -17,8 +17,16 @@ class AudioPlayerProvider with ChangeNotifier {
   AudioPlayer get player => _player;
   bool get isPlaying => _isPlaying;
   List<MusicModel> get listSongs => _listSongs;
-  MusicModel? get currentMusic =>
-      _player.currentIndex == null ? null : listSongs[_player.currentIndex!];
+  MusicModel get currentMusic => _player.currentIndex == null
+      ? MusicModel(
+          id: -1,
+          idImage: -1,
+          title: 'Nenhuma música selecionada',
+          author: null,
+          uri: null,
+          duration: '',
+        )
+      : listSongs[_player.currentIndex!];
 
   AudioPlayerProvider() {
     _player.playingStream.listen((playing) {

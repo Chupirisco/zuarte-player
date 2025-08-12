@@ -4,7 +4,6 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/model/music_model.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
-import 'package:zuarte/viewmodels/miniplayer_controller_provider.dart';
 import 'package:zuarte/widgets/cards.dart';
 
 import '../../utils/size_config.dart';
@@ -64,9 +63,6 @@ class _ListOfSongsState extends State<ListOfSongs> {
                           context.read<AudioPlayerProvider>().setPlaylist(
                             music.id,
                           );
-                          context
-                              .read<MiniplayerControllerProvider>()
-                              .expandedMiniPlayer(music);
                         },
                         child: musicCard(
                           isSelected: isSelected,

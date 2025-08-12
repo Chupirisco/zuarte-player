@@ -147,12 +147,8 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
                 maxHeight: maxPlayerHeight,
                 backgroundColor: theme.surface,
                 builder: (height, percentage) => percentage <= 0.3
-                    ? RepaintBoundary(
-                        child: miniPlayer(height, provider, context),
-                      )
-                    : RepaintBoundary(
-                        child: bigPlayer(height, provider, context),
-                      ),
+                    ? RepaintBoundary(child: miniPlayer(height, context))
+                    : RepaintBoundary(child: bigPlayer(height, context)),
               ),
             ),
           ],

@@ -1,10 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
-import 'package:zuarte/viewmodels/miniplayer_controller_provider.dart';
 
 import '../constants/icons.dart';
 import '../utils/size_config.dart';
@@ -55,11 +52,8 @@ Widget _backButton(
     color: Colors.transparent,
     child: InkWell(
       onTap: () async {
-        if (musicControll.currentMusic != null) {
+        if (musicControll.currentMusic.id != -1) {
           await musicControll.previous();
-          context.read<MiniplayerControllerProvider>().updateMiniPlayer(
-            musicControll.currentMusic!,
-          );
         }
       },
       borderRadius: BorderRadius.circular(50),
@@ -86,7 +80,7 @@ Widget _stopOrPlayButton(
     color: Colors.transparent,
     child: InkWell(
       onTap: () async {
-        if (musicControll.currentMusic != null) {
+        if (musicControll.currentMusic.id != -1) {
           musicControll.togglePlayPause();
         }
       },
@@ -115,11 +109,8 @@ Widget _advanceButton(
     color: Colors.transparent,
     child: InkWell(
       onTap: () async {
-        if (musicControll.currentMusic != null) {
+        if (musicControll.currentMusic.id != -1) {
           await musicControll.next();
-          context.read<MiniplayerControllerProvider>().updateMiniPlayer(
-            musicControll.currentMusic!,
-          );
         }
       },
       borderRadius: BorderRadius.circular(50),
