@@ -30,6 +30,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> checkPermission() async {
     bool permission = await _audioQuery.permissionsStatus();
     if (permission) {
+      setState(() {
+        allowed = permission;
+      });
       await handlePermissionFlow();
     } else {
       setState(() {
