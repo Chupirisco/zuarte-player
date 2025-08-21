@@ -69,8 +69,9 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             const Spacer(),
             showLoading
-                ? CircularProgressIndicator()
+                ? CircularProgressIndicator(color: theme.secondaryContainer)
                 : ElevatedButton(
+                    style: buttonStyle(theme),
                     onPressed: () async {
                       bool permission = await _audioQuery.permissionsStatus();
                       if (!permission) {
@@ -82,7 +83,14 @@ class _SplashScreenState extends State<SplashScreen> {
                       }
                       await handlePermissionFlow();
                     },
-                    child: Text('aperte aqui'),
+                    child: Text(
+                      'aperte aqui',
+                      style: textStyle(
+                        size: 16,
+                        color: theme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
             SizedBox(height: height * 0.05),
             Text('by YR', style: textStyle(size: 13, color: theme.secondary)),
@@ -106,5 +114,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (!mounted) return;
     Navigator.of(context).pushNamedAndRemoveUntil('/app_nav_bar', (_) => false);
+  }
+
+  ButtonStyle buttonStyle(ColorScheme theme) {
+    return ButtonStyle(
+      backgroundColor: WidgetStatePropertyAll(theme.onPrimaryContainer),
+      minimumSize: WidgetStatePropertyAll(Size(50.w, 5.h)),
+    );
   }
 }
