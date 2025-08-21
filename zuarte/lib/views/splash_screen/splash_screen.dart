@@ -1,10 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:on_audio_query/on_audio_query.dart';
+
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
 import '../../constants/images.dart';
@@ -17,33 +17,32 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final OnAudioQuery _audioQuery = OnAudioQuery();
+  bool showLoading = false;
+  bool allowed = false;
+
   @override
   void initState() {
     super.initState();
-
-    loadProviders();
-
-    Future.delayed(const Duration(milliseconds: 3000), () {
-      Navigator.of(
-        context,
-      ).pushNamedAndRemoveUntil('/app_nav_bar', (route) => false);
-    });
+    checkPermission();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  //method responsible for loading the providers
-  Future<void> loadProviders() async {
-    await context.read<AudioPlayerProvider>().initListSongs();
+  Future<void> checkPermission() async {
+    bool permission = await _audioQuery.permissionsStatus();
+    if (permission) {
+      await handlePermissionFlow();
+    } else {
+      setState(() {
+        showLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme theme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context).colorScheme;
     final height = 100.h;
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -61,19 +60,48 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             SizedBox(height: height * 0.08),
             Text(
-              'Seu player, sua vibe\n seu flow.',
+              'Seu player, sua vibe\nseu flow.',
               textAlign: TextAlign.center,
               style: textStyle(size: 18, color: theme.primary),
             ),
             const Spacer(),
-            Text(
-              'by BRY STUDIO',
-              style: textStyle(size: 13, color: theme.secondary),
-            ),
+            showLoading
+                ? CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: () async {
+                      bool permission = await _audioQuery.permissionsStatus();
+                      if (!permission) {
+                        permission = await _audioQuery.permissionsRequest();
+                      }
+
+                      if (permission) {
+                        allowed = permission;
+                      }
+                      await handlePermissionFlow();
+                    },
+                    child: Text('aperte aqui'),
+                  ),
+            SizedBox(height: height * 0.05),
+            Text('by YR', style: textStyle(size: 13, color: theme.secondary)),
             SizedBox(height: height * 0.02),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> handlePermissionFlow() async {
+    setState(() {
+      showLoading = true;
+    });
+
+    if (allowed) {
+      context.read<AudioPlayerProvider>().initListSongs();
+    }
+
+    await Future.delayed(const Duration(seconds: 3));
+
+    if (!mounted) return;
+    Navigator.of(context).pushNamedAndRemoveUntil('/app_nav_bar', (_) => false);
   }
 }
