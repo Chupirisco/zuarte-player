@@ -4,9 +4,6 @@ final OnAudioQuery _audioQuery = OnAudioQuery();
 
 Future<List<SongModel>> searchMusic() async {
   bool allowed = await _audioQuery.permissionsStatus();
-  if (!allowed) {
-    allowed = await _audioQuery.permissionsRequest();
-  }
 
   if (!allowed) return [];
 
