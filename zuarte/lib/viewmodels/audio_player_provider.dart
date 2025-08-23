@@ -1,12 +1,15 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:zuarte/model/music_model.dart';
 
 import '../services/search_music.dart';
+import '../services/service_locator.dart';
 
 class AudioPlayerProvider with ChangeNotifier {
   final AudioPlayer _player = AudioPlayer();
+  final _audioHandler = getIt<AudioHandler>();
 
   List<MusicModel> _listSongs = [];
   int _currentIndex = -1;

@@ -11,9 +11,10 @@ import 'package:zuarte/viewmodels/audio_player_provider.dart';
 import 'package:zuarte/viewmodels/miniplayer_controller_provider.dart';
 import 'package:zuarte/viewmodels/theme_provider.dart';
 
+import 'services/service_locator.dart';
 import 'services/store_theme_preferences.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -21,6 +22,8 @@ void main() {
   ]);
 
   //visually check what is being reconstructed
+
+  await initAudioService();
   debugRepaintRainbowEnabled = false;
   runApp(
     MultiProvider(
