@@ -13,6 +13,7 @@ ThemeData lightTheme = ThemeData(
     secondaryContainer: LightColors.details,
     onPrimaryContainer: LightColors.primaryAction,
     onPrimary: LightColors.borders,
+    error: LightColors.error,
   ),
 );
 
@@ -28,5 +29,6 @@ ThemeData darkTheme = ThemeData(
     secondaryContainer: DarkColors.details,
     onPrimaryContainer: DarkColors.primaryAction,
     onPrimary: DarkColors.borders,
+    error: DarkColors.error,
   ),
 );

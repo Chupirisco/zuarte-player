@@ -84,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       await handlePermissionFlow();
                     },
                     child: Text(
-                      'aperte aqui',
+                      'Iniciar',
                       style: textStyle(
                         size: 16,
                         color: theme.primary,

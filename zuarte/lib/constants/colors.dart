@@ -8,6 +8,7 @@ class LightColors {
   static final Color details = const Color(0xFF4B0082);
   static final Color cardElements = const Color(0xFFE0E0E0);
   static final Color borders = const Color(0xFFBDBDBD);
+  static final Color error = const Color(0xFFE53935);
 }
 
 class DarkColors {
@@ -18,4 +19,5 @@ class DarkColors {
   static final Color details = const Color(0xFF4B0082);
   static final Color cardElements = const Color(0xFF2A2A2A);
   static final Color borders = const Color(0xFF505050);
+  static final Color error = const Color(0xFFFF6F61);
 }
