@@ -1,17 +1,54 @@
+// ignore_for_file: use_build_context_synchronously
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../constants/icons.dart';
 import '../../utils/size_config.dart';
 import '../../utils/style_configs.dart';
+import '../../viewmodels/audio_player_provider.dart';
 import '../../widgets/cards.dart';
 import 'radio_custom.dart';
 import 'settings_styles.dart';
 
-class SettingsScreen extends StatelessWidget {
+final OnAudioQuery _audioQuery = OnAudioQuery();
+
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      bool permission = await _audioQuery.permissionsStatus();
+      if (permission) {
+        if (mounted) {
+          context.read<AudioPlayerProvider>().initListSongs();
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,15 +133,8 @@ class SettingsScreen extends StatelessWidget {
                 const Spacer(),
                 ElevatedButton(
                   style: settingsButtonStyle(context),
-                  onPressed: () async {
-                    final OnAudioQuery audioQuery = OnAudioQuery();
-                    bool permission = await audioQuery.permissionsStatus();
-                    if (!permission) {
-                      permission = await audioQuery.permissionsRequest();
-                    } else {
-                      // ignore: use_build_context_synchronously
-                      alertDialog(context, theme);
-                    }
+                  onPressed: () {
+                    logicPermission(context, theme);
                   },
                   child: Text(
                     'Alternar',
@@ -123,21 +153,101 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
+  void logicPermission(BuildContext ctx, ColorScheme theme) async {
+    bool permission = await _audioQuery.permissionsStatus();
+
+    if (!permission) {
+      permission = await _audioQuery.permissionsRequest();
+
+      if (permission) {
+        ctx.read<AudioPlayerProvider>().initListSongs();
+        setState(() {});
+      } else {
+        showDeniedDialog(ctx, theme);
+      }
+    } else {
+      alertDialog(ctx, theme);
+    }
+  }
+
   Future<void> alertDialog(BuildContext ctx, ColorScheme theme) {
     return showDialog(
       context: ctx,
       builder: (context) {
         return AlertDialog(
-          icon: Iconify(AppIcons.alert),
-          title: Text(
-            'Permissões já concedidas',
+          title: Row(
+            children: [
+              Iconify(AppIcons.alert, color: theme.error, size: iconSize(23)),
+              Text(
+                'Permissões já concedidas',
+                style: textStyle(
+                  size: 16,
+                  color: theme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          titlePadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+        );
+      },
+    );
+  }
+
+  Future<void> showDeniedDialog(BuildContext ctx, ColorScheme theme) {
+    return showDialog(
+      context: ctx,
+      builder: (context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Iconify(AppIcons.alert, color: theme.error, size: iconSize(23)),
+              SizedBox(width: 10),
+              Text(
+                'Permissão negada',
+                style: textStyle(
+                  size: 16,
+                  color: theme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            'O Zuarte precisa de acesso às músicas para funcionar corretamente.Abra as configurações do app e habilite o acesso a músicas.',
             style: textStyle(
-              size: 15,
-              color: theme.primary,
+              size: 14,
+              color: theme.secondary,
               fontWeight: FontWeight.bold,
             ),
           ),
-          titlePadding: EdgeInsets.only(bottom: 10.h, left: 10.w, right: 10.w),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                'Cancelar',
+                style: textStyle(
+                  size: 14,
+                  color: theme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                openAppSettings();
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Abrir configurações',
+                style: textStyle(
+                  size: 14,
+                  color: theme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
