@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -8,9 +9,11 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
 import '../../constants/images.dart';
+import '../../services/audio_handler.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({super.key, required this.songHandler});
+  final SongHandler songHandler;
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -28,16 +31,34 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> checkPermission() async {
-    bool permission = await _audioQuery.permissionsStatus();
-    if (permission) {
-      setState(() {
-        allowed = permission;
-      });
-      await handlePermissionFlow();
-    } else {
-      setState(() {
-        showLoading = false;
-      });
+    try {
+      final bool audioGranted = await Permission.audio.isGranted;
+      final bool storageGranted = await Permission.storage.isGranted;
+      bool permission = await _audioQuery.permissionsStatus();
+
+      if (!audioGranted || !storageGranted) {
+        final Map<Permission, PermissionStatus> statuses = await [
+          Permission.audio,
+          Permission.storage,
+        ].request();
+
+        if (statuses[Permission.audio] == PermissionStatus.permanentlyDenied ||
+            statuses[Permission.storage] ==
+                PermissionStatus.permanentlyDenied) {
+          await openAppSettings();
+        }
+      } else if (permission) {
+        setState(() {
+          allowed = permission;
+        });
+        await handlePermissionFlow();
+      } else {
+        setState(() {
+          showLoading = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('error requenst song permission');
     }
   }
 

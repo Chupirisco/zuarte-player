@@ -1,19 +1,21 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/routes/app_routes.dart';
+import 'package:zuarte/services/audio_handler.dart';
 import 'package:zuarte/theme/app_themes.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
 import 'package:zuarte/viewmodels/miniplayer_controller_provider.dart';
 import 'package:zuarte/viewmodels/theme_provider.dart';
-
-import 'services/service_locator.dart';
+import 'package:zuarte/views/splash_screen/splash_screen.dart';
 import 'services/store_theme_preferences.dart';
 
+SongHandler _songHandler = SongHandler();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -22,14 +24,24 @@ void main() async {
   ]);
 
   //visually check what is being reconstructed
-
-  await initAudioService();
   debugRepaintRainbowEnabled = false;
+  _songHandler = await AudioService.init(
+    builder: () => SongHandler(),
+    config: AudioServiceConfig(
+      androidNotificationChannelId: 'com.example.zuarte',
+      androidNotificationChannelName: 'Zuarte-Player',
+      androidNotificationOngoing: true,
+      androidShowNotificationBadge: true,
+    ),
+  );
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AudioPlayerProvider()),
+        ChangeNotifierProvider(
+          create: (_) => SongProvider()..loadSongs(_songHandler),
+        ),
         ChangeNotifierProvider(create: (_) => MiniplayerControllerProvider()),
       ],
       child: MyApp(),
@@ -86,7 +98,7 @@ class _MyAppState extends State<MyApp> {
           //show performace graph
           showPerformanceOverlay: false,
           routes: AppRoutes.routes(),
-          initialRoute: "/splash_screen",
+          home: SplashScreen(songHandler: _songHandler),
           //themes
           theme: _lightTheme,
           darkTheme: _darkTheme,
