@@ -8,11 +8,11 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/routes/app_routes.dart';
 import 'package:zuarte/services/audio_handler.dart';
+import 'package:zuarte/services/service_locator.dart';
 import 'package:zuarte/theme/app_themes.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
 import 'package:zuarte/viewmodels/miniplayer_controller_provider.dart';
 import 'package:zuarte/viewmodels/theme_provider.dart';
-import 'package:zuarte/views/splash_screen/splash_screen.dart';
 import 'services/store_theme_preferences.dart';
 
 SongHandler _songHandler = SongHandler();
@@ -34,6 +34,7 @@ void main() async {
       androidShowNotificationBadge: true,
     ),
   );
+  setupLocator();
   runApp(
     MultiProvider(
       providers: [
@@ -98,7 +99,7 @@ class _MyAppState extends State<MyApp> {
           //show performace graph
           showPerformanceOverlay: false,
           routes: AppRoutes.routes(),
-          home: SplashScreen(songHandler: _songHandler),
+          initialRoute: '/splash_screen',
           //themes
           theme: _lightTheme,
           darkTheme: _darkTheme,

@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:zuarte/model/music_model.dart';
 
+import '../utils/formatted_title.dart';
+
 Future<MediaItem> songModelToMediaItem(SongModel song) async {
   try {
     final Uri? art = await getSongsArt(
@@ -24,18 +26,4 @@ Future<MediaItem> songModelToMediaItem(SongModel song) async {
     debugPrint('error converting songmodel to mediaitem: $e');
     return const MediaItem(id: '', title: '');
   }
-}
-
-String formattedTitle(String title) {
-  String cleanedTitle = title;
-  // remover parenteses
-  cleanedTitle = cleanedTitle.replaceAll(RegExp(r'\([^)]*\)'), '');
-  //remover colchetes
-  cleanedTitle = cleanedTitle.replaceAll(RegExp(r'\[[^\]]*\]'), '');
-  //remover extenção de arquivo
-  if (cleanedTitle.contains('.')) {
-    cleanedTitle = cleanedTitle.split('.').first;
-  }
-
-  return cleanedTitle;
 }

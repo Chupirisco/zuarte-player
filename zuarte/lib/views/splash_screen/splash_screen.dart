@@ -9,11 +9,9 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
 import '../../constants/images.dart';
-import '../../services/audio_handler.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key, required this.songHandler});
-  final SongHandler songHandler;
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

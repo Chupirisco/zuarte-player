@@ -8,7 +8,6 @@ import 'package:zuarte/services/request_songs_permissions.dart';
 import 'package:zuarte/services/song_model_to_media_item.dart';
 
 import '../services/search_music.dart';
-import '../services/service_locator.dart';
 
 class AudioPlayerProvider with ChangeNotifier {
   final AudioPlayer _player = AudioPlayer();
