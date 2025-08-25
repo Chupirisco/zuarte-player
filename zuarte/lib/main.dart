@@ -18,10 +18,6 @@ import 'services/store_theme_preferences.dart';
 SongHandler _songHandler = SongHandler();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
 
   //visually check what is being reconstructed
   debugRepaintRainbowEnabled = false;
@@ -34,7 +30,8 @@ void main() async {
       androidShowNotificationBadge: true,
     ),
   );
-  setupLocator();
+  setupLocator(_songHandler);
+
   runApp(
     MultiProvider(
       providers: [
@@ -48,6 +45,10 @@ void main() async {
       child: MyApp(),
     ),
   );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 }
 
 class MyApp extends StatefulWidget {

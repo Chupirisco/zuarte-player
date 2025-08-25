@@ -137,6 +137,7 @@ Future<List<MediaItem>> getSongs() async {
 
     for (final SongModel songModel in songsModels) {
       final MediaItem song = await songModelToMediaItem(songModel);
+      print(song.title);
       songs.add(song);
     }
 

@@ -1,24 +1,21 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:zuarte/services/audio_handler.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:zuarte/widgets/song_item.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
+import '../utils/formatted_title.dart';
 import '../utils/style_configs.dart';
 
 class SongList extends StatelessWidget {
   final List<MediaItem> songs;
   final SongHandler songHandler;
-  final AutoScrollController autoScrollController;
-  const SongList({
-    super.key,
-    required this.songs,
-    required this.songHandler,
-    required this.autoScrollController,
-  });
+
+  const SongList({super.key, required this.songs, required this.songHandler});
 
   @override
   Widget build(BuildContext context) {
+    AutoScrollController autoScrollController = AutoScrollController();
     final ColorScheme theme = Theme.of(context).colorScheme;
     return songs.isEmpty
         ? Align(
@@ -33,7 +30,6 @@ class SongList extends StatelessWidget {
             ),
           )
         : ListView.builder(
-            controller: autoScrollController,
             physics: scrollEffect(),
             addAutomaticKeepAlives: true,
             addRepaintBoundaries: true,
@@ -46,12 +42,13 @@ class SongList extends StatelessWidget {
                 builder: (context, snapshot) {
                   MediaItem? playingSong = snapshot.data;
                   return index == (songs.length - 1)
-                      ? _buildRegularSongItem(song, playingSong)
+                      ? _buildLastSongItem(song, playingSong)
                       : AutoScrollTag(
+                          // Utilize AutoScrollTag for automatic scrolling
                           key: ValueKey(index),
                           controller: autoScrollController,
                           index: index,
-                          child: _buildLastSongItem(song, playingSong),
+                          child: _buildRegularSongItem(song, playingSong),
                         );
                 },
               );
@@ -62,30 +59,34 @@ class SongList extends StatelessWidget {
   Widget _buildLastSongItem(MediaItem song, MediaItem? playingSong) {
     return Column(
       children: [
+        // Display the last song item
         SongItem(
-          isPlaying: song == playingSong,
           id: int.parse(song.displayDescription!),
+          isPlaying: song == playingSong,
+          title: formattedTitle(song.title),
           artist: song.artist,
-          title: song.title,
-          art: song.artUri,
           onSongTap: () async {
             await songHandler.skipToQueueItem(songs.length - 1);
           },
+          art: song.artUri,
         ),
+        // Display the player deck for controls
       ],
     );
   }
 
   Widget _buildRegularSongItem(MediaItem song, MediaItem? playingSong) {
     return SongItem(
-      isPlaying: song == playingSong,
       id: int.parse(song.displayDescription!),
+      isPlaying: song == playingSong,
+      title: formattedTitle(song.title),
       artist: song.artist,
-      title: song.title,
-      art: song.artUri,
       onSongTap: () async {
+        print('clicou');
         await songHandler.skipToQueueItem(songs.indexOf(song));
+        await songHandler.play();
       },
+      art: song.artUri,
     );
   }
 }

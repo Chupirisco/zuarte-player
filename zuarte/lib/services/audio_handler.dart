@@ -19,17 +19,22 @@ class SongHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   void _broadcastState(PlaybackEvent event) {
+    final controls = [
+      MediaControl.rewind,
+      MediaControl.skipToPrevious,
+      if (audioPlayer.playing) MediaControl.pause else MediaControl.play,
+      MediaControl.skipToNext,
+    ];
+
     playbackState.add(
       playbackState.value.copyWith(
-        controls: [
-          MediaControl.skipToPrevious,
-          if (audioPlayer.playing) MediaControl.pause else MediaControl.play,
-        ],
+        controls: controls,
         systemActions: {
           MediaAction.seek,
           MediaAction.seekForward,
           MediaAction.seekBackward,
         },
+        androidCompactActionIndices: const [0, 2, 4],
         processingState: const {
           ProcessingState.idle: AudioProcessingState.idle,
           ProcessingState.loading: AudioProcessingState.loading,
@@ -76,8 +81,22 @@ class SongHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   @override
-  Future<void> skipToNext() => audioPlayer.seekToNext();
+  Future<void> skipToPrevious() {
+    audioPlayer.seekToPrevious();
+    return audioPlayer.play();
+  }
 
   @override
-  Future<void> skipToPrevious() => audioPlayer.seekToPrevious();
+  Future<void> skipToNext() {
+    audioPlayer.seekToNext();
+    return audioPlayer.play();
+  }
+
+  @override
+  Future<void> seek(Duration position) => audioPlayer.seek(position);
+
+  @override
+  Future<void> rewind() async {
+    await audioPlayer.seek(Duration.zero);
+  }
 }

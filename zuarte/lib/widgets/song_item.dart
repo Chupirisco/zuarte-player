@@ -32,7 +32,7 @@ class SongItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
     return GestureDetector(
-      onTap: () => onSongTap,
+      onTap: () => onSongTap(),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

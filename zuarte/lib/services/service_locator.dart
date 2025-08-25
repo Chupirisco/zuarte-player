@@ -4,6 +4,6 @@ import 'audio_handler.dart';
 
 final getIt = GetIt.instance;
 
-void setupLocator() {
-  getIt.registerLazySingleton<SongHandler>(() => SongHandler());
+void setupLocator(SongHandler handler) {
+  getIt.registerSingleton<SongHandler>(handler);
 }

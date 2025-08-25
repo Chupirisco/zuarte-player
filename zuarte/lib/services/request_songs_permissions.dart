@@ -10,12 +10,15 @@ Future<void> requestSonsPermission() async {
     final bool storageGranted = await Permission.storage.isGranted;
     bool permission = await _audioQuery.permissionsStatus();
 
+    print(audioGranted);
+    print(storageGranted);
+    print(permission);
+
     if (!audioGranted || !storageGranted) {
       final Map<Permission, PermissionStatus> statuses = await [
         Permission.audio,
         Permission.storage,
       ].request();
-
       if (statuses[Permission.audio] == PermissionStatus.permanentlyDenied ||
           statuses[Permission.storage] == PermissionStatus.permanentlyDenied) {
         await openAppSettings();
