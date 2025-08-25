@@ -28,6 +28,7 @@ void main() async {
       androidNotificationChannelName: 'Zuarte-Player',
       androidNotificationOngoing: true,
       androidShowNotificationBadge: true,
+      androidNotificationIcon: 'mipmap/ic_notification',
     ),
   );
   setupLocator(_songHandler);
