@@ -24,6 +24,10 @@ dependencies:
   on_audio_query: ^2.9.0
   text_scroll: ^0.2.0
   permission_handler: ^12.0.1
+  audio_service: ^0.18.18
+  get_it: ^8.2.0
+  transparent_image: ^2.0.1
+  scroll_to_index: ^3.0.1
 
 dependency_overrides:
   on_audio_query_android:

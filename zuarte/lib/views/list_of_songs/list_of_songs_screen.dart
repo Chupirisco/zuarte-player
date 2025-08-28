@@ -1,13 +1,13 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
-import 'package:zuarte/model/music_model.dart';
+import 'package:zuarte/services/audio_handler.dart';
+import 'package:zuarte/services/service_locator.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
-import 'package:zuarte/widgets/cards.dart';
+import 'package:zuarte/widgets/song_list.dart';
 
 import '../../utils/size_config.dart';
-import '../../utils/style_configs.dart';
 
 class ListOfSongs extends StatefulWidget {
   const ListOfSongs({super.key});
@@ -18,77 +18,32 @@ class ListOfSongs extends StatefulWidget {
 
 class _ListOfSongsState extends State<ListOfSongs> {
   final height = 100.h;
+  final songHandler = getIt<SongHandler>();
 
   @override
   Widget build(BuildContext context) {
-    final listSongs = context.select<AudioPlayerProvider, List<MusicModel>>(
-      (p) => p.listSongs,
-    );
-    final idCurrentMusic = context.select<AudioPlayerProvider, int>(
-      (provider) => provider.idCurrentMusic,
-    );
-
-    final ColorScheme theme = Theme.of(context).colorScheme;
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultMargin()),
-      child: Column(
-        children: [
-          SizedBox(height: height * 0.01),
-          Text(
-            'Minhas músicas',
-            style: textStyle(
-              size: 18,
-              color: theme.primary,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: height * 0.01),
-          listSongs.isNotEmpty
-              ? Expanded(
-                  child: ScrollablePositionedList.builder(
-                    physics: scrollEffect(),
-                    addAutomaticKeepAlives: true,
-                    addRepaintBoundaries: true,
-                    minCacheExtent: 50,
-                    padding: EdgeInsets.zero,
-                    itemCount: listSongs.length,
-                    itemBuilder: (context, index) {
-                      final music = listSongs[index]; // Sem watch aqui!
-
-                      bool isSelected = music.id == idCurrentMusic;
-
-                      return GestureDetector(
-                        onTap: () {
-                          context.read<AudioPlayerProvider>().setPlaylist(
-                            music.id,
-                          );
-                        },
-                        child: musicCard(
-                          isSelected: isSelected,
-                          context: context,
-                          theme: theme,
-                          onOptions: true,
-                          music: music,
-                        ),
-                      );
-                    },
-                  ),
-                )
-              : Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Nenhuma música por aqui',
-                    style: textStyle(
-                      size: 15,
-                      color: theme.secondary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-          SizedBox(height: 13.h),
-        ],
+      child: Consumer<SongProvider>(
+        builder: (context, prov, child) {
+          return prov.isLoading
+              ? _buildLoadingIndicator()
+              : _buildSongsList(songHandler: songHandler, songs: prov.songs);
+        },
       ),
+    );
+  }
+
+  Widget _buildLoadingIndicator() {
+    return Center(child: CircularProgressIndicator(strokeCap: StrokeCap.round));
+  }
+
+  Widget _buildSongsList({
+    required SongHandler songHandler,
+    required List<MediaItem> songs,
+  }) {
+    return Stack(
+      children: [SongList(songs: songs, songHandler: songHandler)],
     );
   }
 }
