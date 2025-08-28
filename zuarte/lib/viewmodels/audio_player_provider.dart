@@ -126,27 +126,6 @@ class AudioPlayerProvider with ChangeNotifier {
   }
 }
 
-Future<List<MediaItem>> getSongs() async {
-  try {
-    await requestSonsPermission();
-    final List<MediaItem> songs = [];
-
-    final OnAudioQuery onAudioQuery = OnAudioQuery();
-
-    final List<SongModel> songsModels = await onAudioQuery.querySongs();
-
-    for (final SongModel songModel in songsModels) {
-      final MediaItem song = await songModelToMediaItem(songModel);
-      print(song.title);
-      songs.add(song);
-    }
-
-    return songs;
-  } catch (e) {
-    return [];
-  }
-}
-
 class SongProvider extends ChangeNotifier {
   List<MediaItem> _songs = [];
 
@@ -162,5 +141,25 @@ class SongProvider extends ChangeNotifier {
     await songHandler.initSongs(_songs);
     _isLoading = false;
     notifyListeners();
+  }
+}
+
+Future<List<MediaItem>> getSongs() async {
+  try {
+    await requestSonsPermission();
+    final List<MediaItem> songs = [];
+
+    final OnAudioQuery onAudioQuery = OnAudioQuery();
+
+    final List<SongModel> songsModels = await onAudioQuery.querySongs();
+
+    for (final SongModel songModel in songsModels) {
+      final MediaItem song = await songModelToMediaItem(songModel);
+      songs.add(song);
+    }
+
+    return songs;
+  } catch (e) {
+    return [];
   }
 }

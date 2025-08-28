@@ -1,5 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:zuarte/services/audio_handler.dart';
 import 'package:zuarte/widgets/song_item.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
@@ -33,7 +34,7 @@ class SongList extends StatelessWidget {
             physics: scrollEffect(),
             addAutomaticKeepAlives: true,
             addRepaintBoundaries: true,
-            padding: EdgeInsets.zero,
+            padding: EdgeInsets.only(top: 1.h, bottom: 13.h),
             itemCount: songs.length,
             itemBuilder: (context, index) {
               MediaItem song = songs[index];
@@ -44,7 +45,6 @@ class SongList extends StatelessWidget {
                   return index == (songs.length - 1)
                       ? _buildLastSongItem(song, playingSong)
                       : AutoScrollTag(
-                          // Utilize AutoScrollTag for automatic scrolling
                           key: ValueKey(index),
                           controller: autoScrollController,
                           index: index,
@@ -59,7 +59,6 @@ class SongList extends StatelessWidget {
   Widget _buildLastSongItem(MediaItem song, MediaItem? playingSong) {
     return Column(
       children: [
-        // Display the last song item
         SongItem(
           id: int.parse(song.displayDescription!),
           isPlaying: song == playingSong,
@@ -70,7 +69,6 @@ class SongList extends StatelessWidget {
           },
           art: song.artUri,
         ),
-        // Display the player deck for controls
       ],
     );
   }
@@ -82,7 +80,6 @@ class SongList extends StatelessWidget {
       title: formattedTitle(song.title),
       artist: song.artist,
       onSongTap: () async {
-        print('clicou');
         await songHandler.skipToQueueItem(songs.indexOf(song));
         await songHandler.play();
       },
