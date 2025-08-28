@@ -149,9 +149,7 @@ Future<List<MediaItem>> getSongs() async {
     await requestSonsPermission();
     final List<MediaItem> songs = [];
 
-    final OnAudioQuery onAudioQuery = OnAudioQuery();
-
-    final List<SongModel> songsModels = await onAudioQuery.querySongs();
+    final songsModels = await searchMusic();
 
     for (final SongModel songModel in songsModels) {
       final MediaItem song = await songModelToMediaItem(songModel);
