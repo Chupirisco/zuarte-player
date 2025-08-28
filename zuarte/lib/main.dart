@@ -27,6 +27,7 @@ void main() async {
       androidNotificationChannelId: 'com.example.zuarte',
       androidNotificationChannelName: 'Zuarte-Player',
       androidNotificationOngoing: true,
+      androidStopForegroundOnPause: true,
       androidShowNotificationBadge: true,
       androidNotificationIcon: 'mipmap/ic_notification',
     ),
