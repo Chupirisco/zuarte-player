@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/services/uri_to_file.dart';
 import 'package:zuarte/utils/formatted_text.dart';
@@ -34,6 +35,9 @@ class SongItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => onSongTap(),
       child: Container(
+        margin: EdgeInsets.only(bottom: 0.5.h),
+        height: 6.h,
+        width: 100.w,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: isPlaying
@@ -48,7 +52,14 @@ class SongItem extends StatelessWidget {
         child: Row(
           children: [
             _buildLeading(theme),
-            Column(children: [_buildTitle(context), _buildSubtitle(context)]),
+            SizedBox(width: 1.w),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [_buildTitle(context), _buildSubtitle(context)],
+              ),
+            ),
           ],
         ),
       ),
@@ -63,8 +74,9 @@ class SongItem extends StatelessWidget {
           return Iconify(AppIcons.alert);
         }
         return Container(
-          height: 45,
-          width: 45,
+          margin: EdgeInsets.only(left: 5),
+          height: 5.h,
+          width: 5.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(defaultBorderRadius(14)),
             color: theme.surface,

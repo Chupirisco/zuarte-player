@@ -3,7 +3,6 @@ import 'package:sizer/sizer.dart';
 import 'package:zuarte/model/music_model.dart';
 import 'package:zuarte/widgets/load_music_image.dart';
 import '../../utils/style_configs.dart';
-import '../../widgets/cards.dart';
 
 final Duration durarion = Duration(seconds: 2);
 Widget musicInformation(
@@ -50,14 +49,6 @@ Widget nextMusic(BuildContext context, MusicModel music, ColorScheme theme) {
         ),
       ),
       const SizedBox(height: 5),
-
-      musicCard(
-        isSelected: false,
-        context: context,
-        theme: theme,
-        onOptions: false,
-        music: music,
-      ),
     ],
   );
 }
