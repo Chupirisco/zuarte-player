@@ -5,6 +5,7 @@ import 'package:sizer/sizer.dart';
 import 'package:zuarte/services/audio_handler.dart';
 import 'package:zuarte/services/service_locator.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
+import 'package:zuarte/widgets/custom_circular_progress_indicator.dart';
 import 'package:zuarte/widgets/song_list.dart';
 
 import '../../utils/size_config.dart';
@@ -22,20 +23,17 @@ class _ListOfSongsState extends State<ListOfSongs> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultMargin()),
       child: Consumer<SongProvider>(
         builder: (context, prov, child) {
           return prov.isLoading
-              ? _buildLoadingIndicator()
+              ? customCircularProgressIndicator(theme)
               : _buildSongsList(songHandler: songHandler, songs: prov.songs);
         },
       ),
     );
-  }
-
-  Widget _buildLoadingIndicator() {
-    return Center(child: CircularProgressIndicator(strokeCap: StrokeCap.round));
   }
 
   Widget _buildSongsList({

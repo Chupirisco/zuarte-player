@@ -1,14 +1,11 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
 import '../../constants/images.dart';
+import '../../widgets/custom_circular_progress_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,46 +15,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final OnAudioQuery _audioQuery = OnAudioQuery();
-  bool showLoading = false;
-  bool allowed = false;
-
   @override
   void initState() {
     super.initState();
-    checkPermission();
-  }
 
-  Future<void> checkPermission() async {
-    try {
-      final bool audioGranted = await Permission.audio.isGranted;
-      final bool storageGranted = await Permission.storage.isGranted;
-      bool permission = await _audioQuery.permissionsStatus();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = context.read<SongProvider>();
 
-      if (!audioGranted || !storageGranted) {
-        final Map<Permission, PermissionStatus> statuses = await [
-          Permission.audio,
-          Permission.storage,
-        ].request();
-
-        if (statuses[Permission.audio] == PermissionStatus.permanentlyDenied ||
-            statuses[Permission.storage] ==
-                PermissionStatus.permanentlyDenied) {
-          await openAppSettings();
+      provider.addListener(() {
+        if (!provider.isLoading) {
+          if (!mounted) return;
+          Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil('/app_nav_bar', (route) => false);
         }
-      } else if (permission) {
-        setState(() {
-          allowed = permission;
-        });
-        await handlePermissionFlow();
-      } else {
-        setState(() {
-          showLoading = false;
-        });
-      }
-    } catch (e) {
-      debugPrint('error requenst song permission');
-    }
+      });
+    });
   }
 
   @override
@@ -87,58 +60,21 @@ class _SplashScreenState extends State<SplashScreen> {
               style: textStyle(size: 18, color: theme.primary),
             ),
             const Spacer(),
-            showLoading
-                ? CircularProgressIndicator(color: theme.secondaryContainer)
-                : ElevatedButton(
-                    style: buttonStyle(theme),
-                    onPressed: () async {
-                      bool permission = await _audioQuery.permissionsStatus();
-                      if (!permission) {
-                        permission = await _audioQuery.permissionsRequest();
-                      }
 
-                      if (permission) {
-                        allowed = permission;
-                      }
-                      await handlePermissionFlow();
-                    },
-                    child: Text(
-                      'Iniciar',
-                      style: textStyle(
-                        size: 16,
-                        color: theme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+            Consumer<SongProvider>(
+              builder: (context, value, child) {
+                return value.isLoading
+                    ? customCircularProgressIndicator(theme)
+                    : const SizedBox.shrink();
+              },
+            ),
+
             SizedBox(height: height * 0.05),
             Text('by YR', style: textStyle(size: 13, color: theme.secondary)),
             SizedBox(height: height * 0.02),
           ],
         ),
       ),
-    );
-  }
-
-  Future<void> handlePermissionFlow() async {
-    setState(() {
-      showLoading = true;
-    });
-
-    if (allowed) {
-      context.read<AudioPlayerProvider>().initListSongs();
-    }
-
-    await Future.delayed(const Duration(seconds: 3));
-
-    if (!mounted) return;
-    Navigator.of(context).pushNamedAndRemoveUntil('/app_nav_bar', (_) => false);
-  }
-
-  ButtonStyle buttonStyle(ColorScheme theme) {
-    return ButtonStyle(
-      backgroundColor: WidgetStatePropertyAll(theme.onPrimaryContainer),
-      minimumSize: WidgetStatePropertyAll(Size(50.w, 5.h)),
     );
   }
 }
