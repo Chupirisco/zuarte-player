@@ -1,10 +1,10 @@
 String formattedTitle(String title) {
   String cleanedTitle = title;
-  // remover parenteses
+  // remove parentheses
   cleanedTitle = cleanedTitle.replaceAll(RegExp(r'\([^)]*\)'), '');
-  //remover colchetes
+  //remove brackets
   cleanedTitle = cleanedTitle.replaceAll(RegExp(r'\[[^\]]*\]'), '');
-  //remover extenção de arquivo
+  //remove file extension
   if (cleanedTitle.contains('.')) {
     cleanedTitle = cleanedTitle.split('.').first;
   }
