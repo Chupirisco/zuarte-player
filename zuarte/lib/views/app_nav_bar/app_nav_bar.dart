@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:miniplayer/miniplayer.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/constants/images.dart';
-import 'package:zuarte/viewmodels/miniplayer_controller_provider.dart';
-import 'package:zuarte/views/player/big_player.dart';
-import 'package:zuarte/views/player/mini_player.dart';
 import 'package:zuarte/views/list_of_songs/list_of_songs_screen.dart';
 import 'package:zuarte/views/playlist/playlist.dart';
 import 'package:zuarte/views/settings/settings_screen.dart';
@@ -138,18 +133,6 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
                 const ListOfSongs(),
                 const SettingsScreen(),
               ],
-            ),
-            Consumer<MiniplayerControllerProvider>(
-              builder: (context, provider, child) => Miniplayer(
-                duration: const Duration(milliseconds: 500),
-                controller: provider.controller,
-                minHeight: minPlayerHeight,
-                maxHeight: maxPlayerHeight,
-                backgroundColor: theme.surface,
-                builder: (height, percentage) => percentage <= 0.3
-                    ? RepaintBoundary(child: miniPlayer(height, context))
-                    : RepaintBoundary(child: bigPlayer(height, context)),
-              ),
             ),
           ],
         ),
