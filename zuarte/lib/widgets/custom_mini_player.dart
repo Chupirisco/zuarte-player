@@ -49,6 +49,7 @@ Widget customMiniPlayer(ColorScheme theme) {
                               theme,
                               percentage,
                               snapshot.data!,
+                              height,
                             )
                           : _buildMiniPlayer(theme, percentage, snapshot.data!),
                     ),
@@ -141,7 +142,13 @@ Widget _buildMiniPlayer(ColorScheme theme, double porcentage, MediaItem song) {
             ),
           ],
         ),
-        Expanded(child: ProgressBar(audioPlayer: audioHandler.audioPlayer)),
+        Expanded(
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 0),
+            opacity: (1 - porcentage).clamp(0.0, 1.0),
+            child: ProgressBar(audioPlayer: audioHandler.audioPlayer),
+          ),
+        ),
       ],
     ),
   );
@@ -151,11 +158,18 @@ Widget _buildExpandedPlayer(
   ColorScheme theme,
   double percentage,
   MediaItem song,
+  double height,
 ) {
-  final coverSize = lerpDouble(6.h, 30.h, percentage)!;
-  return SizedBox.expand(
+  final coverSize = lerpDouble(height * 0.06, height * 0.35, percentage)!;
+  return SizedBox(
+    height: height,
+    width: double.infinity,
     child: SingleChildScrollView(
-      padding: EdgeInsets.only(top: 1.h),
+      padding: EdgeInsets.only(
+        top: height * 0.01,
+        left: defaultMargin(),
+        right: defaultMargin(),
+      ),
       physics: NeverScrollableScrollPhysics(),
       key: const ValueKey("expanded"),
       child: Column(
@@ -163,64 +177,93 @@ Widget _buildExpandedPlayer(
         children: [
           divider(theme),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 10.h),
-              Text(
-                song.title,
-                style: textStyle(
-                  size: 16,
-                  color: theme.primary,
-                  fontWeight: FontWeight.bold,
+              SizedBox(height: height * 0.1),
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 0),
+                opacity: percentage.clamp(0.0, 1.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      song.title,
+                      style: textStyle(
+                        size: 16,
+                        color: theme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      song.artist!,
+                      style: textStyle(size: 14, color: theme.secondary),
+                    ),
+                  ],
                 ),
               ),
-              Text(
-                song.artist!,
-                style: textStyle(size: 14, color: theme.secondary),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: song.artUri == null
-                    ? Iconify(AppIcons.person)
-                    : FadeInImage(
-                        placeholder: MemoryImage(kTransparentImage),
-                        image: FileImage(File.fromUri(song.artUri!)),
-                        fadeInDuration: const Duration(milliseconds: 700),
-                        fit: BoxFit.cover,
+
+              SizedBox(height: height * 0.01),
+              Align(
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: song.artUri == null
+                          ? Iconify(AppIcons.person)
+                          : FadeInImage(
+                              placeholder: MemoryImage(kTransparentImage),
+                              image: FileImage(File.fromUri(song.artUri!)),
+                              fadeInDuration: const Duration(milliseconds: 700),
+                              fit: BoxFit.cover,
+                              width: coverSize,
+                              height: coverSize,
+                            ),
+                    ),
+                    SizedBox(height: height * 0.03),
+                    AnimatedOpacity(
+                      duration: const Duration(milliseconds: 0),
+                      opacity: percentage.clamp(0.0, 1.0),
+                      child: SizedBox(
                         width: coverSize,
-                        height: coverSize,
+                        child: PlayerControls(buttonHeight: coverSize * 0.08),
                       ),
-              ),
-              SizedBox(
-                width: coverSize,
-                child: PlayerControls(buttonHeight: 20),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-
-          SizedBox(height: 3.h),
-          ProgressBar(audioPlayer: audioHandler.audioPlayer),
-          SizedBox(height: 20.h),
-          Column(
-            children: [
-              Consumer<SongProvider>(
-                builder: (context, pro, child) {
-                  int musicIndex = audioHandler.audioPlayer.currentIndex! + 1;
-                  final nexSong = pro.songs[musicIndex];
-                  return SongItem(
-                    id: int.parse(nexSong.displayDescription!),
-                    isPlaying: song == nexSong,
-                    title: formattedTitle(nexSong.title),
-                    artist: nexSong.artist,
-                    onSongTap: () async {
-                      await songHandler.skipToQueueItem(musicIndex);
-                      await songHandler.play();
-                    },
-                    art: nexSong.artUri,
-                  );
-                },
-              ),
-            ],
+          SizedBox(height: height * 0.03),
+          AnimatedOpacity(
+            duration: const Duration(milliseconds: 0),
+            opacity: percentage.clamp(0.0, 1.0),
+            child: ProgressBar(audioPlayer: audioHandler.audioPlayer),
+          ),
+          SizedBox(height: height * 0.16),
+          AnimatedOpacity(
+            duration: const Duration(milliseconds: 0),
+            opacity: percentage.clamp(0.0, 1.0),
+            child: Column(
+              children: [
+                Consumer<SongProvider>(
+                  builder: (context, pro, child) {
+                    int musicIndex = audioHandler.audioPlayer.currentIndex! + 1;
+                    final nexSong = pro.songs[musicIndex];
+                    return SongItem(
+                      id: int.parse(nexSong.displayDescription!),
+                      isPlaying: song == nexSong,
+                      title: formattedTitle(nexSong.title),
+                      artist: nexSong.artist,
+                      onSongTap: () async {
+                        await songHandler.skipToQueueItem(musicIndex);
+                        await songHandler.play();
+                      },
+                      art: nexSong.artUri,
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
