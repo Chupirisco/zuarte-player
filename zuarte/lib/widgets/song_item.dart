@@ -104,7 +104,6 @@ class SongItem extends StatelessWidget {
         ? formattedText(
             corpus: title!,
             searchedWord: searchedWord!,
-
             context: context,
           )
         : Text(title!, maxLines: 1, overflow: TextOverflow.ellipsis);
