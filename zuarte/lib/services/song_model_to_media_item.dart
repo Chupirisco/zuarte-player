@@ -1,7 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:zuarte/model/music_model.dart';
+import 'package:zuarte/services/download_music_cover_model.dart';
 
 import '../utils/formatted_title.dart';
 

@@ -1,11 +1,16 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:zuarte/viewmodels/audio_player_provider.dart';
+import 'package:zuarte/services/audio_handler.dart';
+import 'package:zuarte/services/service_locator.dart';
+import 'package:zuarte/widgets/custom_mini_player.dart';
 
 import '../constants/icons.dart';
 import '../utils/size_config.dart';
 import '../utils/style_configs.dart';
+
+final songHandler = getIt<SongHandler>();
 
 class PlayerControls extends StatefulWidget {
   const PlayerControls({super.key, required this.buttonHeight});
@@ -21,19 +26,14 @@ class _PlayerControlsState extends State<PlayerControls> {
     final ColorScheme theme = Theme.of(context).colorScheme;
 
     return RepaintBoundary(
-      child: Consumer<AudioPlayerProvider>(
+      child: Consumer(
         builder: (context, musicControlls, child) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _backButton(theme, widget.buttonHeight, musicControlls, context),
-              _stopOrPlayButton(theme, widget.buttonHeight, musicControlls),
-              _advanceButton(
-                theme,
-                widget.buttonHeight,
-                musicControlls,
-                context,
-              ),
+              _backButton(theme, widget.buttonHeight),
+              _stopOrPlayButton(theme, widget.buttonHeight),
+              _advanceButton(theme, widget.buttonHeight),
             ],
           );
         },
@@ -42,19 +42,12 @@ class _PlayerControlsState extends State<PlayerControls> {
   }
 }
 
-Widget _backButton(
-  ColorScheme theme,
-  double buttonHeight,
-  AudioPlayerProvider musicControll,
-  BuildContext context,
-) {
+Widget _backButton(ColorScheme theme, double buttonHeight) {
   return Material(
     color: Colors.transparent,
     child: InkWell(
       onTap: () async {
-        if (musicControll.currentMusic.id != -1) {
-          await musicControll.previous();
-        }
+        await songHandler.skipToPrevious();
       },
       borderRadius: BorderRadius.circular(50),
       splashColor: theme.onPrimaryContainer,
@@ -71,47 +64,44 @@ Widget _backButton(
   );
 }
 
-Widget _stopOrPlayButton(
-  ColorScheme theme,
-  double buttonHeight,
-  AudioPlayerProvider musicControll,
-) {
-  return Material(
-    color: Colors.transparent,
-    child: InkWell(
-      onTap: () async {
-        if (musicControll.currentMusic.id != -1) {
-          musicControll.togglePlayPause();
-        }
-      },
-      borderRadius: BorderRadius.circular(50),
-      splashColor: theme.onPrimaryContainer,
-      highlightColor: theme.onPrimaryContainer,
-      child: Padding(
-        padding: EdgeInsets.all(buttonHeight * 0.3),
-        child: Iconify(
-          musicControll.isPlaying ? AppIcons.pause : AppIcons.play,
-          size: iconSize(buttonHeight),
-          color: iconColor(theme),
+Widget _stopOrPlayButton(ColorScheme theme, double buttonHeight) {
+  return StreamBuilder<PlaybackState>(
+    stream: audioHandler.playbackState,
+    builder: (context, snapshot) {
+      final playing = snapshot.data?.playing ?? false;
+      return Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () async {
+            if (playing) {
+              await songHandler.pause();
+            } else {
+              await songHandler.play();
+            }
+          },
+          borderRadius: BorderRadius.circular(50),
+          splashColor: theme.onPrimaryContainer,
+          highlightColor: theme.onPrimaryContainer,
+          child: Padding(
+            padding: EdgeInsets.all(buttonHeight * 0.3),
+            child: Iconify(
+              playing ? AppIcons.pause : AppIcons.play,
+              size: iconSize(buttonHeight),
+              color: iconColor(theme),
+            ),
+          ),
         ),
-      ),
-    ),
+      );
+    },
   );
 }
 
-Widget _advanceButton(
-  ColorScheme theme,
-  double buttonHeight,
-  AudioPlayerProvider musicControll,
-  BuildContext context,
-) {
+Widget _advanceButton(ColorScheme theme, double buttonHeight) {
   return Material(
     color: Colors.transparent,
     child: InkWell(
       onTap: () async {
-        if (musicControll.currentMusic.id != -1) {
-          await musicControll.next();
-        }
+        await songHandler.skipToNext();
       },
       borderRadius: BorderRadius.circular(50),
       splashColor: theme.onPrimaryContainer,

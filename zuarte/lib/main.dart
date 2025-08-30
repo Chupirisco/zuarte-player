@@ -11,7 +11,6 @@ import 'package:zuarte/services/audio_handler.dart';
 import 'package:zuarte/services/service_locator.dart';
 import 'package:zuarte/theme/app_themes.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
-import 'package:zuarte/viewmodels/miniplayer_controller_provider.dart';
 import 'package:zuarte/viewmodels/theme_provider.dart';
 import 'services/store_theme_preferences.dart';
 
@@ -37,11 +36,9 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => AudioPlayerProvider()),
         ChangeNotifierProvider(
           create: (_) => SongProvider()..loadSongs(_songHandler),
         ),
-        ChangeNotifierProvider(create: (_) => MiniplayerControllerProvider()),
       ],
       child: MyApp(),
     ),
