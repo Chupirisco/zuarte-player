@@ -34,7 +34,7 @@ class _ProgressBarState extends State<ProgressBar> {
           if (duration == Duration.zero) {
             _sliderValue = 0;
             return SizedBox(
-              width: 85.w,
+              width: 100.w,
               child: Row(
                 children: [
                   Expanded(
@@ -79,11 +79,12 @@ class _ProgressBarState extends State<ProgressBar> {
 
           // Default layout when music is playing
           return SizedBox(
-            width: 85.w,
+            width: 100.w,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Expanded(child: _buildSlider(theme, maxValue)),
-                const SizedBox(width: 10),
                 _buildDurationText(theme, duration),
               ],
             ),
@@ -101,6 +102,7 @@ class _ProgressBarState extends State<ProgressBar> {
         overlayShape: RoundSliderOverlayShape(overlayRadius: 2.h),
       ),
       child: Slider(
+        padding: EdgeInsets.only(right: 10),
         min: 0,
         max: maxValue,
         value: _sliderValue,

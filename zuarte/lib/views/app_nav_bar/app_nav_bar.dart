@@ -3,7 +3,6 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/constants/images.dart';
-import 'package:miniplayer/miniplayer.dart';
 import 'package:zuarte/views/list_of_songs/list_of_songs_screen.dart';
 import 'package:zuarte/views/playlist/playlist.dart';
 import 'package:zuarte/views/settings/settings_screen.dart';
