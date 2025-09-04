@@ -1,6 +1,6 @@
 import 'dart:io';
 
-Future<File?> uriToFile(Uri? uri) async {
+File? uriToFile(Uri? uri) {
   if (uri == null) {
     return null;
   }

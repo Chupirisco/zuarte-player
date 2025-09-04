@@ -35,7 +35,7 @@ Widget customMiniPlayer(ColorScheme theme) {
                   final isExpanded = percentage > 0.5;
 
                   return AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 300),
                     decoration: BoxDecoration(
                       color: theme.surface,
                       border: Border(top: BorderSide(color: theme.onPrimary)),
@@ -82,28 +82,6 @@ Widget _buildMiniPlayer(ColorScheme theme, double porcentage, MediaItem song) {
         Stack(
           alignment: Alignment.center,
           children: [
-            AnimatedAlign(
-              duration: const Duration(milliseconds: 0),
-              alignment: Alignment.lerp(
-                Alignment.centerLeft,
-                Alignment.center,
-                porcentage,
-              )!,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: song.artUri == null
-                    ? Iconify(AppIcons.person)
-                    : FadeInImage(
-                        placeholder: MemoryImage(kTransparentImage),
-                        image: FileImage(File.fromUri(song.artUri!)),
-                        fadeInDuration: const Duration(milliseconds: 700),
-                        fit: BoxFit.cover,
-                        width: coverSize,
-                        height: coverSize,
-                      ),
-              ),
-            ),
-
             Positioned.fill(
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 0),
@@ -138,6 +116,27 @@ Widget _buildMiniPlayer(ColorScheme theme, double porcentage, MediaItem song) {
                     PlayerControls(buttonHeight: 19),
                   ],
                 ),
+              ),
+            ),
+            AnimatedAlign(
+              duration: const Duration(milliseconds: 0),
+              alignment: Alignment.lerp(
+                Alignment.centerLeft,
+                Alignment.center,
+                porcentage,
+              )!,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: song.artUri == null
+                    ? Iconify(AppIcons.person)
+                    : FadeInImage(
+                        placeholder: MemoryImage(kTransparentImage),
+                        image: FileImage(File.fromUri(song.artUri!)),
+                        fadeInDuration: const Duration(milliseconds: 700),
+                        fit: BoxFit.cover,
+                        width: coverSize,
+                        height: coverSize,
+                      ),
               ),
             ),
           ],
@@ -250,7 +249,7 @@ Widget _buildExpandedPlayer(
                     int musicIndex = audioHandler.audioPlayer.currentIndex! + 1;
                     final nexSong = pro.songs[musicIndex];
                     return SongItem(
-                      id: int.parse(nexSong.displayDescription!),
+                      id: int.parse(nexSong.id),
                       isPlaying: song == nexSong,
                       title: formattedTitle(nexSong.title),
                       artist: nexSong.artist,

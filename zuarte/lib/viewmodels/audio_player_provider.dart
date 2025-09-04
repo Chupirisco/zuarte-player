@@ -1,6 +1,8 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:zuarte/data/cache/music_cache_service.dart';
+import 'package:zuarte/model/song.dart';
 import 'package:zuarte/services/audio_handler.dart';
 import 'package:zuarte/services/request_songs_permissions.dart';
 import 'package:zuarte/services/song_model_to_media_item.dart';
@@ -8,6 +10,7 @@ import 'package:zuarte/services/song_model_to_media_item.dart';
 import '../services/search_music.dart';
 
 class SongProvider extends ChangeNotifier {
+  MusicCacheService cache = MusicCacheService();
   List<MediaItem> _songs = [];
 
   List<MediaItem> get songs => _songs;
@@ -17,7 +20,15 @@ class SongProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   Future<void> loadSongs(SongHandler songHandler) async {
-    _songs = await getSongs();
+    List<Song> cachedSongs = cache.loadSongs();
+
+    if (cachedSongs.isNotEmpty) {
+      _songs = await Future.wait(
+        cachedSongs.map((song) => cachedSongToMediaItem(song)),
+      );
+    } else {
+      _songs = await getSongs();
+    }
 
     await songHandler.initSongs(_songs);
     _isLoading = false;
@@ -28,17 +39,29 @@ class SongProvider extends ChangeNotifier {
     try {
       await requestSonsPermission();
       final List<MediaItem> songs = [];
+      final List<Song> songCache = [];
 
       final songsModels = await searchMusic();
 
       for (final SongModel songModel in songsModels) {
         final MediaItem song = await songModelToMediaItem(songModel);
         songs.add(song);
+        songCache.add(converteSongModel(songModel));
       }
-
+      cache.saveSongs(songCache);
       return songs;
     } catch (e) {
       return [];
     }
+  }
+
+  Song converteSongModel(SongModel song) {
+    return Song(
+      id: song.id.toString(),
+      title: song.title,
+      artist: song.artist ?? 'Desconhecido',
+      path: song.data,
+      duration: song.duration ?? 0,
+    );
   }
 }

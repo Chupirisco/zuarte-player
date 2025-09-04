@@ -4,11 +4,14 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:zuarte/model/song.dart';
 import 'package:zuarte/routes/app_routes.dart';
 import 'package:zuarte/services/audio_handler.dart';
 import 'package:zuarte/services/service_locator.dart';
+import 'package:zuarte/services/song_adpter.dart';
 import 'package:zuarte/theme/app_themes.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
 import 'package:zuarte/viewmodels/theme_provider.dart';
@@ -32,6 +35,11 @@ void main() async {
     ),
   );
   setupLocator(_songHandler);
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(SongAdapter());
+  await Hive.openBox<Song>('songsBox');
+
   runApp(
     MultiProvider(
       providers: [

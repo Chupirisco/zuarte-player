@@ -1,6 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:zuarte/model/song.dart';
 import 'package:zuarte/services/download_music_cover_model.dart';
 
 import '../utils/formatted_title.dart';
@@ -19,6 +20,30 @@ Future<MediaItem> songModelToMediaItem(SongModel song) async {
       artUri: art,
       artist: song.artist,
       duration: Duration(milliseconds: song.duration!),
+      displayDescription: song.id.toString(),
+      title: formattedTitle(song.title).trim(),
+    );
+  } catch (e) {
+    debugPrint('error converting songmodel to mediaitem: $e');
+    return const MediaItem(id: '', title: '');
+  }
+}
+
+Future<MediaItem> cachedSongToMediaItem(Song song) async {
+  try {
+    final int songId = int.tryParse(song.id) ?? 0;
+    final Uri? art = await getSongsArt(
+      id: songId,
+      type: ArtworkType.AUDIO,
+      quality: 100,
+      size: 300,
+    );
+
+    return MediaItem(
+      id: song.id,
+      artUri: art,
+      artist: song.artist,
+      duration: Duration(milliseconds: song.duration),
       displayDescription: song.id.toString(),
       title: formattedTitle(song.title).trim(),
     );

@@ -67,35 +67,28 @@ class SongItem extends StatelessWidget {
   }
 
   Widget _buildLeading(ColorScheme theme) {
-    return FutureBuilder<File?>(
-      future: uriToFile(art),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Iconify(AppIcons.alert);
-        }
-        return Container(
-          margin: EdgeInsets.only(left: 5),
-          height: 5.h,
-          width: 5.h,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(defaultBorderRadius(14)),
-            color: theme.surface,
-          ),
-          child: snapshot.data == null
-              ? Iconify(AppIcons.person)
-              : ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(
-                    defaultBorderRadius(14),
-                  ),
-                  child: FadeInImage(
-                    placeholder: MemoryImage(kTransparentImage),
-                    image: FileImage(snapshot.data!),
-                    fadeInDuration: const Duration(milliseconds: 700),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-        );
-      },
+    final File? file = uriToFile(art);
+    return Container(
+      margin: EdgeInsets.only(left: 5),
+      height: 5.h,
+      width: 5.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(defaultBorderRadius(14)),
+        color: theme.surface,
+      ),
+      child: file == null
+          ? Iconify(AppIcons.person)
+          : ClipRRect(
+              borderRadius: BorderRadiusGeometry.circular(
+                defaultBorderRadius(14),
+              ),
+              child: FadeInImage(
+                placeholder: MemoryImage(kTransparentImage),
+                image: FileImage(file),
+                fadeInDuration: const Duration(milliseconds: 700),
+                fit: BoxFit.cover,
+              ),
+            ),
     );
   }
 
