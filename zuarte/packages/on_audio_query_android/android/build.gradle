@@ -25,15 +25,27 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 33
+    namespace "com.lucasjosino.on_audio_query"
+    compileSdkVersion 34
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
     }
 }
+
 
 dependencies {
     def lifecycle_version = "2.3.1"
