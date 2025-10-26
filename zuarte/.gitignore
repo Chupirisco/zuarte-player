@@ -46,5 +46,4 @@ app.*.map.json
 
 
 # plugins
-/android/plugins/
 /android/build/reports/problems

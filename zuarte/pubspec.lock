@@ -331,7 +331,7 @@ packages:
   on_audio_query_android:
     dependency: "direct overridden"
     description:
-      path: "android/plugins/on_audio_query_android"
+      path: "packages/on_audio_query_android"
       relative: true
     source: path
     version: "1.1.0"
