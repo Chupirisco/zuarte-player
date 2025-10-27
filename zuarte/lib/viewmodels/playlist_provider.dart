@@ -8,8 +8,8 @@ class PlaylistProvider extends ChangeNotifier {
 
   List<PlaylistModel> get playlists => _service.playlists;
 
-  void createPlaylist(String name) {
-    _service.createPlaylist(name);
+  void createPlaylist(String name, Uri? artUri) {
+    _service.createPlaylist(name, artUri);
     notifyListeners();
   }
 

@@ -7,12 +7,13 @@ class PlaylistService {
 
   List<PlaylistModel> get playlists => List.unmodifiable(_playlists);
 
-  void createPlaylist(String name) {
+  void createPlaylist(String name, Uri? artUri) {
     _playlists.add(
       PlaylistModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         nome: name,
         numMusicas: 0,
+        artUri: artUri,
         songs: [],
       ),
     );

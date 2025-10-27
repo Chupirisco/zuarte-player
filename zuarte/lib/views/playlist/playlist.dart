@@ -3,6 +3,7 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/viewmodels/playlist_provider.dart';
+import 'package:zuarte/views/playlist/modal_add_playlist.dart';
 
 import '../../constants/icons.dart';
 import '../../utils/size_config.dart';
@@ -42,11 +43,12 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
           Expanded(
             child: Consumer<PlaylistProvider>(
               builder: (context, provPl, child) {
-                final int cont = provPl.playlists.length + 1;
+                final int cont =
+                    provPl.playlists.length + 1; // +1 'add playlist' first
                 return ListView.separated(
                   addRepaintBoundaries: true,
                   addAutomaticKeepAlives: true,
-                  itemCount: cont, // +1 'add playlist' first
+                  itemCount: cont,
                   physics: scrollEffect(),
                   separatorBuilder: (context, index) =>
                       SizedBox(height: height * 0.02),
@@ -54,7 +56,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                     if (index == 0) {
                       //'add playlist' button
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () => showDialog(
+                          context: context,
+                          builder: (context) => ModalAddPlaylist(),
+                        ),
                         child: componentCard(
                           ctx: context,
                           height: height * 0.11,
@@ -83,6 +88,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                         ),
                       );
                     }
+
+                    final playlist = provPl.playlists[index - 1];
                     //playlist buttons
                     return RepaintBoundary(
                       child: GestureDetector(
@@ -107,7 +114,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    provPl.playlists[index].nome.toString(),
+                                    playlist.nome.toString(),
                                     style: textStyle(
                                       size: 16,
                                       color: theme.primary,
@@ -115,7 +122,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                     ),
                                   ),
                                   Text(
-                                    '${provPl.playlists[index].numMusicas.toString()} músicas',
+                                    '${playlist.numMusicas.toString()} músicas',
                                     style: textStyle(
                                       size: 14,
                                       color: theme.secondary,
