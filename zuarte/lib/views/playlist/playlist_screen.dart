@@ -48,6 +48,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                 final int cont =
                     provPl.playlists.length + 1; // +1 'add playlist' first
                 return ListView.separated(
+                  padding: EdgeInsets.only(bottom: 10.sp),
                   addRepaintBoundaries: true,
                   addAutomaticKeepAlives: true,
                   itemCount: cont,
@@ -149,6 +150,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
               },
             ),
           ),
+          SizedBox(height: 13.h),
         ],
       ),
     );
