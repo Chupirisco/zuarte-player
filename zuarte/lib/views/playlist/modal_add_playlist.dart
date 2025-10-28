@@ -8,8 +8,10 @@ import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
+import 'package:zuarte/viewmodels/audio_player_provider.dart';
 import 'package:zuarte/viewmodels/playlist_provider.dart';
 import 'package:zuarte/widgets/buttton_component.dart';
+import 'package:zuarte/widgets/song_item_mark.dart';
 
 class ModalAddPlaylist extends StatefulWidget {
   const ModalAddPlaylist({super.key});
@@ -121,27 +123,57 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
             SizedBox(
               width: 70.w,
               child: TextField(
+                style: textStyle(
+                  size: 16,
+                  color: theme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
                 controller: controller,
                 decoration: inputDecoration(theme),
               ),
             ),
+            SizedBox(height: 2.h),
 
-            Expanded(child: ListView()),
+            Expanded(
+              child: Consumer<SongProvider>(
+                builder: (context, provSong, child) {
+                  return ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: defaultMargin()),
+                    itemCount: provSong.songs.length,
+                    itemBuilder: (context, index) {
+                      final song = provSong.songs[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 0.5.h),
+                        child: GestureDetector(child: SongItemMark(song: song)),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 2.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 buttonComponent(
+                  surfaceColor: theme.primaryContainer,
                   onClick: () => controller.clear(),
-
-                  child: Text('Cancelar'),
+                  child: Text(
+                    'Cancelar',
+                    style: textStyle(size: 16, color: theme.primary),
+                  ),
                 ),
                 buttonComponent(
+                  surfaceColor: theme.secondaryContainer.withAlpha(200),
                   onClick: () {
                     provPlay.createPlaylist(controller.text, _imagem);
                     Navigator.of(context).pop();
                   },
 
-                  child: Text('Salvar'),
+                  child: Text(
+                    'Salvar',
+                    style: textStyle(size: 16, color: Color(0xFFF9F9F9)),
+                  ),
                 ),
               ],
             ),

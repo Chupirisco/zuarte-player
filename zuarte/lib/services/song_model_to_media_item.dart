@@ -23,7 +23,7 @@ Future<MediaItem> songModelToMediaItem(SongModel song) async {
       title: formattedTitle(song.title).trim(),
     );
   } catch (e) {
-    debugPrint('error converting songmodel to mediaitem: $e');
+    debugPrint('error converting songmodel to media item: $e');
     return const MediaItem(id: '', title: '');
   }
 }
