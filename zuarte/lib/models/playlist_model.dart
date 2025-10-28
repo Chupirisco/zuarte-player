@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:on_audio_query/on_audio_query.dart';
 
 class PlaylistModel {
@@ -5,7 +7,7 @@ class PlaylistModel {
   final String nome;
   final int numMusicas;
   final List<SongModel> songs;
-  final Uri? artUri;
+  final File? artUri;
 
   PlaylistModel({
     required this.id,

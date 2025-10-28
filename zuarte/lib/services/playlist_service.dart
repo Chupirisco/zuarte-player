@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:on_audio_query/on_audio_query.dart' hide PlaylistModel;
 
 import '../models/playlist_model.dart';
@@ -7,7 +9,7 @@ class PlaylistService {
 
   List<PlaylistModel> get playlists => List.unmodifiable(_playlists);
 
-  void createPlaylist(String name, Uri? artUri) {
+  void createPlaylist(String name, File? artUri) {
     _playlists.add(
       PlaylistModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),

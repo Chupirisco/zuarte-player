@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart' hide PlaylistModel;
 import 'package:zuarte/models/playlist_model.dart';
@@ -8,7 +10,7 @@ class PlaylistProvider extends ChangeNotifier {
 
   List<PlaylistModel> get playlists => _service.playlists;
 
-  void createPlaylist(String name, Uri? artUri) {
+  void createPlaylist(String name, File? artUri) {
     _service.createPlaylist(name, artUri);
     notifyListeners();
   }

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
@@ -29,6 +32,37 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
   void dispose() {
     super.dispose();
     controller.dispose();
+  }
+
+  File? _imagem;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pegarImagemDaGaleria() async {
+    final XFile? imagemSelecionada = await _picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 200,
+      maxHeight: 200,
+      imageQuality: 100, // 100 = máxima qualidade
+    );
+    if (imagemSelecionada != null) {
+      setState(() {
+        _imagem = File(imagemSelecionada.path);
+      });
+    }
+  }
+
+  Future<void> _tirarFoto() async {
+    final XFile? fotoTirada = await _picker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 200,
+      maxHeight: 200,
+      imageQuality: 100,
+    );
+    if (fotoTirada != null) {
+      setState(() {
+        _imagem = File(fotoTirada.path);
+      });
+    }
   }
 
   @override
@@ -68,6 +102,17 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
               ),
             ],
           ),
+          Stack(
+            children: [
+              buildImageWidget(_imagem, theme),
+              Positioned(
+                child: IconButton(
+                  onPressed: () => _pegarImagemDaGaleria(),
+                  icon: Iconify(AppIcons.edit),
+                ),
+              ),
+            ],
+          ),
 
           //input
           SizedBox(
@@ -80,6 +125,7 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
 
           Expanded(child: ListView()),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               buttonComponent(
                 onClick: () => controller.clear(),
@@ -88,7 +134,7 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
               ),
               buttonComponent(
                 onClick: () {
-                  provPlay.createPlaylist(controller.text, null);
+                  provPlay.createPlaylist(controller.text, _imagem);
                   Navigator.of(context).pop();
                 },
 
@@ -105,5 +151,20 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
 InputDecoration inputDecoration(ColorScheme theme) {
   return InputDecoration(
     label: Text('Nome', style: textStyle(size: 14, color: theme.secondary)),
+  );
+}
+
+Widget buildImageWidget(File? imagem, ColorScheme theme) {
+  return ClipRRect(
+    borderRadius: BorderRadiusGeometry.circular(defaultBorderRadius(18)),
+    child: Container(
+      height: 50.sp,
+      width: 50.sp,
+      color: theme.primaryContainer,
+
+      child: imagem == null
+          ? Iconify(AppIcons.person)
+          : Image.file(imagem, fit: BoxFit.cover),
+    ),
   );
 }
