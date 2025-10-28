@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/constants/images.dart';
 import 'package:zuarte/views/list_of_songs/list_of_songs_screen.dart';
-import 'package:zuarte/views/playlist/playlist.dart';
+import 'package:zuarte/views/playlist/playlist_screen.dart';
 import 'package:zuarte/views/settings/settings_screen.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
@@ -40,94 +40,100 @@ class _AppNavBarState extends State<AppNavBar> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(45.sp),
-        child: RepaintBoundary(
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: theme.onPrimary)),
-            ),
-            child: AppBar(
-              backgroundColor: theme.primaryContainer,
-              automaticallyImplyLeading: false,
-              flexibleSpace: SafeArea(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'ZUARTE',
-                          style: textStyle(
-                            size: 15,
-                            color: theme.primary,
-                            fontWeight: FontWeight.bold,
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(45.sp),
+          child: RepaintBoundary(
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: theme.onPrimary)),
+              ),
+              child: AppBar(
+                backgroundColor: theme.primaryContainer,
+                automaticallyImplyLeading: false,
+                flexibleSpace: SafeArea(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            'ZUARTE',
+                            style: textStyle(
+                              size: 15,
+                              color: theme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Image.asset(AppImages.appLogo, height: 23.sp),
-                      ],
-                    ),
-
-                    TabBar(
-                      overlayColor: WidgetStateProperty.all(Colors.transparent),
-                      indicatorAnimation: TabIndicatorAnimation.linear,
-                      controller: tabController,
-                      splashFactory: NoSplash.splashFactory,
-                      dividerHeight: 0,
-                      indicator: BoxDecoration(
-                        color: theme.onPrimaryContainer,
-                        shape: BoxShape.circle,
+                          Image.asset(AppImages.appLogo, height: 23.sp),
+                        ],
                       ),
-                      indicatorSize: TabBarIndicatorSize.label,
-                      indicatorPadding: EdgeInsets.all(-8.sp),
-                      tabs: [
-                        Tab(
-                          icon: Iconify(
-                            AppIcons.playlist,
-                            size: iconSize(22),
-                            color: iconColor(theme),
-                          ),
+
+                      TabBar(
+                        overlayColor: WidgetStateProperty.all(
+                          Colors.transparent,
                         ),
-                        Tab(
-                          icon: Iconify(
-                            AppIcons.musics,
-                            size: iconSize(22),
-                            color: iconColor(theme),
-                          ),
+                        indicatorAnimation: TabIndicatorAnimation.linear,
+                        controller: tabController,
+                        splashFactory: NoSplash.splashFactory,
+                        dividerHeight: 0,
+                        indicator: BoxDecoration(
+                          color: theme.onPrimaryContainer,
+                          shape: BoxShape.circle,
                         ),
-                        Tab(
-                          icon: Iconify(
-                            AppIcons.setting,
-                            size: iconSize(22),
-                            color: iconColor(theme),
+                        indicatorSize: TabBarIndicatorSize.label,
+                        indicatorPadding: EdgeInsets.all(-8.sp),
+                        tabs: [
+                          Tab(
+                            icon: Iconify(
+                              AppIcons.playlist,
+                              size: iconSize(22),
+                              color: iconColor(theme),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          Tab(
+                            icon: Iconify(
+                              AppIcons.musics,
+                              size: iconSize(22),
+                              color: iconColor(theme),
+                            ),
+                          ),
+                          Tab(
+                            icon: Iconify(
+                              AppIcons.setting,
+                              size: iconSize(22),
+                              color: iconColor(theme),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
 
-      body: RepaintBoundary(
-        child: Stack(
-          children: [
-            TabBarView(
-              controller: tabController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                const PlaylistScreen(),
-                const ListOfSongs(),
-                const SettingsScreen(),
-              ],
-            ),
-            customMiniPlayer(theme),
-          ],
+        body: RepaintBoundary(
+          child: Stack(
+            children: [
+              TabBarView(
+                controller: tabController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  const PlaylistScreen(),
+                  const ListOfSongs(),
+                  const SettingsScreen(),
+                ],
+              ),
+              customMiniPlayer(theme),
+            ],
+          ),
         ),
       ),
     );

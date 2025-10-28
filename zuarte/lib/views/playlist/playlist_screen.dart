@@ -5,6 +5,7 @@ import 'package:sizer/sizer.dart';
 import 'package:zuarte/models/playlist_model.dart';
 import 'package:zuarte/viewmodels/playlist_provider.dart';
 import 'package:zuarte/views/playlist/modal_add_playlist.dart';
+import 'package:zuarte/views/playlist/selected_playlist/selected_playlist_screen.dart';
 
 import '../../constants/icons.dart';
 import '../../utils/size_config.dart';
@@ -94,7 +95,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                     //playlist buttons
                     return RepaintBoundary(
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () => Navigator.of(context).pushNamed(
+                          '/selected_playlist_screen',
+                          arguments: playlist,
+                        ),
                         child: componentCard(
                           ctx: context,
                           height: height * 0.11,

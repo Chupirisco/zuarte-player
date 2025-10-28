@@ -40,9 +40,6 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
   Future<void> _pegarImagemDaGaleria() async {
     final XFile? imagemSelecionada = await _picker.pickImage(
       source: ImageSource.gallery,
-      maxWidth: 200,
-      maxHeight: 200,
-      imageQuality: 100, // 100 = máxima qualidade
     );
     if (imagemSelecionada != null) {
       setState(() {
@@ -54,9 +51,6 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
   Future<void> _tirarFoto() async {
     final XFile? fotoTirada = await _picker.pickImage(
       source: ImageSource.camera,
-      maxWidth: 200,
-      maxHeight: 200,
-      imageQuality: 100,
     );
     if (fotoTirada != null) {
       setState(() {
@@ -69,80 +63,91 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
   Widget build(BuildContext context) {
     final provPlay = Provider.of<PlaylistProvider>(context);
     final ColorScheme theme = Theme.of(context).colorScheme;
-    return Dialog(
-      insetPadding: EdgeInsets.symmetric(
-        horizontal: defaultMargin(),
-        vertical: defaultMargin(),
-      ),
-      insetAnimationDuration: Duration(milliseconds: 300),
-      child: Column(
-        children: [
-          //ações
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(width: 20.sp),
-              Text(
-                'Criar Playlist',
-                style: textStyle(
-                  size: 16,
-                  color: theme.primary,
-                  fontWeight: FontWeight.bold,
+    return MediaQuery.removeViewInsets(
+      removeBottom: true,
+      context: context,
+      child: Dialog(
+        insetPadding: EdgeInsets.symmetric(
+          horizontal: defaultMargin(),
+          vertical: defaultMargin(),
+        ),
+        insetAnimationDuration: Duration(milliseconds: 300),
+        child: Column(
+          children: [
+            //ações
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(width: 20.sp),
+                Text(
+                  'Criar Playlist',
+                  style: textStyle(
+                    size: 16,
+                    color: theme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
 
-              IconButton(
-                onPressed: () => Navigator.of(context).pop(),
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
 
-                icon: Iconify(
-                  AppIcons.close,
-                  size: iconSize(20),
-                  color: iconColor(theme),
+                  icon: Iconify(
+                    AppIcons.close,
+                    size: iconSize(20),
+                    color: iconColor(theme),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Stack(
-            children: [
-              buildImageWidget(_imagem, theme),
-              Positioned(
-                child: IconButton(
-                  onPressed: () => _pegarImagemDaGaleria(),
-                  icon: Iconify(AppIcons.edit),
-                ),
-              ),
-            ],
-          ),
-
-          //input
-          SizedBox(
-            width: 70.w,
-            child: TextField(
-              controller: controller,
-              decoration: inputDecoration(theme),
+              ],
             ),
-          ),
-
-          Expanded(child: ListView()),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              buttonComponent(
-                onClick: () => controller.clear(),
-
-                child: Text('Cancelar'),
+            SizedBox(
+              width: 50.w,
+              child: Stack(
+                alignment: AlignmentGeometry.center,
+                children: [
+                  buildImageWidget(_imagem, theme),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: IconButton(
+                      onPressed: () => _pegarImagemDaGaleria(),
+                      icon: Iconify(AppIcons.edit),
+                    ),
+                  ),
+                ],
               ),
-              buttonComponent(
-                onClick: () {
-                  provPlay.createPlaylist(controller.text, _imagem);
-                  Navigator.of(context).pop();
-                },
+            ),
 
-                child: Text('Salvar'),
+            //input
+            SizedBox(
+              width: 70.w,
+              child: TextField(
+                controller: controller,
+                decoration: inputDecoration(theme),
               ),
-            ],
-          ),
-        ],
+            ),
+
+            Expanded(child: ListView()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                buttonComponent(
+                  onClick: () => controller.clear(),
+
+                  child: Text('Cancelar'),
+                ),
+                buttonComponent(
+                  onClick: () {
+                    provPlay.createPlaylist(controller.text, _imagem);
+                    Navigator.of(context).pop();
+                  },
+
+                  child: Text('Salvar'),
+                ),
+              ],
+            ),
+            SizedBox(height: 3.h),
+          ],
+        ),
       ),
     );
   }

@@ -99,7 +99,9 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           //show performace graph
           showPerformanceOverlay: false,
+          //routes configs
           routes: AppRoutes.routes(),
+          onGenerateRoute: AppRoutes.onGenerateRoute,
           initialRoute: '/splash_screen',
           //themes
           theme: _lightTheme,
