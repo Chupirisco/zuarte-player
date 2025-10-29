@@ -4,20 +4,21 @@ import 'package:just_audio/just_audio.dart';
 class SongHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   final AudioPlayer audioPlayer = AudioPlayer();
 
+  /// Cria a fonte de áudio a partir de um MediaItem
   UriAudioSource _createAudioSource(MediaItem item) {
     return ProgressiveAudioSource(Uri.parse(item.id));
   }
 
+  /// Observa mudanças do índice atual e atualiza o mediaItem
   void _listenForCurrentSongIndexChanges() {
     audioPlayer.currentIndexStream.listen((index) {
       final playlist = queue.value;
-      if (index == null || playlist.isEmpty) {
-        return;
-      }
+      if (index == null || playlist.isEmpty) return;
       mediaItem.add(playlist[index]);
     });
   }
 
+  /// Transforma eventos de reprodução em playbackState
   void _broadcastState(PlaybackEvent event) {
     final controls = [
       MediaControl.rewind,
@@ -51,14 +52,9 @@ class SongHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
     );
   }
 
-  Future<void> initSongs(List<MediaItem> songs) async {
+  /// Inicializa o handler
+  Future<void> init() async {
     audioPlayer.playbackEventStream.listen(_broadcastState);
-    final audioSource = songs.map(_createAudioSource).toList();
-    await audioPlayer.setAudioSources(audioSource);
-    queue.value.clear();
-    queue.value.addAll(songs);
-    queue.add(queue.value);
-
     _listenForCurrentSongIndexChanges();
 
     audioPlayer.processingStateStream.listen((state) {
@@ -66,6 +62,23 @@ class SongHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
         skipToNext();
       }
     });
+  }
+
+  /// Atualiza a playlist atual e opcionalmente começa de um índice específico
+  Future<void> setPlaylist(
+    List<MediaItem> novaPlaylist, {
+    int startIndex = 0,
+  }) async {
+    // Atualiza o queue
+    queue.value = List.from(novaPlaylist);
+    queue.add(queue.value);
+
+    // Atualiza o AudioPlayer
+    final audioSources = novaPlaylist.map(_createAudioSource).toList();
+    await audioPlayer.setAudioSources(audioSources);
+
+    // Toca a partir do índice desejado
+    await skipToQueueItem(startIndex);
   }
 
   @override
@@ -76,20 +89,21 @@ class SongHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   @override
   Future<void> skipToQueueItem(int index) async {
+    if (index < 0 || index >= queue.value.length) return;
     await audioPlayer.seek(Duration.zero, index: index);
     play();
   }
 
   @override
-  Future<void> skipToPrevious() {
-    audioPlayer.seekToPrevious();
-    return audioPlayer.play();
+  Future<void> skipToPrevious() async {
+    await audioPlayer.seekToPrevious();
+    play();
   }
 
   @override
-  Future<void> skipToNext() {
-    audioPlayer.seekToNext();
-    return audioPlayer.play();
+  Future<void> skipToNext() async {
+    await audioPlayer.seekToNext();
+    play();
   }
 
   @override

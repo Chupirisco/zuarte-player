@@ -20,7 +20,7 @@ class SongList extends StatelessWidget {
     final ColorScheme theme = Theme.of(context).colorScheme;
     return songs.isEmpty
         ? Align(
-            alignment: Alignment.topLeft,
+            alignment: Alignment.topCenter,
             child: Text(
               'Nenhuma música por aqui',
               style: textStyle(

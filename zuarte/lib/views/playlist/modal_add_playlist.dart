@@ -142,6 +142,7 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
               child: Consumer<SongProvider>(
                 builder: (context, provSong, child) {
                   return ListView.builder(
+                    physics: scrollEffect(),
                     padding: EdgeInsets.symmetric(horizontal: defaultMargin()),
                     itemCount: provSong.songs.length,
                     itemBuilder: (context, index) {

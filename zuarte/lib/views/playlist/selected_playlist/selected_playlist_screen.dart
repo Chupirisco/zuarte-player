@@ -10,6 +10,10 @@ import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/viewmodels/playlist_provider.dart';
 
+import '../../../services/audio_handler.dart';
+import '../../../services/service_locator.dart';
+import '../../../widgets/song_list.dart';
+
 class SelectedPlaylistScreen extends StatefulWidget {
   const SelectedPlaylistScreen({super.key, required this.selectedPlaylist});
   final PlaylistModel selectedPlaylist;
@@ -19,6 +23,7 @@ class SelectedPlaylistScreen extends StatefulWidget {
 }
 
 class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
+  final songHandler = getIt<SongHandler>();
   @override
   Widget build(BuildContext context) {
     final provPlay = Provider.of<PlaylistProvider>(context);
@@ -68,76 +73,73 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
             buildImageWidget(widget.selectedPlaylist.artUri, theme),
 
             // actions and info
+            SizedBox(height: 1.h),
             Row(
               children: [
                 Text(
                   '${widget.selectedPlaylist.numMusicas} ${widget.selectedPlaylist.numMusicas == 1 ? 'música' : 'músicas'} no total',
+                  style: textStyle(size: 14, color: theme.primary),
                 ),
                 const Spacer(),
-
-                IconButton(
-                  onPressed: () {},
-                  icon: Iconify(
-                    AppIcons.edit,
-                    size: iconSize(20),
-                    color: iconColor(theme),
+                iconsGroup(theme, [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Iconify(
+                      AppIcons.edit,
+                      size: iconSize(20),
+                      color: iconColor(theme),
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Iconify(
-                    AppIcons.plus,
-                    size: iconSize(20),
-                    color: iconColor(theme),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Iconify(
+                      AppIcons.plus,
+                      size: iconSize(20),
+                      color: iconColor(theme),
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Iconify(
-                    AppIcons.play,
-                    size: iconSize(20),
-                    color: iconColor(theme),
+                ]),
+                SizedBox(width: 2.w),
+                iconsGroup(theme, [
+                  IconButton(
+                    onPressed: () {
+                      songHandler.setPlaylist(widget.selectedPlaylist.songs);
+                    },
+                    icon: Iconify(
+                      AppIcons.play,
+                      size: iconSize(20),
+                      color: iconColor(theme),
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Iconify(
-                    AppIcons.random,
-                    size: iconSize(20),
-                    color: iconColor(theme),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Iconify(
+                      AppIcons.random,
+                      size: iconSize(20),
+                      color: iconColor(theme),
+                    ),
                   ),
-                ),
+                ]),
               ],
             ),
 
+            SizedBox(height: 1.h),
             // list songs
+            Align(
+              alignment: AlignmentGeometry.topLeft,
+              child: Text(
+                'Músicas',
+                style: textStyle(
+                  size: 16,
+                  color: theme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 3.h),
-                child: widget.selectedPlaylist.songs.isEmpty
-                    ? Align(
-                        alignment: AlignmentGeometry.topCenter,
-                        child: Text(
-                          'Nenhuma música por aqui',
-                          style: textStyle(
-                            size: 15,
-                            color: theme.secondary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
-                    : ListView.builder(
-                        itemCount: widget.selectedPlaylist.songs.length,
-                        itemBuilder: (context, index) {
-                          final song = widget.selectedPlaylist.songs[index];
-                          return ListTile(
-                            title: Text(song.title),
-                            subtitle: Text(
-                              song.artist ?? 'Artista desconhecido',
-                            ),
-                          );
-                        },
-                      ),
+              child: SongList(
+                songs: widget.selectedPlaylist.songs,
+                songHandler: songHandler,
               ),
             ),
           ],
@@ -159,5 +161,16 @@ Widget buildImageWidget(File? imagem, ColorScheme theme) {
           ? Iconify(AppIcons.person)
           : Image.file(imagem, fit: BoxFit.cover),
     ),
+  );
+}
+
+Widget iconsGroup(ColorScheme theme, List<Widget> childrem) {
+  return Container(
+    decoration: BoxDecoration(
+      color: theme.primaryContainer,
+      borderRadius: BorderRadius.circular(defaultBorderRadius(12)),
+    ),
+
+    child: Row(children: childrem),
   );
 }
