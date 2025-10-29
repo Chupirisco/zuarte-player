@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:zuarte/views/app_nav_bar/app_nav_bar.dart';
 import 'package:zuarte/views/list_of_songs/list_of_songs_screen.dart';
+import 'package:zuarte/views/playlist/selected_playlist/selected_playlist_screen.dart';
 import 'package:zuarte/views/splash_screen/splash_screen.dart';
+
+import '../models/playlist_model.dart';
 
 class AppRoutes {
   static Map<String, WidgetBuilder> routes() {
@@ -10,5 +13,16 @@ class AppRoutes {
       '/app_nav_bar': (context) => const AppNavBar(),
       '/home_screen': (context) => const ListOfSongs(),
     };
+  }
+
+  static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
+    if (settings.name == '/selected_playlist_screen') {
+      final playlist = settings.arguments as PlaylistModel;
+      return MaterialPageRoute(
+        builder: (context) =>
+            SelectedPlaylistScreen(selectedPlaylist: playlist),
+      );
+    }
+    return null;
   }
 }

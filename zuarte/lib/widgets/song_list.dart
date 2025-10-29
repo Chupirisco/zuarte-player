@@ -20,7 +20,7 @@ class SongList extends StatelessWidget {
     final ColorScheme theme = Theme.of(context).colorScheme;
     return songs.isEmpty
         ? Align(
-            alignment: Alignment.topLeft,
+            alignment: Alignment.topCenter,
             child: Text(
               'Nenhuma música por aqui',
               style: textStyle(
@@ -65,7 +65,12 @@ class SongList extends StatelessWidget {
           title: formattedTitle(song.title),
           artist: song.artist,
           onSongTap: () async {
-            await songHandler.skipToQueueItem(songs.length - 1);
+            // Garante que exista uma fila de músicas
+            await songHandler.ensureQueue(songs);
+
+            // Pula para o índice e toca
+            await songHandler.skipToQueueItem(songs.indexOf(song));
+            await songHandler.play();
           },
           art: song.artUri,
         ),
@@ -80,6 +85,10 @@ class SongList extends StatelessWidget {
       title: formattedTitle(song.title),
       artist: song.artist,
       onSongTap: () async {
+        // Garante que exista uma fila de músicas
+        await songHandler.ensureQueue(songs);
+
+        // Pula para o índice e toca
         await songHandler.skipToQueueItem(songs.indexOf(song));
         await songHandler.play();
       },

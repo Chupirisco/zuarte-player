@@ -35,7 +35,7 @@ class SongItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => onSongTap(),
       child: Container(
-        margin: EdgeInsets.only(bottom: 0.5.h),
+        margin: EdgeInsets.symmetric(vertical: 0.5.h),
         height: 6.h,
         width: 100.w,
         decoration: BoxDecoration(

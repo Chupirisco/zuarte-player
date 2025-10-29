@@ -13,6 +13,7 @@ import 'package:zuarte/theme/app_themes.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
 import 'package:zuarte/viewmodels/theme_provider.dart';
 import 'services/store_theme_preferences.dart';
+import 'viewmodels/playlist_provider.dart';
 
 SongHandler _songHandler = SongHandler();
 void main() async {
@@ -39,6 +40,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => SongProvider()..loadSongs(_songHandler),
         ),
+        ChangeNotifierProvider(create: (_) => PlaylistProvider()),
       ],
       child: MyApp(),
     ),
@@ -97,7 +99,9 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           //show performace graph
           showPerformanceOverlay: false,
+          //routes configs
           routes: AppRoutes.routes(),
+          onGenerateRoute: AppRoutes.onGenerateRoute,
           initialRoute: '/splash_screen',
           //themes
           theme: _lightTheme,

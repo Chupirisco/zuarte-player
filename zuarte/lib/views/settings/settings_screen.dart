@@ -141,7 +141,7 @@ class _SettingsScreenState extends State<SettingsScreen>
             ],
           ),
           content: Text(
-            'O Zuarte precisa de acesso às músicas para funcionar corretamente.Abra as configurações do app e habilite o acesso a músicas.',
+            'O Zuarte precisa de acesso às músicas para funcionar corretamente. Abra as configurações do app e habilite o acesso a músicas.',
             style: textStyle(
               size: 14,
               color: theme.secondary,

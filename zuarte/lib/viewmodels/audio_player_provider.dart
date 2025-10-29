@@ -19,7 +19,7 @@ class SongProvider extends ChangeNotifier {
   Future<void> loadSongs(SongHandler songHandler) async {
     _songs = await getSongs();
 
-    await songHandler.initSongs(_songs);
+    await songHandler.init();
     _isLoading = false;
     notifyListeners();
   }
