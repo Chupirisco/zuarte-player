@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
+import 'package:zuarte/utils/search_next_nam.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/viewmodels/audio_player_provider.dart';
@@ -26,8 +27,11 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
   @override
   void initState() {
     super.initState();
-    final numPlay = context.read<PlaylistProvider>().playlists.length + 1;
-    controller.text = 'Playlist N° ${numPlay}';
+    final provPlay = context.read<PlaylistProvider>();
+
+    int numName = searchNextName(provPlay);
+
+    controller.text = 'Playlist N° $numName';
   }
 
   @override

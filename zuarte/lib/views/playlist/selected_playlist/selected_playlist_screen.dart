@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/models/playlist_model.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
-
-import '../../../widgets/cards.dart';
+import 'package:zuarte/viewmodels/playlist_provider.dart';
 
 class SelectedPlaylistScreen extends StatefulWidget {
   const SelectedPlaylistScreen({super.key, required this.selectedPlaylist});
@@ -21,6 +21,7 @@ class SelectedPlaylistScreen extends StatefulWidget {
 class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
   @override
   Widget build(BuildContext context) {
+    final provPlay = Provider.of<PlaylistProvider>(context);
     final ColorScheme theme = Theme.of(context).colorScheme;
     return Scaffold(
       body: Padding(
@@ -34,7 +35,17 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(width: 25.sp),
+                IconButton(
+                  onPressed: () => {
+                    provPlay.deletePlaylist(widget.selectedPlaylist.id),
+                    Navigator.of(context).pop(),
+                  },
+                  icon: Iconify(
+                    AppIcons.trash,
+                    size: iconSize(20),
+                    color: iconColor(theme),
+                  ),
+                ),
                 Text(
                   widget.selectedPlaylist.nome,
                   style: textStyle(
