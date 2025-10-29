@@ -81,6 +81,23 @@ class SongHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
     await skipToQueueItem(startIndex);
   }
 
+  Future<void> ensureQueue(List<MediaItem> songs) async {
+    bool isDifferent =
+        queue.value.length != songs.length ||
+        !List.generate(
+          queue.value.length,
+          (index) => queue.value[index].id,
+        ).asMap().entries.every((entry) => entry.value == songs[entry.key].id);
+
+    if (queue.value.isEmpty || isDifferent) {
+      queue.value = List.from(songs);
+      queue.add(queue.value);
+
+      final audioSources = songs.map(_createAudioSource).toList();
+      await audioPlayer.setAudioSources(audioSources);
+    }
+  }
+
   @override
   Future<void> play() => audioPlayer.play();
 
@@ -89,9 +106,15 @@ class SongHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   @override
   Future<void> skipToQueueItem(int index) async {
+    if (queue.value.isEmpty) return; // evita erro se a fila estiver vazia
     if (index < 0 || index >= queue.value.length) return;
-    await audioPlayer.seek(Duration.zero, index: index);
-    play();
+
+    try {
+      await audioPlayer.seek(Duration.zero, index: index);
+      play();
+    } catch (e) {
+      print('Erro ao tentar tocar música no índice $index: $e');
+    }
   }
 
   @override
