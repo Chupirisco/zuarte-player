@@ -9,6 +9,8 @@ class PlaylistProvider extends ChangeNotifier {
   final PlaylistService _service = PlaylistService();
 
   List<PlaylistModel> get playlists => _service.playlists;
+
+  List<MediaItem> get addSongPlaylist => _addSongPlaylist;
   List<MediaItem> _addSongPlaylist = [];
 
   void createPlaylist(String name, File? artUri) {
@@ -17,7 +19,7 @@ class PlaylistProvider extends ChangeNotifier {
       artUri,
       List<MediaItem>.from(_addSongPlaylist),
     );
-    _addSongPlaylist.clear();
+    clearSongList();
     notifyListeners();
   }
 
@@ -26,8 +28,11 @@ class PlaylistProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addSong(String playlistId, MediaItem song) {
-    _service.addSongToPlaylist(playlistId, song);
+  void addSong(String playlistId) {
+    for (var song in _addSongPlaylist) {
+      _service.addSongToPlaylist(playlistId, song);
+    }
+    clearSongList();
     notifyListeners();
   }
 
@@ -41,6 +46,10 @@ class PlaylistProvider extends ChangeNotifier {
         ? _addSongPlaylist.add(song)
         : _addSongPlaylist.removeWhere((s) => s.id == song.id);
     notifyListeners();
+  }
+
+  void clearSongList() {
+    _addSongPlaylist.clear();
   }
 
   PlaylistModel? getPlaylist(String id) => _service.getPlaylist(id);

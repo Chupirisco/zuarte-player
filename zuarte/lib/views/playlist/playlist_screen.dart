@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/models/playlist_model.dart';
 import 'package:zuarte/viewmodels/playlist_provider.dart';
-import 'package:zuarte/views/playlist/modal_add_playlist.dart';
+import 'package:zuarte/views/playlist/modal_create_playlist.dart';
 
 import '../../constants/icons.dart';
 import '../../utils/size_config.dart';
@@ -60,7 +60,13 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       return GestureDetector(
                         onTap: () => showDialog(
                           context: context,
-                          builder: (context) => ModalAddPlaylist(),
+                          barrierDismissible: false,
+                          builder: (context) {
+                            return PopScope(
+                              canPop: false,
+                              child: ModalCreatePlaylist(),
+                            );
+                          },
                         ),
                         child: componentCard(
                           ctx: context,

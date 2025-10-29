@@ -14,14 +14,14 @@ import 'package:zuarte/viewmodels/playlist_provider.dart';
 import 'package:zuarte/widgets/buttton_component.dart';
 import 'package:zuarte/widgets/song_item_mark.dart';
 
-class ModalAddPlaylist extends StatefulWidget {
-  const ModalAddPlaylist({super.key});
+class ModalCreatePlaylist extends StatefulWidget {
+  const ModalCreatePlaylist({super.key});
 
   @override
-  State<ModalAddPlaylist> createState() => _ModalAddPlaylistState();
+  State<ModalCreatePlaylist> createState() => _ModalCreatePlaylistState();
 }
 
-class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
+class _ModalCreatePlaylistState extends State<ModalCreatePlaylist> {
   TextEditingController controller = TextEditingController();
 
   @override
@@ -84,7 +84,7 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(width: 20.sp),
+                SizedBox(width: 22.sp),
                 Text(
                   'Criar Playlist',
                   style: textStyle(
@@ -95,7 +95,10 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
                 ),
 
                 IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () {
+                    provPlay.clearSongList();
+                    Navigator.of(context).pop();
+                  },
 
                   icon: Iconify(
                     AppIcons.close,
@@ -149,7 +152,7 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
                       final song = provSong.songs[index];
                       return Padding(
                         padding: EdgeInsets.symmetric(vertical: 0.5.h),
-                        child: GestureDetector(child: SongItemMark(song: song)),
+                        child: SongItemMark(song: song),
                       );
                     },
                   );
@@ -162,7 +165,10 @@ class _ModalAddPlaylistState extends State<ModalAddPlaylist> {
               children: [
                 buttonComponent(
                   surfaceColor: theme.primaryContainer,
-                  onClick: () => controller.clear(),
+                  onClick: () => {
+                    provPlay.clearSongList(),
+                    Navigator.of(context).pop(),
+                  },
                   child: Text(
                     'Cancelar',
                     style: textStyle(size: 16, color: theme.primary),

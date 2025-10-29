@@ -9,6 +9,7 @@ import 'package:zuarte/models/playlist_model.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/viewmodels/playlist_provider.dart';
+import 'package:zuarte/views/playlist/modal_add_song_to_playlist.dart';
 
 import '../../../services/audio_handler.dart';
 import '../../../services/service_locator.dart';
@@ -91,7 +92,20 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) {
+                          return PopScope(
+                            canPop: false,
+                            child: ModalAddSongToPlaylist(
+                              idPlay: widget.selectedPlaylist.id,
+                            ),
+                          );
+                        },
+                      );
+                    },
                     icon: Iconify(
                       AppIcons.plus,
                       size: iconSize(20),
