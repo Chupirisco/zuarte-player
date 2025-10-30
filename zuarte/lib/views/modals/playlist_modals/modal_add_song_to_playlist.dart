@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
@@ -48,16 +47,14 @@ class _ModalAddSongToPlaylistState extends State<ModalAddSongToPlaylist> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
+                iconButtonComponent(
+                  onClick: () {
                     provPlay.clearSongList();
                     Navigator.of(context).pop();
                   },
-                  icon: Iconify(
-                    AppIcons.close,
-                    size: iconSize(20),
-                    color: iconColor(theme),
-                  ),
+                  size: 25,
+                  theme: theme,
+                  icon: AppIcons.close,
                 ),
               ],
             ),

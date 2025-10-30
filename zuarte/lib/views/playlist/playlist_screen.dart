@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/viewmodels/playlist_provider.dart';
 import 'package:zuarte/views/modals/playlist_modals/modal_create_playlist.dart';
+import 'package:zuarte/widgets/buttton_component.dart';
 
 import '../../constants/icons.dart';
-import '../../utils/build_image.dart';
+import '../../widgets/build_image.dart';
 import '../../utils/size_config.dart';
 import '../../utils/style_configs.dart';
 import '../../widgets/cards.dart';
@@ -143,13 +143,11 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                 ],
                               ),
                               const Spacer(),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Iconify(
-                                  AppIcons.more,
-                                  size: iconSize(18),
-                                  color: iconColor(theme),
-                                ),
+                              iconButtonComponent(
+                                onClick: () {},
+                                theme: theme,
+                                icon: AppIcons.more,
+                                size: 25,
                               ),
                             ],
                           ),

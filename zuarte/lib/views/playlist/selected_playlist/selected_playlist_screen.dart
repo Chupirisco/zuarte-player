@@ -6,13 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/models/playlist_model.dart';
-import 'package:zuarte/utils/build_image.dart';
+import 'package:zuarte/widgets/build_image.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/viewmodels/playlist_provider.dart';
 import 'package:zuarte/views/modals/general/modal_delete.dart';
 import 'package:zuarte/views/modals/playlist_modals/modal_add_song_to_playlist.dart';
 import 'package:zuarte/views/modals/playlist_modals/modal_edit_playlist.dart';
+import 'package:zuarte/widgets/buttton_component.dart';
 
 import '../../../services/audio_handler.dart';
 import '../../../services/service_locator.dart';
@@ -44,8 +45,8 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  onPressed: () => showDialog(
+                iconButtonComponent(
+                  onClick: () => showDialog(
                     context: context,
                     builder: (context) =>
                         modalDelete(context, theme, 'playlist', () {
@@ -55,11 +56,11 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
                             ..pop();
                         }),
                   ),
-                  icon: Iconify(
-                    AppIcons.trash,
-                    size: iconSize(20),
-                    color: iconColor(theme),
-                  ),
+                  size: 20,
+                  theme: theme,
+                  icon: AppIcons.trash,
+                  background: theme.error,
+                  white: Color(0xFFF9F9F9),
                 ),
                 Text(
                   widget.selectedPlaylist.nome,
@@ -69,13 +70,11 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: Iconify(
-                    AppIcons.close,
-                    size: iconSize(25),
-                    color: iconColor(theme),
-                  ),
+                iconButtonComponent(
+                  onClick: () => Navigator.of(context).pop(),
+                  icon: AppIcons.close,
+                  size: 25,
+                  theme: theme,
                 ),
               ],
             ),
@@ -97,8 +96,8 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
                 ),
                 const Spacer(),
                 iconsGroup(theme, [
-                  IconButton(
-                    onPressed: () => showDialog(
+                  iconButtonComponent(
+                    onClick: () => showDialog(
                       context: context,
                       barrierDismissible: false,
                       builder: (context) => PopScope(
@@ -108,15 +107,12 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
                         ),
                       ),
                     ),
-
-                    icon: Iconify(
-                      AppIcons.edit,
-                      size: iconSize(20),
-                      color: iconColor(theme),
-                    ),
+                    icon: AppIcons.edit,
+                    size: 25,
+                    theme: theme,
                   ),
-                  IconButton(
-                    onPressed: () {
+                  iconButtonComponent(
+                    onClick: () {
                       showDialog(
                         context: context,
                         barrierDismissible: false,
@@ -130,34 +126,28 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
                         },
                       );
                     },
-                    icon: Iconify(
-                      AppIcons.plus,
-                      size: iconSize(20),
-                      color: iconColor(theme),
-                    ),
+                    icon: AppIcons.plus,
+                    size: 25,
+                    theme: theme,
                   ),
                 ]),
                 SizedBox(width: 2.w),
                 iconsGroup(theme, [
-                  IconButton(
-                    onPressed: () {
+                  iconButtonComponent(
+                    onClick: () {
                       songHandler.setPlaylist(
                         widget.selectedPlaylist.mediaItems,
                       );
                     },
-                    icon: Iconify(
-                      AppIcons.play,
-                      size: iconSize(20),
-                      color: iconColor(theme),
-                    ),
+                    icon: AppIcons.play,
+                    size: 25,
+                    theme: theme,
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Iconify(
-                      AppIcons.random,
-                      size: iconSize(20),
-                      color: iconColor(theme),
-                    ),
+                  iconButtonComponent(
+                    onClick: () {},
+                    icon: AppIcons.random,
+                    size: 25,
+                    theme: theme,
                   ),
                 ]),
               ],

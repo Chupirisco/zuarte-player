@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/hive_media_item_model.dart';
 import '../models/playlist_model.dart';
-import 'dart:io';
 import 'package:audio_service/audio_service.dart';
 
 class PlaylistProvider extends ChangeNotifier {
