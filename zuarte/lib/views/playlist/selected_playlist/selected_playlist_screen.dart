@@ -10,7 +10,9 @@ import 'package:zuarte/utils/build_image.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/viewmodels/playlist_provider.dart';
-import 'package:zuarte/views/playlist/modal_add_song_to_playlist.dart';
+import 'package:zuarte/views/modals/general/modal_delete.dart';
+import 'package:zuarte/views/modals/playlist_modals/modal_add_song_to_playlist.dart';
+import 'package:zuarte/views/modals/playlist_modals/modal_edit_playlist.dart';
 
 import '../../../services/audio_handler.dart';
 import '../../../services/service_locator.dart';
@@ -43,10 +45,16 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  onPressed: () => {
-                    provPlay.deletePlaylist(widget.selectedPlaylist.id),
-                    Navigator.of(context).pop(),
-                  },
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) =>
+                        modalDelete(context, theme, 'playlist', () {
+                          provPlay.deletePlaylist(widget.selectedPlaylist.id);
+                          Navigator.of(context)
+                            ..pop()
+                            ..pop();
+                        }),
+                  ),
                   icon: Iconify(
                     AppIcons.trash,
                     size: iconSize(20),
@@ -72,7 +80,12 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
               ],
             ),
             //image
-            buildImage(theme, widget.selectedPlaylist.artUri, 20.h, 100.w),
+            buildImage(
+              theme.surface,
+              widget.selectedPlaylist.artUri,
+              20.h,
+              100.w,
+            ),
 
             // actions and info
             SizedBox(height: 1.h),
@@ -85,7 +98,17 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
                 const Spacer(),
                 iconsGroup(theme, [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => PopScope(
+                        canPop: false,
+                        child: ModalEditPlaylist(
+                          playlistSelected: widget.selectedPlaylist,
+                        ),
+                      ),
+                    ),
+
                     icon: Iconify(
                       AppIcons.edit,
                       size: iconSize(20),

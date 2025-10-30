@@ -9,7 +9,7 @@ import 'package:zuarte/utils/size_config.dart';
 import '../constants/icons.dart';
 import '../services/uri_to_file.dart';
 
-Widget buildImage(ColorScheme theme, Uri? art, double height, double width) {
+Widget buildImage(Color bacground, Uri? art, double height, double width) {
   return FutureBuilder<File?>(
     future: uriToFile(art),
     builder: (context, snapshot) {
@@ -22,7 +22,7 @@ Widget buildImage(ColorScheme theme, Uri? art, double height, double width) {
         width: width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(defaultBorderRadius(14)),
-          color: theme.surface,
+          color: bacground,
         ),
         child: snapshot.data == null
             ? Iconify(AppIcons.person)

@@ -3,7 +3,7 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/viewmodels/playlist_provider.dart';
-import 'package:zuarte/views/playlist/modal_create_playlist.dart';
+import 'package:zuarte/views/modals/playlist_modals/modal_create_playlist.dart';
 
 import '../../constants/icons.dart';
 import '../../utils/build_image.dart';
@@ -113,7 +113,12 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              buildImage(theme, playlist.artUri, 8.h, 8.h),
+                              buildImage(
+                                theme.surface,
+                                playlist.artUri,
+                                8.h,
+                                8.h,
+                              ),
                               SizedBox(width: width * 0.04),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,

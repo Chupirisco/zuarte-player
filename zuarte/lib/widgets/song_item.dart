@@ -48,7 +48,7 @@ class SongItem extends StatelessWidget {
 
         child: Row(
           children: [
-            buildImage(theme, art, 5.h, 5.h),
+            buildImage(theme.surface, art, 5.h, 5.h),
             SizedBox(width: 1.w),
             Expanded(
               child: Column(

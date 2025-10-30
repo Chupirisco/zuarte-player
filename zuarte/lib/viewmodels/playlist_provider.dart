@@ -20,20 +20,31 @@ class PlaylistProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void createPlaylist(String name, File? artUri) {
+  void createPlaylist(String name, Uri? artUri) {
     final playlist = PlaylistModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       nome: name,
       songs: _addSongPlaylist
           .map((e) => HiveMediaItem.fromMediaItem(e))
           .toList(),
-      artUriPath: artUri?.path,
+      artUriPath: artUri?.path.toString(),
     );
 
     _box.put(playlist.id, playlist);
     _playlists.add(playlist);
 
     clearSongList();
+    notifyListeners();
+  }
+
+  void editPlaylist(String id, String nome, Uri? artUri) async {
+    final playlist = _box.get(id);
+    if (playlist == null) return;
+    playlist.nome = nome;
+    playlist.artUriPath = artUri?.toString();
+
+    await playlist.save();
+
     notifyListeners();
   }
 
