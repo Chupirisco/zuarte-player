@@ -3,12 +3,12 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
-import '../../utils/size_config.dart';
-import '../../utils/style_configs.dart';
-import '../../viewmodels/audio_player_provider.dart';
-import '../../viewmodels/playlist_provider.dart';
-import '../../widgets/buttton_component.dart';
-import '../../widgets/song_item_mark.dart';
+import '../../../utils/size_config.dart';
+import '../../../utils/style_configs.dart';
+import '../../../viewmodels/audio_player_provider.dart';
+import '../../../viewmodels/playlist_provider.dart';
+import '../../../widgets/buttton_component.dart';
+import '../../../widgets/song_item_mark.dart';
 
 class ModalAddSongToPlaylist extends StatefulWidget {
   final String idPlay;

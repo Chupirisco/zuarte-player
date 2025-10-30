@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
+import 'package:zuarte/utils/build_image.dart';
 import 'package:zuarte/utils/search_next_nam.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
@@ -40,7 +41,7 @@ class _ModalCreatePlaylistState extends State<ModalCreatePlaylist> {
     controller.dispose();
   }
 
-  File? _imagem;
+  Uri? _imagem;
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _pegarImagemDaGaleria() async {
@@ -49,7 +50,7 @@ class _ModalCreatePlaylistState extends State<ModalCreatePlaylist> {
     );
     if (imagemSelecionada != null) {
       setState(() {
-        _imagem = File(imagemSelecionada.path);
+        _imagem = Uri.file(imagemSelecionada.path);
       });
     }
   }
@@ -60,7 +61,7 @@ class _ModalCreatePlaylistState extends State<ModalCreatePlaylist> {
     );
     if (fotoTirada != null) {
       setState(() {
-        _imagem = File(fotoTirada.path);
+        _imagem = Uri.file(fotoTirada.path);
       });
     }
   }
@@ -113,7 +114,7 @@ class _ModalCreatePlaylistState extends State<ModalCreatePlaylist> {
               child: Stack(
                 alignment: AlignmentGeometry.center,
                 children: [
-                  buildImageWidget(_imagem, theme),
+                  buildImage(theme.primaryContainer, _imagem, 50.sp, 50.sp),
                   Positioned(
                     bottom: 0,
                     right: 0,
