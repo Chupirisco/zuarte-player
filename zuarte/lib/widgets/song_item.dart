@@ -15,7 +15,7 @@ class SongItem extends StatelessWidget {
   final Uri? art;
   final String? title;
   final String? artist;
-  final int id;
+  final String id;
   final VoidCallback onSongTap;
 
   const SongItem({

@@ -117,7 +117,9 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
                 iconsGroup(theme, [
                   IconButton(
                     onPressed: () {
-                      songHandler.setPlaylist(widget.selectedPlaylist.songs);
+                      songHandler.setPlaylist(
+                        widget.selectedPlaylist.mediaItems,
+                      );
                     },
                     icon: Iconify(
                       AppIcons.play,
@@ -152,7 +154,7 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
             ),
             Expanded(
               child: SongList(
-                songs: widget.selectedPlaylist.songs,
+                songs: widget.selectedPlaylist.mediaItems,
                 songHandler: songHandler,
               ),
             ),

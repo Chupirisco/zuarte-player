@@ -44,6 +44,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
           Expanded(
             child: Consumer<PlaylistProvider>(
               builder: (context, provPl, child) {
+                print(provPl.addSongPlaylist.length);
                 final int cont =
                     provPl.playlists.length + 1; // +1 'add playlist' first
                 return ListView.separated(
