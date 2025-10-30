@@ -222,7 +222,7 @@ class MiniPlayerActive extends StatelessWidget {
                 }
                 final nextSong = pro.songs[index + 1];
                 return SongItem(
-                  id: int.parse(nextSong.displayDescription!),
+                  id: nextSong.id,
                   isPlaying: song == nextSong,
                   title: formattedTitle(nextSong.title),
                   artist: nextSong.artist,

@@ -60,7 +60,7 @@ class SongList extends StatelessWidget {
     return Column(
       children: [
         SongItem(
-          id: int.parse(song.displayDescription!),
+          id: song.id,
           isPlaying: song == playingSong,
           title: formattedTitle(song.title),
           artist: song.artist,
@@ -80,7 +80,7 @@ class SongList extends StatelessWidget {
 
   Widget _buildRegularSongItem(MediaItem song, MediaItem? playingSong) {
     return SongItem(
-      id: int.parse(song.displayDescription!),
+      id: song.id,
       isPlaying: song == playingSong,
       title: formattedTitle(song.title),
       artist: song.artist,

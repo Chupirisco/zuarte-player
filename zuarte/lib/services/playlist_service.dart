@@ -1,45 +1,54 @@
 import 'dart:io';
-
 import 'package:audio_service/audio_service.dart';
-
+import 'package:hive/hive.dart';
 import '../models/playlist_model.dart';
+import '../models/hive_media_item_model.dart';
 
 class PlaylistService {
-  final List<PlaylistModel> _playlists = [];
+  static const String _boxName = 'playlists';
+  Box<PlaylistModel>? _box;
 
-  List<PlaylistModel> get playlists => List.unmodifiable(_playlists);
+  Future<void> init() async {
+    _box = await Hive.openBox<PlaylistModel>(_boxName);
+  }
 
-  void createPlaylist(String name, File? artUri, List<MediaItem> songs) {
-    _playlists.add(
-      PlaylistModel(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        nome: name,
-        artUri: artUri,
-        songs: songs,
-      ),
+  List<PlaylistModel> get playlists => _box?.values.toList() ?? [];
+
+  Future<void> createPlaylist(
+    String name,
+    File? artUri,
+    List<MediaItem> songs,
+  ) async {
+    final playlist = PlaylistModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      nome: name,
+      artUriPath: artUri?.path,
+      songs: songs.map((s) => HiveMediaItem.fromMediaItem(s)).toList(),
     );
+    await _box?.put(playlist.id, playlist);
   }
 
-  void deletePlaylist(String id) {
-    _playlists.removeWhere((p) => p.id == id);
+  Future<void> deletePlaylist(String id) async {
+    await _box?.delete(id);
   }
 
-  void addSongToPlaylist(String playlistId, MediaItem song) {
-    final playlist = _playlists.firstWhere((p) => p.id == playlistId);
-    if (!playlist.songs.any((s) => s.id == song.id)) {
-      playlist.songs.add(song);
+  Future<void> addSongToPlaylist(String playlistId, MediaItem song) async {
+    final playlist = _box?.get(playlistId);
+    if (playlist != null && !playlist.songs.any((s) => s.id == song.id)) {
+      playlist.songs.add(HiveMediaItem.fromMediaItem(song));
+      await playlist.save();
     }
   }
 
-  void removeSongFromPlaylist(String playlistId, MediaItem song) {
-    final playlist = _playlists.firstWhere((p) => p.id == playlistId);
-    playlist.songs.removeWhere((s) => s.id == song.id);
+  Future<void> removeSongFromPlaylist(String playlistId, MediaItem song) async {
+    final playlist = _box?.get(playlistId);
+    if (playlist != null) {
+      playlist.songs.removeWhere((s) => s.id == song.id);
+      await playlist.save();
+    }
   }
 
   PlaylistModel? getPlaylist(String id) {
-    return _playlists.firstWhere(
-      (p) => p.id == id,
-      orElse: () => PlaylistModel(id: '', nome: '', songs: []),
-    );
+    return _box?.get(id);
   }
 }

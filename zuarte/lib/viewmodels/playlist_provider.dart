@@ -1,43 +1,69 @@
-import 'dart:io';
-
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:zuarte/models/playlist_model.dart';
-import 'package:zuarte/services/playlist_service.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../models/hive_media_item_model.dart';
+import '../models/playlist_model.dart';
+import 'dart:io';
+import 'package:audio_service/audio_service.dart';
 
 class PlaylistProvider extends ChangeNotifier {
-  final PlaylistService _service = PlaylistService();
+  late Box<PlaylistModel> _box;
 
-  List<PlaylistModel> get playlists => _service.playlists;
+  List<PlaylistModel> _playlists = [];
+  List<PlaylistModel> get playlists => List.unmodifiable(_playlists);
 
-  List<MediaItem> get addSongPlaylist => _addSongPlaylist;
   List<MediaItem> _addSongPlaylist = [];
+  List<MediaItem> get addSongPlaylist => _addSongPlaylist;
+
+  Future<void> init() async {
+    _box = await Hive.openBox<PlaylistModel>('playlists');
+    _playlists = _box.values.toList();
+    notifyListeners();
+  }
 
   void createPlaylist(String name, File? artUri) {
-    _service.createPlaylist(
-      name,
-      artUri,
-      List<MediaItem>.from(_addSongPlaylist),
+    final playlist = PlaylistModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      nome: name,
+      songs: _addSongPlaylist
+          .map((e) => HiveMediaItem.fromMediaItem(e))
+          .toList(),
+      artUriPath: artUri?.path,
     );
+
+    _box.put(playlist.id, playlist);
+    _playlists.add(playlist);
+
     clearSongList();
     notifyListeners();
   }
 
   void deletePlaylist(String id) {
-    _service.deletePlaylist(id);
+    _box.delete(id);
+    _playlists.removeWhere((p) => p.id == id);
     notifyListeners();
   }
 
   void addSong(String playlistId) {
+    final playlist = _box.get(playlistId);
+    if (playlist == null) return;
+
     for (var song in _addSongPlaylist) {
-      _service.addSongToPlaylist(playlistId, song);
+      if (!playlist.songs.any((s) => s.id == song.id)) {
+        playlist.songs.add(HiveMediaItem.fromMediaItem(song));
+      }
     }
+
+    playlist.save();
     clearSongList();
     notifyListeners();
   }
 
   void removeSong(String playlistId, MediaItem song) {
-    _service.removeSongFromPlaylist(playlistId, song);
+    final playlist = _box.get(playlistId);
+    if (playlist == null) return;
+
+    playlist.songs.removeWhere((s) => s.id == song.id);
+    playlist.save();
     notifyListeners();
   }
 
@@ -52,5 +78,5 @@ class PlaylistProvider extends ChangeNotifier {
     _addSongPlaylist.clear();
   }
 
-  PlaylistModel? getPlaylist(String id) => _service.getPlaylist(id);
+  PlaylistModel? getPlaylist(String id) => _box.get(id);
 }

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
 import 'package:zuarte/models/playlist_model.dart';
+import 'package:zuarte/utils/build_image.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
 import 'package:zuarte/viewmodels/playlist_provider.dart';
@@ -71,7 +72,7 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
               ],
             ),
             //image
-            buildImageWidget(widget.selectedPlaylist.artUri, theme),
+            buildImage(theme, widget.selectedPlaylist.artUri, 20.h, 100.w),
 
             // actions and info
             SizedBox(height: 1.h),
@@ -117,7 +118,9 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
                 iconsGroup(theme, [
                   IconButton(
                     onPressed: () {
-                      songHandler.setPlaylist(widget.selectedPlaylist.songs);
+                      songHandler.setPlaylist(
+                        widget.selectedPlaylist.mediaItems,
+                      );
                     },
                     icon: Iconify(
                       AppIcons.play,
@@ -152,7 +155,7 @@ class _SelectedPlaylistScreenState extends State<SelectedPlaylistScreen> {
             ),
             Expanded(
               child: SongList(
-                songs: widget.selectedPlaylist.songs,
+                songs: widget.selectedPlaylist.mediaItems,
                 songHandler: songHandler,
               ),
             ),
