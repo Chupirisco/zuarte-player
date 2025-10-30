@@ -3,6 +3,7 @@ import 'package:sizer/sizer.dart';
 
 import 'package:zuarte/utils/formatted_text.dart';
 import 'package:zuarte/utils/size_config.dart';
+import 'package:zuarte/utils/style_configs.dart';
 
 import 'build_image.dart';
 
@@ -54,7 +55,10 @@ class SongItem extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [_buildTitle(context), _buildSubtitle(context)],
+                children: [
+                  _buildTitle(context, theme),
+                  _buildSubtitle(context, theme),
+                ],
               ),
             ),
           ],
@@ -63,17 +67,26 @@ class SongItem extends StatelessWidget {
     );
   }
 
-  Text _buildTitle(BuildContext context) {
+  Text _buildTitle(BuildContext context, ColorScheme theme) {
     return searchedWord != null
         ? formattedText(
             corpus: title!,
             searchedWord: searchedWord!,
             context: context,
           )
-        : Text(title!, maxLines: 1, overflow: TextOverflow.ellipsis);
+        : Text(
+            title!,
+            style: textStyle(
+              size: 14,
+              color: isPlaying ? Color(0xFFF9F9F9) : theme.primary,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          );
   }
 
-  Text _buildSubtitle(BuildContext context) {
+  Text _buildSubtitle(BuildContext context, ColorScheme theme) {
     return artist == null
         ? Text('')
         : searchedWord != null
@@ -82,6 +95,14 @@ class SongItem extends StatelessWidget {
             searchedWord: searchedWord!,
             context: context,
           )
-        : Text(artist!, overflow: TextOverflow.ellipsis, maxLines: 1);
+        : Text(
+            artist!,
+            style: textStyle(
+              size: 13,
+              color: isPlaying ? Color(0xFFF9F9F9) : theme.secondary,
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          );
   }
 }
