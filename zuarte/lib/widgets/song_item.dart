@@ -1,13 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:sizer/sizer.dart';
-import 'package:zuarte/constants/icons.dart';
-import 'package:zuarte/services/uri_to_file.dart';
+
 import 'package:zuarte/utils/formatted_text.dart';
 import 'package:zuarte/utils/size_config.dart';
-import 'package:transparent_image/transparent_image.dart';
+
+import '../utils/build_image.dart';
 
 class SongItem extends StatelessWidget {
   final String? searchedWord;
@@ -51,7 +48,7 @@ class SongItem extends StatelessWidget {
 
         child: Row(
           children: [
-            _buildLeading(theme),
+            buildImage(theme, art, 5.h, 5.h),
             SizedBox(width: 1.w),
             Expanded(
               child: Column(
@@ -63,39 +60,6 @@ class SongItem extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildLeading(ColorScheme theme) {
-    return FutureBuilder<File?>(
-      future: uriToFile(art),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Iconify(AppIcons.alert);
-        }
-        return Container(
-          margin: EdgeInsets.only(left: 5),
-          height: 5.h,
-          width: 5.h,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(defaultBorderRadius(14)),
-            color: theme.surface,
-          ),
-          child: snapshot.data == null
-              ? Iconify(AppIcons.person)
-              : ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(
-                    defaultBorderRadius(14),
-                  ),
-                  child: FadeInImage(
-                    placeholder: MemoryImage(kTransparentImage),
-                    image: FileImage(snapshot.data!),
-                    fadeInDuration: const Duration(milliseconds: 700),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-        );
-      },
     );
   }
 

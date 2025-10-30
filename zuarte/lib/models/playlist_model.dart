@@ -26,7 +26,7 @@ class PlaylistModel extends HiveObject {
     this.artUriPath,
   });
 
-  File? get artUri => artUriPath != null ? File(artUriPath!) : null;
+  Uri? get artUri => artUriPath != null ? Uri.tryParse(artUriPath!) : null;
 
   int get numMusicas => songs.length;
 

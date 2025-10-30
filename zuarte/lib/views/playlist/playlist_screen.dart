@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:zuarte/models/playlist_model.dart';
 import 'package:zuarte/viewmodels/playlist_provider.dart';
 import 'package:zuarte/views/playlist/modal_create_playlist.dart';
 
 import '../../constants/icons.dart';
+import '../../utils/build_image.dart';
 import '../../utils/size_config.dart';
 import '../../utils/style_configs.dart';
 import '../../widgets/cards.dart';
@@ -113,7 +113,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              buildImage(context, playlist),
+                              buildImage(theme, playlist.artUri, 8.h, 8.h),
                               SizedBox(width: width * 0.04),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -161,17 +161,4 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       ),
     );
   }
-}
-
-Widget buildImage(BuildContext context, PlaylistModel playlist) {
-  return playlist.artUri == null
-      ? avatarComponent(8.h, 8.h, AppIcons.person, context, null)
-      : ClipRRect(
-          borderRadius: BorderRadius.circular(defaultBorderRadius(18)),
-          child: Container(
-            height: 8.h,
-            width: 8.h,
-            child: Image.file(playlist.artUri!, fit: BoxFit.cover),
-          ),
-        );
 }

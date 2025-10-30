@@ -21,13 +21,14 @@ class HiveMediaItemAdapter extends TypeAdapter<HiveMediaItem> {
       title: fields[1] as String,
       artist: fields[2] as String?,
       durationMs: fields[3] as int?,
+      artUri: fields[4] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, HiveMediaItem obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class HiveMediaItemAdapter extends TypeAdapter<HiveMediaItem> {
       ..writeByte(2)
       ..write(obj.artist)
       ..writeByte(3)
-      ..write(obj.durationMs);
+      ..write(obj.durationMs)
+      ..writeByte(4)
+      ..write(obj.artUri);
   }
 
   @override

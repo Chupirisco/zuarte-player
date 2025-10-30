@@ -17,11 +17,15 @@ class HiveMediaItem extends HiveObject {
   @HiveField(3)
   int? durationMs;
 
+  @HiveField(4)
+  String? artUri;
+
   HiveMediaItem({
     required this.id,
     required this.title,
     this.artist,
     this.durationMs,
+    this.artUri,
   });
 
   Duration? get duration =>
@@ -33,10 +37,17 @@ class HiveMediaItem extends HiveObject {
       title: item.title,
       artist: item.artist,
       durationMs: item.duration?.inMilliseconds,
+      artUri: item.artUri?.toString(),
     );
   }
 
   MediaItem toMediaItem() {
-    return MediaItem(id: id, title: title, artist: artist, duration: duration);
+    return MediaItem(
+      id: id,
+      title: title,
+      artist: artist,
+      duration: duration,
+      artUri: artUri == null ? null : Uri.tryParse(artUri!),
+    );
   }
 }
