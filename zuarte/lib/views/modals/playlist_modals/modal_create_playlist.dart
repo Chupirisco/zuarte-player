@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/constants/icons.dart';
-import 'package:zuarte/utils/build_image.dart';
+import 'package:zuarte/widgets/build_image.dart';
 import 'package:zuarte/utils/search_next_nam.dart';
 import 'package:zuarte/utils/size_config.dart';
 import 'package:zuarte/utils/style_configs.dart';
@@ -95,32 +95,34 @@ class _ModalCreatePlaylistState extends State<ModalCreatePlaylist> {
                   ),
                 ),
 
-                IconButton(
-                  onPressed: () {
+                iconButtonComponent(
+                  onClick: () {
                     provPlay.clearSongList();
                     Navigator.of(context).pop();
                   },
-
-                  icon: Iconify(
-                    AppIcons.close,
-                    size: iconSize(20),
-                    color: iconColor(theme),
-                  ),
+                  size: 25,
+                  theme: theme,
+                  icon: AppIcons.close,
                 ),
               ],
             ),
             SizedBox(
               width: 50.w,
               child: Stack(
+                clipBehavior: Clip.none,
                 alignment: AlignmentGeometry.center,
                 children: [
                   buildImage(theme.primaryContainer, _imagem, 50.sp, 50.sp),
                   Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: IconButton(
-                      onPressed: () => _pegarImagemDaGaleria(),
-                      icon: Iconify(AppIcons.edit),
+                    bottom: -10,
+                    right: 10,
+                    child: iconButtonComponent(
+                      onClick: () => _pegarImagemDaGaleria(),
+                      size: 25,
+                      theme: theme,
+                      icon: AppIcons.edit,
+                      background: theme.secondaryContainer,
+                      white: Color(0xFFF9F9F9),
                     ),
                   ),
                 ],

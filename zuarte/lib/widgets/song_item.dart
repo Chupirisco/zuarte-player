@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 import 'package:zuarte/utils/formatted_text.dart';
 import 'package:zuarte/utils/size_config.dart';
 
-import '../utils/build_image.dart';
+import 'build_image.dart';
 
 class SongItem extends StatelessWidget {
   final String? searchedWord;

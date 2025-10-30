@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zuarte/utils/size_config.dart';
 
@@ -21,5 +22,26 @@ ElevatedButton buttonComponent({
     ),
     onPressed: onClick,
     child: child,
+  );
+}
+
+IconButton iconButtonComponent({
+  required VoidCallback onClick,
+  required ColorScheme theme,
+  required String icon,
+  required double size,
+  Color? background,
+  Color? white,
+}) {
+  return IconButton(
+    splashColor: theme.onPrimaryContainer,
+    highlightColor: theme.onPrimaryContainer,
+    style: ButtonStyle(
+      backgroundColor: WidgetStatePropertyAll(background ?? null),
+      minimumSize: WidgetStatePropertyAll(Size(3.h, 3.h)),
+      maximumSize: WidgetStatePropertyAll(Size(5.h, 5.h)),
+    ),
+    onPressed: onClick,
+    icon: Iconify(icon, size: size, color: white ?? theme.primary),
   );
 }
